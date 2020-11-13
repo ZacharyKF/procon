@@ -18,7 +18,13 @@
             app.ports.load.send(JSON.parse(localStorage.getItem('procons')));
         });
 
-        app.ports.load.send(JSON.parse(localStorage.getItem('procons')));
+        {
+            var onStart = localStorage.getItem('procons')
+            if (onStart != null && onStart != "") {
+                app.ports.load.send(onStart);
+            }
+        }
+
     </script>
 </body>
 
