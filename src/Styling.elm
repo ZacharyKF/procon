@@ -230,8 +230,8 @@ ctitle : List (Attribute msg) -> List (Html msg) -> Html msg
 ctitle =
     styled div
         [ basicFont
-        , height (Css.em 1.2)
-        , minHeight (Css.em 1.2)
+        , height (Css.em 1.5)
+        , minHeight (Css.em 1.5)
         , resize none
         , backgroundColor theme.primaryEmp
         , displayFlex

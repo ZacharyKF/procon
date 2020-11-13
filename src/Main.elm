@@ -17,9 +17,7 @@ import Url
 
 
 
--- TODO: GOD DAMN CSS FILES
 -- TODO: FIXME: STATE SAVED AFTER MOST RECENT USER ACTION (PROBABLY ORDER OF CMD)
--- TODO: MOVE "ADD" BUTTONS TO ENDS OF LISTS
 -- TODO: CREATE UTILITY CLASS FOR SORTING ARRAYS OF ELEMENTS W/ ID
 -- TODO: MOVE/DELETE PRO/CON CONTAINERS
 -- TODO: DELETE CONFIRM POPUP
@@ -138,7 +136,7 @@ view model =
                 [ pdivcol
                     []
                     (List.map pro_con_to_button (Array.toList model.card_lists)
-                        ++ [ pbtn [ onClick AddList ] [ text "Add ProCon" ] ]
+                        ++ [ pbtn [ onClick AddList ] [ text "➕" ] ]
                     )
                 , get_view_or_help model
                 ]
@@ -155,7 +153,7 @@ get_view_or_help model =
     in
     case maybe_list of
         Nothing ->
-            nocntntdiv [] [ text "Press *Add ProCon* to start!" ]
+            nocntntdiv [] [ text "Press *➕* to start!" ]
 
         Just pclv ->
             ProConListView.view pclv lift_card_list_msg

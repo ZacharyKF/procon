@@ -5253,7 +5253,7 @@ var $author$project$Card$Card$cardEncoder = function (model) {
 			[
 				_Utils_Tuple2(
 				'id',
-				$elm$json$Json$Encode$int(model.A)),
+				$elm$json$Json$Encode$int(model.I)),
 				_Utils_Tuple2(
 				'text',
 				$elm$json$Json$Encode$string(model.as)),
@@ -5271,7 +5271,7 @@ var $author$project$Card$CardList$cardListEncoder = function (model) {
 				A2($elm$json$Json$Encode$array, $author$project$Card$Card$cardEncoder, model.g)),
 				_Utils_Tuple2(
 				'id',
-				$elm$json$Json$Encode$int(model.A)),
+				$elm$json$Json$Encode$int(model.I)),
 				_Utils_Tuple2(
 				'text',
 				$elm$json$Json$Encode$string(model.as))
@@ -5289,7 +5289,7 @@ var $author$project$ProConList$proConListEncoder = function (model) {
 				$author$project$Card$CardList$cardListEncoder(model.ae)),
 				_Utils_Tuple2(
 				'id',
-				$elm$json$Json$Encode$int(model.A)),
+				$elm$json$Json$Encode$int(model.I)),
 				_Utils_Tuple2(
 				'edit',
 				$elm$json$Json$Encode$bool(model.af)),
@@ -5307,7 +5307,7 @@ var $author$project$ProConListView$proConListViewEncoder = function (model) {
 				$elm$json$Json$Encode$bool(model.af)),
 				_Utils_Tuple2(
 				'id',
-				$elm$json$Json$Encode$int(model.A)),
+				$elm$json$Json$Encode$int(model.I)),
 				_Utils_Tuple2(
 				'pro_con_lists',
 				A2($elm$json$Json$Encode$array, $author$project$ProConList$proConListEncoder, model.x)),
@@ -5343,22 +5343,22 @@ var $elm$json$Json$Decode$array = _Json_decodeArray;
 var $elm$json$Json$Decode$field = _Json_decodeField;
 var $author$project$ProConListView$ProConListViewModel = F4(
 	function (id, title, edit, pro_con_lists) {
-		return {af: edit, A: id, x: pro_con_lists, b5: title};
+		return {af: edit, I: id, x: pro_con_lists, b5: title};
 	});
 var $elm$json$Json$Decode$bool = _Json_decodeBool;
 var $elm$json$Json$Decode$int = _Json_decodeInt;
 var $elm$json$Json$Decode$map4 = _Json_map4;
 var $author$project$ProConList$ProConListModel = F5(
 	function (pro_list, con_list, id, text, edit) {
-		return {ae: con_list, af: edit, A: id, ap: pro_list, as: text};
+		return {ae: con_list, af: edit, I: id, ap: pro_list, as: text};
 	});
 var $author$project$Card$CardList$CardListModel = F3(
 	function (cards, id, text) {
-		return {g: cards, A: id, as: text};
+		return {g: cards, I: id, as: text};
 	});
 var $author$project$Card$Card$CardModel = F3(
 	function (id, text, edit) {
-		return {af: edit, A: id, as: text};
+		return {af: edit, I: id, as: text};
 	});
 var $elm$json$Json$Decode$map3 = _Json_map3;
 var $author$project$Card$Card$cardDecoder = A4(
@@ -5446,7 +5446,7 @@ var $elm$core$Array$get = F2(
 			A3($elm$core$Array$getHelp, startShift, index, tree)));
 	});
 var $author$project$ProConListView$init = function (id) {
-	return {af: false, A: id, x: $elm$core$Array$empty, b5: 'Placeholder'};
+	return {af: false, I: id, x: $elm$core$Array$empty, b5: '🤷\u200D♀️❔🤷\u200D♂️'};
 };
 var $elm$core$Array$length = function (_v0) {
 	var len = _v0.a;
@@ -5580,15 +5580,15 @@ var $author$project$ProConListView$ToProConList = F2(
 	});
 var $author$project$Card$CardList$init = F2(
 	function (id, label) {
-		return {g: $elm$core$Array$empty, A: id, as: label};
+		return {g: $elm$core$Array$empty, I: id, as: label};
 	});
 var $author$project$ProConList$init = function (id) {
 	return {
-		ae: A2($author$project$Card$CardList$init, 1, 'CONS'),
+		ae: A2($author$project$Card$CardList$init, 1, '👎'),
 		af: false,
-		A: id,
-		ap: A2($author$project$Card$CardList$init, 0, 'PROS'),
-		as: 'Placeholder'
+		I: id,
+		ap: A2($author$project$Card$CardList$init, 0, '👍'),
+		as: '🤷\u200D♀️❔🤷\u200D♂️'
 	};
 };
 var $author$project$ProConList$ToList = F2(
@@ -5654,23 +5654,23 @@ var $elm$core$Array$fromList = function (list) {
 };
 var $author$project$Card$CardList$ind_transform = F2(
 	function (id, model) {
-		return _Utils_eq(model.A, id) ? $elm$core$Maybe$Nothing : ((_Utils_cmp(model.A, id) < 0) ? $elm$core$Maybe$Just(model) : $elm$core$Maybe$Just(
+		return _Utils_eq(model.I, id) ? $elm$core$Maybe$Nothing : ((_Utils_cmp(model.I, id) < 0) ? $elm$core$Maybe$Just(model) : $elm$core$Maybe$Just(
 			_Utils_update(
 				model,
-				{A: model.A - 1})));
+				{I: model.I - 1})));
 	});
 var $author$project$Card$Card$init = function (id) {
-	return {af: false, A: id, as: 'Placeholder'};
+	return {af: false, I: id, as: '🤷\u200D♀️❔🤷\u200D♂️'};
 };
 var $author$project$Card$CardList$shift_card_down = function (card) {
 	return _Utils_update(
 		card,
-		{A: card.A + 1});
+		{I: card.I + 1});
 };
 var $author$project$Card$CardList$shift_card_up = function (card) {
 	return _Utils_update(
 		card,
-		{A: card.A - 1});
+		{I: card.I - 1});
 };
 var $author$project$Card$Card$update = F2(
 	function (card, msg) {
@@ -6089,12 +6089,12 @@ var $rtfeldman$elm_css$Css$Internal$lengthConverter = F3(
 			an: 0,
 			S: 0,
 			T: 0,
-			B: 0,
+			A: 0,
 			L: numericValue,
 			au: 0,
 			aw: unitLabel,
 			aN: units,
-			D: _Utils_ap(
+			C: _Utils_ap(
 				$elm$core$String$fromFloat(numericValue),
 				unitLabel)
 		};
@@ -6113,7 +6113,7 @@ var $rtfeldman$elm_css$Css$property = F2(
 		return $rtfeldman$elm_css$Css$Preprocess$AppendProperty(key + (':' + value));
 	});
 var $rtfeldman$elm_css$Css$color = function (c) {
-	return A2($rtfeldman$elm_css$Css$property, 'color', c.D);
+	return A2($rtfeldman$elm_css$Css$property, 'color', c.C);
 };
 var $elm$core$String$cons = _String_cons;
 var $rtfeldman$elm_css$Css$withPrecedingHash = function (str) {
@@ -6126,7 +6126,7 @@ var $rtfeldman$elm_css$Css$erroneousHex = function (str) {
 		z: 0,
 		aD: 0,
 		aI: 0,
-		D: $rtfeldman$elm_css$Css$withPrecedingHash(str)
+		C: $rtfeldman$elm_css$Css$withPrecedingHash(str)
 	};
 };
 var $elm$core$String$foldr = _String_foldr;
@@ -6403,7 +6403,7 @@ var $rtfeldman$elm_css$Css$validHex = F5(
 				z: 0,
 				aD: green,
 				aI: red,
-				D: $rtfeldman$elm_css$Css$withPrecedingHash(str)
+				C: $rtfeldman$elm_css$Css$withPrecedingHash(str)
 			};
 		} else {
 			return $rtfeldman$elm_css$Css$erroneousHex(str);
@@ -6515,7 +6515,7 @@ var $rtfeldman$elm_css$Css$prop4 = F5(
 				$elm$core$String$join,
 				' ',
 				_List_fromArray(
-					[argA.D, argB.D, argC.D, argD.D])));
+					[argA.C, argB.C, argC.C, argD.C])));
 	});
 var $rtfeldman$elm_css$Css$textShadow4 = $rtfeldman$elm_css$Css$prop4('text-shadow');
 var $author$project$Styling$theme = {
@@ -6543,7 +6543,7 @@ var $author$project$Styling$basicFont = $rtfeldman$elm_css$Css$batch(
 		]));
 var $rtfeldman$elm_css$Css$prop1 = F2(
 	function (key, arg) {
-		return A2($rtfeldman$elm_css$Css$property, key, arg.D);
+		return A2($rtfeldman$elm_css$Css$property, key, arg.C);
 	});
 var $rtfeldman$elm_css$Css$center = $rtfeldman$elm_css$Css$prop1('center');
 var $rtfeldman$elm_css$Css$displayFlex = A2($rtfeldman$elm_css$Css$property, 'display', 'flex');
@@ -6558,16 +6558,16 @@ var $rtfeldman$elm_css$Css$flex = $rtfeldman$elm_css$Css$prop1('flex');
 var $rtfeldman$elm_css$Css$UnitlessInteger = 0;
 var $rtfeldman$elm_css$Css$int = function (val) {
 	return {
-		I: 0,
+		H: 0,
 		aU: 0,
 		T: 0,
-		B: 0,
+		A: 0,
 		aG: 0,
 		aW: 0,
 		L: val,
 		aw: '',
 		aN: 0,
-		D: $elm$core$String$fromInt(val)
+		C: $elm$core$String$fromInt(val)
 	};
 };
 var $rtfeldman$elm_css$Css$justifyContent = function (fn) {
@@ -6885,7 +6885,7 @@ var $rtfeldman$elm_css$Css$Structure$Output$mediaExpressionToString = function (
 		A2(
 			$elm$core$Maybe$map,
 			$elm$core$Basics$append(': '),
-			expression.D)) + ')'));
+			expression.C)) + ')'));
 };
 var $rtfeldman$elm_css$Css$Structure$Output$mediaTypeToString = function (mediaType) {
 	switch (mediaType) {
@@ -8516,7 +8516,7 @@ var $rtfeldman$elm_css$Css$EmUnits = 0;
 var $rtfeldman$elm_css$Css$em = A2($rtfeldman$elm_css$Css$Internal$lengthConverter, 0, 'em');
 var $rtfeldman$elm_css$Css$height = $rtfeldman$elm_css$Css$prop1('height');
 var $rtfeldman$elm_css$Css$marginLeft = $rtfeldman$elm_css$Css$prop1('margin-left');
-var $rtfeldman$elm_css$Css$none = {aa: 0, bp: 0, p: 0, a: 0, h: 0, co: 0, bE: 0, a7: 0, an: 0, S: 0, B: 0, c: 0, b: 0, a9: 0, aY: 0, cy: 0, w: 0, aZ: 0, cA: 0, at: 0, Z: 0, s: 0, e: 0, cE: 0, D: 'none'};
+var $rtfeldman$elm_css$Css$none = {aa: 0, bp: 0, p: 0, a: 0, h: 0, co: 0, bE: 0, a7: 0, an: 0, S: 0, A: 0, c: 0, b: 0, a9: 0, aY: 0, cy: 0, w: 0, aZ: 0, cA: 0, at: 0, Z: 0, s: 0, e: 0, cE: 0, C: 'none'};
 var $rtfeldman$elm_css$Css$resize = $rtfeldman$elm_css$Css$prop1('resize');
 var $author$project$Styling$pctitletext = A2(
 	$rtfeldman$elm_css$Html$Styled$styled,
@@ -8555,7 +8555,7 @@ var $author$project$ProConListView$get_title = F2(
 		var strToOut = function (str) {
 			return A2(
 				lift,
-				model.A,
+				model.I,
 				$author$project$ProConListView$Change(str));
 		};
 		return model.af ? A2(
@@ -8570,10 +8570,9 @@ var $author$project$ProConListView$get_title = F2(
 							$rtfeldman$elm_css$Html$Styled$Events$onDoubleClick(
 							A2(
 								lift,
-								model.A,
+								model.I,
 								$author$project$ProConListView$Edit(!model.af))),
-							$rtfeldman$elm_css$Html$Styled$Attributes$placeholder(
-							'Placeholder' + $elm$core$String$fromInt(model.A)),
+							$rtfeldman$elm_css$Html$Styled$Attributes$placeholder('🤷\u200D♀️❔🤷\u200D♂️'),
 							$rtfeldman$elm_css$Html$Styled$Events$onInput(strToOut),
 							$rtfeldman$elm_css$Html$Styled$Attributes$value(model.b5)
 						]),
@@ -8585,7 +8584,7 @@ var $author$project$ProConListView$get_title = F2(
 					$rtfeldman$elm_css$Html$Styled$Events$onDoubleClick(
 					A2(
 						lift,
-						model.A,
+						model.I,
 						$author$project$ProConListView$Edit(!model.af)))
 				]),
 			_List_fromArray(
@@ -8715,12 +8714,12 @@ var $rtfeldman$elm_css$Html$Styled$Events$onClick = function (msg) {
 		$elm$json$Json$Decode$succeed(msg));
 };
 var $rtfeldman$elm_css$Css$flexDirection = $rtfeldman$elm_css$Css$prop1('flex-direction');
-var $rtfeldman$elm_css$Css$hidden = {p: 0, ao: 0, D: 'hidden', aO: 0};
+var $rtfeldman$elm_css$Css$hidden = {p: 0, ao: 0, C: 'hidden', aO: 0};
 var $rtfeldman$elm_css$Css$overflowX = $rtfeldman$elm_css$Css$prop1('overflow-x');
 var $rtfeldman$elm_css$Css$overflowY = $rtfeldman$elm_css$Css$prop1('overflow-y');
 var $rtfeldman$elm_css$Css$padding = $rtfeldman$elm_css$Css$prop1('padding');
-var $rtfeldman$elm_css$Css$row = {a4: 0, aC: 0, D: 'row'};
-var $rtfeldman$elm_css$Css$scroll = {aA: 0, bp: 0, bE: 0, ao: 0, cB: 0, D: 'scroll'};
+var $rtfeldman$elm_css$Css$row = {a4: 0, aC: 0, C: 'row'};
+var $rtfeldman$elm_css$Css$scroll = {aA: 0, bp: 0, bE: 0, ao: 0, cB: 0, C: 'scroll'};
 var $rtfeldman$elm_css$Css$zIndex = $rtfeldman$elm_css$Css$prop1('z-index');
 var $author$project$Styling$pccontent = A2(
 	$rtfeldman$elm_css$Html$Styled$styled,
@@ -8740,7 +8739,7 @@ var $author$project$Styling$pccontent = A2(
 		]));
 var $rtfeldman$elm_css$Css$column = _Utils_update(
 	$rtfeldman$elm_css$Css$row,
-	{D: 'column'});
+	{C: 'column'});
 var $rtfeldman$elm_css$Css$flexStart = $rtfeldman$elm_css$Css$prop1('flex-start');
 var $rtfeldman$elm_css$Css$maxWidth = $rtfeldman$elm_css$Css$prop1('max-width');
 var $rtfeldman$elm_css$Css$overflow = $rtfeldman$elm_css$Css$prop1('overflow');
@@ -8766,7 +8765,7 @@ var $author$project$Styling$pclistview = A2(
 			$rtfeldman$elm_css$Css$int(1))
 		]));
 var $rtfeldman$elm_css$Css$backgroundColor = function (c) {
-	return A2($rtfeldman$elm_css$Css$property, 'background-color', c.D);
+	return A2($rtfeldman$elm_css$Css$property, 'background-color', c.C);
 };
 var $rtfeldman$elm_css$Css$boxShadow4 = $rtfeldman$elm_css$Css$prop4('box-shadow');
 var $rtfeldman$elm_css$Css$spaceBetween = $rtfeldman$elm_css$Css$prop1('space-between');
@@ -8790,9 +8789,9 @@ var $author$project$Styling$pctitle = A2(
 			$rtfeldman$elm_css$Css$zIndex(
 			$rtfeldman$elm_css$Css$int(9))
 		]));
-var $rtfeldman$elm_css$Css$bold = {I: 0, D: 'bold'};
+var $rtfeldman$elm_css$Css$bold = {H: 0, C: 'bold'};
 var $rtfeldman$elm_css$Css$fontWeight = function (_v0) {
-	var value = _v0.D;
+	var value = _v0.C;
 	return A2($rtfeldman$elm_css$Css$property, 'font-weight', value);
 };
 var $rtfeldman$elm_css$Css$Preprocess$ExtendSelector = F2(
@@ -8893,7 +8892,7 @@ var $author$project$ProConList$get_body = F2(
 		var strToOut = function (str) {
 			return A2(
 				lift,
-				model.A,
+				model.I,
 				$author$project$ProConList$Change(str));
 		};
 		return model.af ? A2(
@@ -8908,10 +8907,9 @@ var $author$project$ProConList$get_body = F2(
 							$rtfeldman$elm_css$Html$Styled$Events$onDoubleClick(
 							A2(
 								lift,
-								model.A,
+								model.I,
 								$author$project$ProConList$Edit(!model.af))),
-							$rtfeldman$elm_css$Html$Styled$Attributes$placeholder(
-							'Placeholder' + $elm$core$String$fromInt(model.A)),
+							$rtfeldman$elm_css$Html$Styled$Attributes$placeholder('🤷\u200D♀️❔🤷\u200D♂️'),
 							$rtfeldman$elm_css$Html$Styled$Events$onInput(strToOut),
 							$rtfeldman$elm_css$Html$Styled$Attributes$value(model.as),
 							A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'height', '3em'),
@@ -8925,7 +8923,7 @@ var $author$project$ProConList$get_body = F2(
 					$rtfeldman$elm_css$Html$Styled$Events$onDoubleClick(
 					A2(
 						lift,
-						model.A,
+						model.I,
 						$author$project$ProConList$Edit(!model.af))),
 					A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'height', '3em')
 				]),
@@ -8992,9 +8990,9 @@ var $author$project$Styling$ctitle = A2(
 		[
 			$author$project$Styling$basicFont,
 			$rtfeldman$elm_css$Css$height(
-			$rtfeldman$elm_css$Css$em(1.2)),
+			$rtfeldman$elm_css$Css$em(1.5)),
 			$rtfeldman$elm_css$Css$minHeight(
-			$rtfeldman$elm_css$Css$em(1.2)),
+			$rtfeldman$elm_css$Css$em(1.5)),
 			$rtfeldman$elm_css$Css$resize($rtfeldman$elm_css$Css$none),
 			$rtfeldman$elm_css$Css$backgroundColor($author$project$Styling$theme.bd),
 			$rtfeldman$elm_css$Css$displayFlex,
@@ -9053,15 +9051,14 @@ var $author$project$Card$Card$get_body = F2(
 		var strToOut = function (str) {
 			return A2(
 				lift,
-				model.A,
+				model.I,
 				$author$project$Card$Card$Change(str));
 		};
 		return model.af ? A2(
 			$rtfeldman$elm_css$Html$Styled$textarea,
 			_List_fromArray(
 				[
-					$rtfeldman$elm_css$Html$Styled$Attributes$placeholder(
-					'Placeholder' + $elm$core$String$fromInt(model.A)),
+					$rtfeldman$elm_css$Html$Styled$Attributes$placeholder('🤷\u200D♀️❔🤷\u200D♂️'),
 					$rtfeldman$elm_css$Html$Styled$Events$onInput(strToOut),
 					$rtfeldman$elm_css$Html$Styled$Attributes$value(model.as),
 					A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'flex', '10'),
@@ -9105,7 +9102,7 @@ var $author$project$Card$Card$get_updownbuttons = F2(
 				_List_fromArray(
 					[
 						$rtfeldman$elm_css$Html$Styled$Events$onClick(
-						A2(lift, model.A, $author$project$Card$Card$Delete)),
+						A2(lift, model.I, $author$project$Card$Card$Delete)),
 						A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'margin', '0.05em'),
 						A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'flex', '1'),
 						A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'flex-grow', 'true')
@@ -9119,7 +9116,7 @@ var $author$project$Card$Card$get_updownbuttons = F2(
 				_List_fromArray(
 					[
 						$rtfeldman$elm_css$Html$Styled$Events$onClick(
-						A2(lift, model.A, $author$project$Card$Card$MoveUp)),
+						A2(lift, model.I, $author$project$Card$Card$MoveUp)),
 						A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'margin', '0.05em'),
 						A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'flex', '1'),
 						A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'flex-grow', 'true')
@@ -9133,7 +9130,7 @@ var $author$project$Card$Card$get_updownbuttons = F2(
 				_List_fromArray(
 					[
 						$rtfeldman$elm_css$Html$Styled$Events$onClick(
-						A2(lift, model.A, $author$project$Card$Card$MoveDown)),
+						A2(lift, model.I, $author$project$Card$Card$MoveDown)),
 						A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'margin', '0.05em'),
 						A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'flex', '1'),
 						A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'flex-grow', 'true')
@@ -9156,7 +9153,7 @@ var $author$project$Card$Card$view = F2(
 					$rtfeldman$elm_css$Html$Styled$Events$onDoubleClick(
 					A2(
 						lift,
-						model.A,
+						model.I,
 						$author$project$Card$Card$Edit(!model.af)))
 				]),
 			_List_fromArray(
@@ -9178,7 +9175,7 @@ var $author$project$Card$CardList$view = F2(
 		var get_card_view = function (card) {
 			return A2(
 				$rtfeldman$elm_css$Html$Styled$map,
-				lift(model.A),
+				lift(model.I),
 				A2($author$project$Card$Card$view, card, $author$project$Card$CardList$lift_card_msg));
 		};
 		return A2(
@@ -9212,11 +9209,11 @@ var $author$project$Card$CardList$view = F2(
 								_List_fromArray(
 									[
 										$rtfeldman$elm_css$Html$Styled$Events$onClick(
-										A2(lift, model.A, $author$project$Card$CardList$AddCard))
+										A2(lift, model.I, $author$project$Card$CardList$AddCard))
 									]),
 								_List_fromArray(
 									[
-										$rtfeldman$elm_css$Html$Styled$text('Add Card')
+										$rtfeldman$elm_css$Html$Styled$text('➕')
 									]))
 							])))
 				]));
@@ -9226,7 +9223,7 @@ var $author$project$ProConList$view = F2(
 		var lift_list_view = function (list) {
 			return A2(
 				$rtfeldman$elm_css$Html$Styled$map,
-				lift(model.A),
+				lift(model.I),
 				A2($author$project$Card$CardList$view, list, $author$project$ProConList$lift_list_msg));
 		};
 		return A2(
@@ -9253,7 +9250,7 @@ var $author$project$ProConListView$view = F2(
 		var build_list_view = function (list) {
 			return A2(
 				$rtfeldman$elm_css$Html$Styled$map,
-				lift(model.A),
+				lift(model.I),
 				A2($author$project$ProConList$view, list, $author$project$ProConListView$lift_pro_con_msg));
 		};
 		return A2(
@@ -9272,11 +9269,11 @@ var $author$project$ProConListView$view = F2(
 							_List_fromArray(
 								[
 									$rtfeldman$elm_css$Html$Styled$Events$onClick(
-									A2(lift, model.A, $author$project$ProConListView$AddList))
+									A2(lift, model.I, $author$project$ProConListView$AddList))
 								]),
 							_List_fromArray(
 								[
-									$rtfeldman$elm_css$Html$Styled$text('Add Option')
+									$rtfeldman$elm_css$Html$Styled$text('➕')
 								]))
 						])),
 					A2(
@@ -9296,7 +9293,7 @@ var $author$project$Main$get_view_or_help = function (model) {
 			_List_Nil,
 			_List_fromArray(
 				[
-					$rtfeldman$elm_css$Html$Styled$text('Press *Add ProCon* to start!')
+					$rtfeldman$elm_css$Html$Styled$text('Press *➕* to start!')
 				]));
 	} else {
 		var pclv = maybe_list.a;
@@ -9370,7 +9367,7 @@ var $author$project$Main$pro_con_to_button = function (pclv) {
 		_List_fromArray(
 			[
 				$rtfeldman$elm_css$Html$Styled$Events$onClick(
-				$author$project$Main$SetView(pclv.A))
+				$author$project$Main$SetView(pclv.I))
 			]),
 		_List_fromArray(
 			[
@@ -9886,7 +9883,7 @@ var $author$project$Main$view = function (model) {
 											]),
 										_List_fromArray(
 											[
-												$rtfeldman$elm_css$Html$Styled$text('Add ProCon')
+												$rtfeldman$elm_css$Html$Styled$text('➕')
 											]))
 									]))),
 							$author$project$Main$get_view_or_help(model)

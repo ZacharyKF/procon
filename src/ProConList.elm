@@ -42,10 +42,10 @@ proConListEncoder model =
 
 init : Int -> ProConListModel
 init id =
-    { pro_list = CardList.init 0 "PROS"
-    , con_list = CardList.init 1 "CONS"
+    { pro_list = CardList.init 0 "👍"
+    , con_list = CardList.init 1 "👎"
     , id = id
-    , text = "Placeholder"
+    , text = "🤷\u{200D}♀️❔🤷\u{200D}♂️"
     , edit = False
     }
 
@@ -106,7 +106,7 @@ get_body model lift =
         pcltitletext []
             [ textarea
                 [ onDoubleClick <| lift model.id (Edit <| not model.edit)
-                , placeholder ("Placeholder" ++ String.fromInt model.id)
+                , placeholder "🤷\u{200D}♀️❔🤷\u{200D}♂️"
                 , onInput strToOut
                 , value model.text
                 , style "height" "3em"

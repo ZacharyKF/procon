@@ -161,7 +161,7 @@ view model lift =
             (List.map get_card_view <|
                 Array.toList model.cards
             )
-                ++ [ sbtn [ onClick <| lift model.id AddCard ] [ text "Add Card" ] ]
+                ++ [ sbtn [ onClick <| lift model.id AddCard ] [ text "➕" ] ]
         ]
 
 

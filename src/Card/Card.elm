@@ -18,7 +18,7 @@ type alias CardModel =
 
 init : Int -> CardModel
 init id =
-    { text = "Placeholder"
+    { text = "🤷\u{200D}♀️❔🤷\u{200D}♂️"
     , edit = False
     , id = id
     }
@@ -90,7 +90,7 @@ get_body model lift =
     in
     if model.edit then
         textarea
-            [ placeholder ("Placeholder" ++ String.fromInt model.id)
+            [ placeholder "🤷\u{200D}♀️❔🤷\u{200D}♂️"
             , onInput strToOut
             , value model.text
             , style "flex" "10"

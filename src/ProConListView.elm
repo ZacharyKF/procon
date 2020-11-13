@@ -22,7 +22,7 @@ type alias ProConListViewModel =
 init : Int -> ProConListViewModel
 init id =
     { id = id
-    , title = "Placeholder"
+    , title = "🤷\u{200D}♀️❔🤷\u{200D}♂️"
     , edit = False
     , pro_con_lists = Array.empty
     }
@@ -98,7 +98,7 @@ view model lift =
         [ pctitle
             []
             [ get_title model lift
-            , sbtn [ onClick (lift model.id AddList) ] [ text "Add Option" ]
+            , sbtn [ onClick (lift model.id AddList) ] [ text "➕" ]
             ]
         , pccontent
             []
@@ -117,7 +117,7 @@ get_title model lift =
         pctitletext []
             [ textarea
                 [ onDoubleClick <| lift model.id (Edit <| not model.edit)
-                , placeholder ("Placeholder" ++ String.fromInt model.id)
+                , placeholder "🤷\u{200D}♀️❔🤷\u{200D}♂️"
                 , onInput strToOut
                 , value model.title
                 ]
