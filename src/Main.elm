@@ -15,8 +15,6 @@ import Url
 
 
 
--- TODO: MAKE PRO/CON ELEMENT CONTAINER
--- TODO: SAVE STATE TO BROWSER
 -- TODO: ADD PER CONTAINER PRO/CON SORT PAGE (MORE DETAILS TO COME)
 -- TODO: ADD PER CONTAINER RESULT DISPLAY (MORE DETAILS TO COME)
 
@@ -90,7 +88,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update container_msg model =
     case container_msg of
         AddList ->
-            ( { model | card_lists = Array.push (ProConListView.init (Array.length model.card_lists)) model.card_lists }, Cmd.none )
+            ( { model | card_lists = Array.push (ProConListView.init (Array.length model.card_lists)) model.card_lists }, and_save { card_lists = model.card_lists } Cmd.none )
 
         ToProConListView id child_msg ->
             let
@@ -99,7 +97,7 @@ update container_msg model =
             in
             case old_list of
                 Nothing ->
-                    ( model, Cmd.none )
+                    ( model, and_save { card_lists = model.card_lists } Cmd.none )
 
                 Just alist ->
                     let
@@ -117,10 +115,10 @@ update container_msg model =
                     ( { model | card_lists = val.card_lists }, Cmd.none )
 
         SetView id ->
-            ( { model | in_view = id }, Cmd.none )
+            ( { model | in_view = id }, and_save { card_lists = model.card_lists } Cmd.none )
 
         _ ->
-            ( model, doload () )
+            ( model, and_save { card_lists = model.card_lists } Cmd.none )
 
 
 view : Model -> Browser.Document Msg

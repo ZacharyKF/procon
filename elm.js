@@ -4804,25 +4804,25 @@ var $elm$core$Array$treeFromBuilder = F2(
 	});
 var $elm$core$Array$builderToArray = F2(
 	function (reverseNodeList, builder) {
-		if (!builder.b) {
+		if (!builder.c) {
 			return A4(
 				$elm$core$Array$Array_elm_builtin,
-				$elm$core$Elm$JsArray$length(builder.d),
+				$elm$core$Elm$JsArray$length(builder.e),
 				$elm$core$Array$shiftStep,
 				$elm$core$Elm$JsArray$empty,
-				builder.d);
+				builder.e);
 		} else {
-			var treeLen = builder.b * $elm$core$Array$branchFactor;
+			var treeLen = builder.c * $elm$core$Array$branchFactor;
 			var depth = $elm$core$Basics$floor(
 				A2($elm$core$Basics$logBase, $elm$core$Array$branchFactor, treeLen - 1));
-			var correctNodeList = reverseNodeList ? $elm$core$List$reverse(builder.e) : builder.e;
-			var tree = A2($elm$core$Array$treeFromBuilder, correctNodeList, builder.b);
+			var correctNodeList = reverseNodeList ? $elm$core$List$reverse(builder.f) : builder.f;
+			var tree = A2($elm$core$Array$treeFromBuilder, correctNodeList, builder.c);
 			return A4(
 				$elm$core$Array$Array_elm_builtin,
-				$elm$core$Elm$JsArray$length(builder.d) + treeLen,
+				$elm$core$Elm$JsArray$length(builder.e) + treeLen,
 				A2($elm$core$Basics$max, 5, depth * $elm$core$Array$shiftStep),
 				tree,
-				builder.d);
+				builder.e);
 		}
 	});
 var $elm$core$Basics$idiv = _Basics_idiv;
@@ -4835,7 +4835,7 @@ var $elm$core$Array$initializeHelp = F5(
 				return A2(
 					$elm$core$Array$builderToArray,
 					false,
-					{e: nodeList, b: (len / $elm$core$Array$branchFactor) | 0, d: tail});
+					{f: nodeList, c: (len / $elm$core$Array$branchFactor) | 0, e: tail});
 			} else {
 				var leaf = $elm$core$Array$Leaf(
 					A3($elm$core$Elm$JsArray$initialize, $elm$core$Array$branchFactor, fromIndex, fn));
@@ -5186,7 +5186,7 @@ var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $author$project$Main$init = F3(
 	function (flags, url, key) {
 		return _Utils_Tuple2(
-			{f: $elm$core$Array$empty, Q: 0, aH: key, aP: url},
+			{a: $elm$core$Array$empty, Q: 0, aH: key, aP: url},
 			$elm$core$Platform$Cmd$none);
 	});
 var $author$project$Main$Load = function (a) {
@@ -5268,7 +5268,7 @@ var $author$project$Card$CardList$cardListEncoder = function (model) {
 			[
 				_Utils_Tuple2(
 				'cards',
-				A2($elm$json$Json$Encode$array, $author$project$Card$Card$cardEncoder, model.a)),
+				A2($elm$json$Json$Encode$array, $author$project$Card$Card$cardEncoder, model.b)),
 				_Utils_Tuple2(
 				'id',
 				$elm$json$Json$Encode$int(model.o)),
@@ -5322,7 +5322,7 @@ var $author$project$Main$dataEncoder = function (data) {
 			[
 				_Utils_Tuple2(
 				'card_lists',
-				A2($elm$json$Json$Encode$array, $author$project$ProConListView$proConListViewEncoder, data.f))
+				A2($elm$json$Json$Encode$array, $author$project$ProConListView$proConListViewEncoder, data.a))
 			]));
 };
 var $author$project$Main$save = _Platform_outgoingPort('save', $elm$core$Basics$identity);
@@ -5337,7 +5337,7 @@ var $author$project$Main$and_save = F2(
 				]));
 	});
 var $author$project$Main$Data = function (card_lists) {
-	return {f: card_lists};
+	return {a: card_lists};
 };
 var $elm$json$Json$Decode$array = _Json_decodeArray;
 var $elm$json$Json$Decode$field = _Json_decodeField;
@@ -5354,7 +5354,7 @@ var $author$project$ProConList$ProConListModel = F5(
 	});
 var $author$project$Card$CardList$CardListModel = F3(
 	function (cards, id, text) {
-		return {a: cards, o: id, G: text};
+		return {b: cards, o: id, G: text};
 	});
 var $author$project$Card$Card$CardModel = F3(
 	function (id, text, edit) {
@@ -5403,12 +5403,6 @@ var $author$project$Main$dataDecoder = A2(
 		'card_lists',
 		$elm$json$Json$Decode$array($author$project$ProConListView$proConListViewDecoder)));
 var $elm$json$Json$Decode$decodeString = _Json_runOnString;
-var $elm$json$Json$Encode$null = _Json_encodeNull;
-var $author$project$Main$doload = _Platform_outgoingPort(
-	'doload',
-	function ($) {
-		return $elm$json$Json$Encode$null;
-	});
 var $elm$core$Bitwise$and = _Bitwise_and;
 var $elm$core$Bitwise$shiftRightZfBy = _Bitwise_shiftRightZfBy;
 var $elm$core$Array$bitMask = 4294967295 >>> (32 - $elm$core$Array$shiftStep);
@@ -5586,7 +5580,7 @@ var $author$project$ProConListView$ToProConList = F2(
 	});
 var $author$project$Card$CardList$init = F2(
 	function (id, label) {
-		return {a: $elm$core$Array$empty, o: id, G: label};
+		return {b: $elm$core$Array$empty, o: id, G: label};
 	});
 var $author$project$ProConList$init = function (id) {
 	return {
@@ -5636,7 +5630,7 @@ var $elm$core$Array$fromListHelp = F3(
 				return A2(
 					$elm$core$Array$builderToArray,
 					true,
-					{e: nodeList, b: nodeListSize, d: jsArray});
+					{f: nodeList, c: nodeListSize, e: jsArray});
 			} else {
 				var $temp$list = remainingItems,
 					$temp$nodeList = A2(
@@ -5705,7 +5699,7 @@ var $author$project$Card$CardList$update = F2(
 			case 0:
 				var id = msg.a;
 				var card_msg = msg.b;
-				var oldcard = A2($elm$core$Array$get, id, model.a);
+				var oldcard = A2($elm$core$Array$get, id, model.b);
 				if (oldcard.$ === 1) {
 					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 				} else {
@@ -5717,7 +5711,7 @@ var $author$project$Card$CardList$update = F2(
 						_Utils_update(
 							model,
 							{
-								a: A3($elm$core$Array$set, id, newcard, model.a)
+								b: A3($elm$core$Array$set, id, newcard, model.b)
 							}),
 						A2(
 							$elm$core$Platform$Cmd$map,
@@ -5727,8 +5721,8 @@ var $author$project$Card$CardList$update = F2(
 			case 1:
 				var id = msg.a;
 				var _v3 = _Utils_Tuple2(
-					A2($elm$core$Array$get, id, model.a),
-					A2($elm$core$Array$get, id - 1, model.a));
+					A2($elm$core$Array$get, id, model.b),
+					A2($elm$core$Array$get, id - 1, model.b));
 				var carda = _v3.a;
 				var cardb = _v3.b;
 				var _v4 = _Utils_Tuple2(carda, cardb);
@@ -5739,7 +5733,7 @@ var $author$project$Card$CardList$update = F2(
 						_Utils_update(
 							model,
 							{
-								a: A3(
+								b: A3(
 									$elm$core$Array$set,
 									id - 1,
 									$author$project$Card$CardList$shift_card_up(acard),
@@ -5747,7 +5741,7 @@ var $author$project$Card$CardList$update = F2(
 										$elm$core$Array$set,
 										id,
 										$author$project$Card$CardList$shift_card_down(bcard),
-										model.a))
+										model.b))
 							}),
 						$elm$core$Platform$Cmd$none);
 				} else {
@@ -5756,8 +5750,8 @@ var $author$project$Card$CardList$update = F2(
 			case 2:
 				var id = msg.a;
 				var _v5 = _Utils_Tuple2(
-					A2($elm$core$Array$get, id, model.a),
-					A2($elm$core$Array$get, id + 1, model.a));
+					A2($elm$core$Array$get, id, model.b),
+					A2($elm$core$Array$get, id + 1, model.b));
 				var carda = _v5.a;
 				var cardb = _v5.b;
 				var _v6 = _Utils_Tuple2(carda, cardb);
@@ -5768,7 +5762,7 @@ var $author$project$Card$CardList$update = F2(
 						_Utils_update(
 							model,
 							{
-								a: A3(
+								b: A3(
 									$elm$core$Array$set,
 									id + 1,
 									$author$project$Card$CardList$shift_card_down(acard),
@@ -5776,7 +5770,7 @@ var $author$project$Card$CardList$update = F2(
 										$elm$core$Array$set,
 										id,
 										$author$project$Card$CardList$shift_card_up(bcard),
-										model.a))
+										model.b))
 							}),
 						$elm$core$Platform$Cmd$none);
 				} else {
@@ -5796,17 +5790,17 @@ var $author$project$Card$CardList$update = F2(
 					_Utils_update(
 						model,
 						{
-							a: A2(remove_ind, id, model.a)
+							b: A2(remove_ind, id, model.b)
 						}),
 					$elm$core$Platform$Cmd$none);
 			default:
 				var newcard = $author$project$Card$Card$init(
-					$elm$core$Array$length(model.a));
+					$elm$core$Array$length(model.b));
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
 						{
-							a: A2($elm$core$Array$push, newcard, model.a)
+							b: A2($elm$core$Array$push, newcard, model.b)
 						}),
 					$elm$core$Platform$Cmd$none);
 		}
@@ -5917,19 +5911,27 @@ var $author$project$Main$update = F2(
 					_Utils_update(
 						model,
 						{
-							f: A2(
+							a: A2(
 								$elm$core$Array$push,
 								$author$project$ProConListView$init(
-									$elm$core$Array$length(model.f)),
-								model.f)
+									$elm$core$Array$length(model.a)),
+								model.a)
 						}),
-					$elm$core$Platform$Cmd$none);
+					A2(
+						$author$project$Main$and_save,
+						{a: model.a},
+						$elm$core$Platform$Cmd$none));
 			case 0:
 				var id = container_msg.a;
 				var child_msg = container_msg.b;
-				var old_list = A2($elm$core$Array$get, id, model.f);
+				var old_list = A2($elm$core$Array$get, id, model.a);
 				if (old_list.$ === 1) {
-					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+					return _Utils_Tuple2(
+						model,
+						A2(
+							$author$project$Main$and_save,
+							{a: model.a},
+							$elm$core$Platform$Cmd$none));
 				} else {
 					var alist = old_list.a;
 					var _v2 = A2($author$project$ProConListView$update, alist, child_msg);
@@ -5939,11 +5941,11 @@ var $author$project$Main$update = F2(
 						_Utils_update(
 							model,
 							{
-								f: A3($elm$core$Array$set, id, newlist, model.f)
+								a: A3($elm$core$Array$set, id, newlist, model.a)
 							}),
 						A2(
 							$author$project$Main$and_save,
-							{f: model.f},
+							{a: model.a},
 							A2(
 								$elm$core$Platform$Cmd$map,
 								$author$project$Main$ToProConListView(id),
@@ -5959,7 +5961,7 @@ var $author$project$Main$update = F2(
 					return _Utils_Tuple2(
 						_Utils_update(
 							model,
-							{f: val.f}),
+							{a: val.a}),
 						$elm$core$Platform$Cmd$none);
 				}
 			case 2:
@@ -5968,11 +5970,17 @@ var $author$project$Main$update = F2(
 					_Utils_update(
 						model,
 						{Q: id}),
-					$elm$core$Platform$Cmd$none);
+					A2(
+						$author$project$Main$and_save,
+						{a: model.a},
+						$elm$core$Platform$Cmd$none));
 			default:
 				return _Utils_Tuple2(
 					model,
-					$author$project$Main$doload(0));
+					A2(
+						$author$project$Main$and_save,
+						{a: model.a},
+						$elm$core$Platform$Cmd$none));
 		}
 	});
 var $author$project$Main$AddList = {$: 1};
@@ -6354,7 +6362,7 @@ var $author$project$Card$CardList$view = F2(
 					A2(
 						$elm$core$List$map,
 						get_card_view,
-						$elm$core$Array$toList(model.a)))
+						$elm$core$Array$toList(model.b)))
 				]));
 	});
 var $author$project$ProConList$view = F2(
@@ -6453,7 +6461,7 @@ var $author$project$ProConListView$view = F2(
 				]));
 	});
 var $author$project$Main$get_view_or_help = function (model) {
-	var maybe_list = A2($elm$core$Array$get, model.Q, model.f);
+	var maybe_list = A2($elm$core$Array$get, model.Q, model.a);
 	if (maybe_list.$ === 1) {
 		return $elm$html$Html$text('Press *Add ProCon* to start!');
 	} else {
@@ -6515,7 +6523,7 @@ var $author$project$Main$view = function (model) {
 							A2(
 								$elm$core$List$map,
 								$author$project$Main$pro_con_to_button,
-								$elm$core$Array$toList(model.f)))),
+								$elm$core$Array$toList(model.a)))),
 						$author$project$Main$get_view_or_help(model)
 					]))
 			]),
