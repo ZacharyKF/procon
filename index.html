@@ -9,13 +9,16 @@
     <script>
         //https://stackoverflow.com/questions/33697444/data-persistence-in-elm
         var app = Elm.Main.init();
+
         app.ports.save.subscribe(function (state) {
             localStorage.setItem('procons', JSON.stringify(state));
         });
 
         app.ports.doload.subscribe(function () {
-            app.ports.load.send(localStorage.getItem('procons'));
+            app.ports.load.send(JSON.parse(localStorage.getItem('procons')));
         });
+
+        app.ports.load.send(JSON.parse(localStorage.getItem('procons')));
     </script>
 </body>
 
