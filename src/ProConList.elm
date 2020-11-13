@@ -1,11 +1,13 @@
 module ProConList exposing (..)
 
 import Card.CardList as CardList exposing (..)
-import Html exposing (..)
-import Html.Attributes exposing (..)
-import Html.Events exposing (..)
+import Html
+import Html.Styled exposing (..)
+import Html.Styled.Attributes exposing (..)
+import Html.Styled.Events exposing (..)
 import Json.Decode as D exposing (Decoder, bool, field, int, map5, string)
 import Json.Encode as E exposing (..)
+import Styling exposing (..)
 
 
 type alias ProConListModel =
@@ -84,17 +86,10 @@ view : ProConListModel -> (Int -> ProConListMsg -> msg) -> Html msg
 view model lift =
     let
         lift_list_view list =
-            Html.map (lift model.id) (CardList.view list lift_list_msg)
+            Html.Styled.map (lift model.id) (CardList.view list lift_list_msg)
     in
-    div
-        [ style "outline" "solid"
-        , style "flex-direction" "column"
-        , style "display" "flex"
-        , style "min-width" "40em"
-        , style "margin" "0.25em"
-        , style "padding" "0.25em"
-        , style "justify-content" "flex-start"
-        ]
+    pcl
+        []
         [ get_body model lift
         , div [ style "display" "flex" ]
             [ lift_list_view model.pro_list, lift_list_view model.con_list ]
@@ -108,18 +103,20 @@ get_body model lift =
             lift model.id (Change str)
     in
     if model.edit then
-        textarea
-            [ onDoubleClick <| lift model.id (Edit <| not model.edit)
-            , placeholder ("Placeholder" ++ String.fromInt model.id)
-            , onInput strToOut
-            , value model.text
-            , style "height" "3em"
-            , style "resize" "none"
+        pcltitletext []
+            [ textarea
+                [ onDoubleClick <| lift model.id (Edit <| not model.edit)
+                , placeholder ("Placeholder" ++ String.fromInt model.id)
+                , onInput strToOut
+                , value model.text
+                , style "height" "3em"
+                , style "resize" "none"
+                ]
+                []
             ]
-            []
 
     else
-        div
+        pcltitletext
             [ onDoubleClick <| lift model.id (Edit <| not model.edit)
             , style "height" "3em"
             ]

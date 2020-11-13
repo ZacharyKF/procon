@@ -4,17 +4,27 @@ import Array exposing (Array)
 import Browser
 import Browser.Navigation as Nav exposing (load)
 import Dict exposing (Dict)
-import Html exposing (..)
-import Html.Attributes exposing (..)
-import Html.Events exposing (..)
+import Html
+import Html.Styled exposing (..)
+import Html.Styled.Attributes exposing (..)
+import Html.Styled.Events exposing (onClick)
 import Json.Decode as D exposing (Decoder, array, decodeString, field, int, map2)
 import Json.Encode as E exposing (..)
 import Platform.Cmd exposing (Cmd)
 import ProConListView exposing (..)
+import Styling exposing (..)
 import Url
 
 
 
+-- TODO: GOD DAMN CSS FILES
+-- TODO: FIXME: STATE SAVED AFTER MOST RECENT USER ACTION (PROBABLY ORDER OF CMD)
+-- TODO: MOVE "ADD" BUTTONS TO ENDS OF LISTS
+-- TODO: CREATE UTILITY CLASS FOR SORTING ARRAYS OF ELEMENTS W/ ID
+-- TODO: MOVE/DELETE PRO/CON CONTAINERS
+-- TODO: DELETE CONFIRM POPUP
+-- TODO: CLICK AND DRAG TO RE-ORGANIZE, REMOVE BUTTONS FOR SORTING
+-- TODO: DELETE HOVER OVER BOTTOM RIGHT
 -- TODO: ADD PER CONTAINER PRO/CON SORT PAGE (MORE DETAILS TO COME)
 -- TODO: ADD PER CONTAINER RESULT DISPLAY (MORE DETAILS TO COME)
 
@@ -120,26 +130,19 @@ update container_msg model =
 
 view : Model -> Browser.Document Msg
 view model =
-    { title = "Application Title"
+    { title = "ProCon Tool"
     , body =
-        [ div
-            [ style "display" "flex"
-            , style "overflow" "auto"
-            ]
-            [ div
-                [ style "display" "flex"
-                , style "flex-direction" "column"
-                , style "max-width" "10vw"
-                , style "margin-right" "0.25em"
-                , style "outline" "solid"
+        [ toUnstyled
+            (maincontent
+                []
+                [ pdivcol
+                    []
+                    (List.map pro_con_to_button (Array.toList model.card_lists)
+                        ++ [ pbtn [ onClick AddList ] [ text "Add ProCon" ] ]
+                    )
+                , get_view_or_help model
                 ]
-                (button
-                    [ onClick AddList ]
-                    [ text "Add ProCon" ]
-                    :: List.map pro_con_to_button (Array.toList model.card_lists)
-                )
-            , get_view_or_help model
-            ]
+            )
         ]
     }
 
@@ -152,7 +155,7 @@ get_view_or_help model =
     in
     case maybe_list of
         Nothing ->
-            text "Press *Add ProCon* to start!"
+            nocntntdiv [] [ text "Press *Add ProCon* to start!" ]
 
         Just pclv ->
             ProConListView.view pclv lift_card_list_msg
@@ -160,7 +163,7 @@ get_view_or_help model =
 
 pro_con_to_button : ProConListViewModel -> Html Msg
 pro_con_to_button pclv =
-    button [ onClick (SetView pclv.id) ] [ text pclv.title ]
+    pbtn [ onClick (SetView pclv.id) ] [ text pclv.title ]
 
 
 and_save : Data -> Cmd msg -> Cmd msg

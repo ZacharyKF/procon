@@ -1,10 +1,12 @@
 module Card.Card exposing (..)
 
-import Html exposing (..)
-import Html.Attributes exposing (..)
-import Html.Events exposing (..)
+import Html
+import Html.Styled exposing (..)
+import Html.Styled.Attributes exposing (..)
+import Html.Styled.Events exposing (..)
 import Json.Decode as D exposing (Decoder, bool, field, int, map3, string)
 import Json.Encode as E exposing (..)
+import Styling exposing (..)
 
 
 type alias CardModel =
@@ -66,14 +68,8 @@ view model lift =
         ( del, up, down ) =
             get_updownbuttons model lift
     in
-    div
-        [ onDoubleClick <| lift model.id (Edit <| not model.edit)
-        , style "outline" "solid"
-        , style "height" "6em"
-        , style "display" "flex"
-        , style "margin" "0.5em"
-        , style "padding" "0.5em"
-        ]
+    card
+        [ onDoubleClick <| lift model.id (Edit <| not model.edit) ]
         [ get_body model lift
         , div
             [ style "display" "flex"
@@ -114,13 +110,13 @@ get_body model lift =
 
 get_updownbuttons : CardModel -> (Int -> CardMsg -> msg) -> ( Html msg, Html msg, Html msg )
 get_updownbuttons model lift =
-    ( button
+    ( tbtn
         [ onClick <| lift model.id Delete, style "margin" "0.05em", style "flex" "1", style "flex-grow" "true" ]
-        [ text "Delete" ]
-    , button
+        [ text "☠" ]
+    , tbtn
         [ onClick <| lift model.id MoveUp, style "margin" "0.05em", style "flex" "1", style "flex-grow" "true" ]
-        [ text "Up" ]
-    , button
+        [ text "☝" ]
+    , tbtn
         [ onClick <| lift model.id MoveDown, style "margin" "0.05em", style "flex" "1", style "flex-grow" "true" ]
-        [ text "Down" ]
+        [ text "👇" ]
     )

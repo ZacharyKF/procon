@@ -1,12 +1,14 @@
 module ProConListView exposing (..)
 
 import Array exposing (Array)
-import Html exposing (..)
-import Html.Attributes exposing (..)
-import Html.Events exposing (..)
+import Html
+import Html.Styled exposing (..)
+import Html.Styled.Attributes exposing (..)
+import Html.Styled.Events exposing (..)
 import Json.Decode as D exposing (Decoder, bool, field, int, map4, string)
 import Json.Encode as E exposing (..)
 import ProConList exposing (..)
+import Styling exposing (..)
 
 
 type alias ProConListViewModel =
@@ -89,30 +91,17 @@ view : ProConListViewModel -> (Int -> ProConListViewMsg -> msg) -> Html msg
 view model lift =
     let
         build_list_view list =
-            Html.map (lift model.id) (ProConList.view list lift_pro_con_msg)
+            Html.Styled.map (lift model.id) (ProConList.view list lift_pro_con_msg)
     in
-    div
-        [ style "flex-direction" "column"
-        , style "display" "flex"
-        , style "width" "100%"
-        , style "max-width" "95vw"
-        , style "justify-content" "flex-start"
-        , style "flex-grow" "true"
-        ]
-        [ div
-            [ style "display" "flex"
-            , style "justify-content" "space-between"
-            , style "outline" "solid"
-            ]
+    pclistview
+        []
+        [ pctitle
+            []
             [ get_title model lift
-            , button [ onClick (lift model.id AddList) ] [ text "Add Option" ]
+            , sbtn [ onClick (lift model.id AddList) ] [ text "Add Option" ]
             ]
-        , div
-            [ style "flex" "1"
-            , style "display" "flex"
-            , style "flex-direction" "row"
-            , style "overflow" "auto"
-            ]
+        , pccontent
+            []
           <|
             List.map build_list_view (Array.toList model.pro_con_lists)
         ]
@@ -125,20 +114,19 @@ get_title model lift =
             lift model.id (Change str)
     in
     if model.edit then
-        textarea
-            [ onDoubleClick <| lift model.id (Edit <| not model.edit)
-            , placeholder ("Placeholder" ++ String.fromInt model.id)
-            , onInput strToOut
-            , value model.title
-            , style "height" "1.2em"
-            , style "resize" "none"
+        pctitletext []
+            [ textarea
+                [ onDoubleClick <| lift model.id (Edit <| not model.edit)
+                , placeholder ("Placeholder" ++ String.fromInt model.id)
+                , onInput strToOut
+                , value model.title
+                ]
+                []
             ]
-            []
 
     else
-        div
+        pctitletext
             [ onDoubleClick <| lift model.id (Edit <| not model.edit)
-            , style "height" "1.1em"
             ]
             [ text model.title
             ]

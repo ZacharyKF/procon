@@ -2,11 +2,13 @@ module Card.CardList exposing (..)
 
 import Array exposing (Array)
 import Card.Card as Card exposing (..)
-import Html exposing (..)
-import Html.Attributes exposing (..)
-import Html.Events exposing (..)
+import Html
+import Html.Styled exposing (..)
+import Html.Styled.Attributes exposing (..)
+import Html.Styled.Events exposing (..)
 import Json.Decode as D exposing (..)
 import Json.Encode as E exposing (..)
+import Styling exposing (..)
 
 
 type alias CardListModel =
@@ -146,33 +148,20 @@ view : CardListModel -> (Int -> CardListMsg -> msg) -> Html msg
 view model lift =
     let
         get_card_view card =
-            Html.map (lift model.id) (Card.view card lift_card_msg)
+            Html.Styled.map (lift model.id) (Card.view card lift_card_msg)
     in
-    div
-        [ style "flex" "1"
-        , style "outline" "solid"
-        , style "flex-direction" "column"
-        , style "display" "flex"
-        , style "margin" "0.25em"
-        , style "padding" "0.25em"
-        , style "justify-content" "flex-start"
-        ]
-        [ div
-            [ style "height" "1.5em"
-            , style "justify-content" "center"
-            ]
-            [ text model.text
-            ]
-        , button
-            [ onClick <| lift model.id AddCard, style "margin" "0.1em" ]
-            [ text "Add Card" ]
+    cl
+        []
+        [ ctitle [] [ text model.text ]
         , div
             [ style "display" "flex"
             , style "flex-direction" "column"
             ]
           <|
-            List.map get_card_view <|
+            (List.map get_card_view <|
                 Array.toList model.cards
+            )
+                ++ [ sbtn [ onClick <| lift model.id AddCard ] [ text "Add Card" ] ]
         ]
 
 
