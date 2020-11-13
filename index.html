@@ -14,10 +14,6 @@
             localStorage.setItem('procons', JSON.stringify(state));
         });
 
-        app.ports.doload.subscribe(function () {
-            app.ports.load.send(JSON.parse(localStorage.getItem('procons')));
-        });
-
         {
             var onStart = localStorage.getItem('procons')
             if (onStart != null && onStart != "") {

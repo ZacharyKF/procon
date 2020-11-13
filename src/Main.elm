@@ -25,9 +25,6 @@ port save : E.Value -> Cmd msg
 port load : (String -> msg) -> Sub msg
 
 
-port doload : () -> Cmd msg
-
-
 subscriptions : Model -> Sub Msg
 subscriptions model =
     load Load
