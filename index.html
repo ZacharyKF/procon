@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="elm.js"></script>
+</head>
+
+<body>
+    <script>
+        //https://stackoverflow.com/questions/33697444/data-persistence-in-elm
+        var app = Elm.Main.fullscreen();
+        app.ports.saveSession.subscribe(function (state) {
+            localStorage.setItem('procons', JSON.stringify(state));
+        });
+
+        app.ports.doLoadSession.subscribe(function () {
+            app.ports.loadSession.send(JSON.parse(localStorage.getItem('procons')));
+        });
+    </script>
+</body>
+
+</html>
