@@ -224,6 +224,7 @@ proConListViewStatic =
         [ marginLeft (Css.em 2)
         , flex (int 10)
         , minHeight (Css.em 1)
+        , overflow auto
         ]
 
 
@@ -234,6 +235,7 @@ proConListViewEdit =
         , flex (int 10)
         , minHeight (Css.em 1)
         , resize none
+        , overflow auto
         ]
 
 
@@ -303,6 +305,7 @@ proConListStatic =
         , minHeight (Css.em 1)
         , justifyContent center
         , textAlign center
+        , overflow auto
         ]
 
 
@@ -314,6 +317,7 @@ proConListEdit =
         , justifyContent center
         , textAlign center
         , resize none
+        , overflow auto
         ]
 
 
@@ -385,10 +389,10 @@ cardButtonContainer =
 cardStatic : List (Attribute msg) -> List (Html msg) -> Html msg
 cardStatic =
     styled div
-        [ inverseFont, flex (int 10) ]
+        [ inverseFont, flex (int 10), overflow auto ]
 
 
 cardEdit : List (Attribute msg) -> List (Html msg) -> Html msg
 cardEdit =
     styled textarea
-        [ inverseFont, flex (int 10), resize none ]
+        [ inverseFont, flex (int 10), resize none, overflow auto ]

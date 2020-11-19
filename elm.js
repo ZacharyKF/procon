@@ -9159,7 +9159,8 @@ var $author$project$Styling$proConListViewEdit = A2(
 			$rtfeldman$elm_css$Css$int(10)),
 			$rtfeldman$elm_css$Css$minHeight(
 			$rtfeldman$elm_css$Css$em(1)),
-			$rtfeldman$elm_css$Css$resize($rtfeldman$elm_css$Css$none)
+			$rtfeldman$elm_css$Css$resize($rtfeldman$elm_css$Css$none),
+			$rtfeldman$elm_css$Css$overflow($rtfeldman$elm_css$Css$auto)
 		]));
 var $author$project$Styling$proConListViewStatic = A2(
 	$rtfeldman$elm_css$Html$Styled$styled,
@@ -9171,7 +9172,8 @@ var $author$project$Styling$proConListViewStatic = A2(
 			$rtfeldman$elm_css$Css$flex(
 			$rtfeldman$elm_css$Css$int(10)),
 			$rtfeldman$elm_css$Css$minHeight(
-			$rtfeldman$elm_css$Css$em(1))
+			$rtfeldman$elm_css$Css$em(1)),
+			$rtfeldman$elm_css$Css$overflow($rtfeldman$elm_css$Css$auto)
 		]));
 var $author$project$Styling$proConListViewTitleContainer = A2(
 	$rtfeldman$elm_css$Html$Styled$styled,
@@ -9260,7 +9262,8 @@ var $author$project$Styling$proConListEdit = A2(
 			$rtfeldman$elm_css$Css$em(1)),
 			$rtfeldman$elm_css$Css$justifyContent($rtfeldman$elm_css$Css$center),
 			$rtfeldman$elm_css$Css$textAlign($rtfeldman$elm_css$Css$center),
-			$rtfeldman$elm_css$Css$resize($rtfeldman$elm_css$Css$none)
+			$rtfeldman$elm_css$Css$resize($rtfeldman$elm_css$Css$none),
+			$rtfeldman$elm_css$Css$overflow($rtfeldman$elm_css$Css$auto)
 		]));
 var $author$project$Styling$proConListStatic = A2(
 	$rtfeldman$elm_css$Html$Styled$styled,
@@ -9272,7 +9275,8 @@ var $author$project$Styling$proConListStatic = A2(
 			$rtfeldman$elm_css$Css$minHeight(
 			$rtfeldman$elm_css$Css$em(1)),
 			$rtfeldman$elm_css$Css$justifyContent($rtfeldman$elm_css$Css$center),
-			$rtfeldman$elm_css$Css$textAlign($rtfeldman$elm_css$Css$center)
+			$rtfeldman$elm_css$Css$textAlign($rtfeldman$elm_css$Css$center),
+			$rtfeldman$elm_css$Css$overflow($rtfeldman$elm_css$Css$auto)
 		]));
 var $author$project$Styling$proConListTitleText = A2(
 	$rtfeldman$elm_css$Html$Styled$styled,
@@ -9408,7 +9412,8 @@ var $author$project$Styling$cardEdit = A2(
 			$author$project$Styling$inverseFont,
 			$rtfeldman$elm_css$Css$flex(
 			$rtfeldman$elm_css$Css$int(10)),
-			$rtfeldman$elm_css$Css$resize($rtfeldman$elm_css$Css$none)
+			$rtfeldman$elm_css$Css$resize($rtfeldman$elm_css$Css$none),
+			$rtfeldman$elm_css$Css$overflow($rtfeldman$elm_css$Css$auto)
 		]));
 var $author$project$Styling$cardStatic = A2(
 	$rtfeldman$elm_css$Html$Styled$styled,
@@ -9417,7 +9422,8 @@ var $author$project$Styling$cardStatic = A2(
 		[
 			$author$project$Styling$inverseFont,
 			$rtfeldman$elm_css$Css$flex(
-			$rtfeldman$elm_css$Css$int(10))
+			$rtfeldman$elm_css$Css$int(10)),
+			$rtfeldman$elm_css$Css$overflow($rtfeldman$elm_css$Css$auto)
 		]));
 var $author$project$Card$Card$view = F2(
 	function (model, lift) {
