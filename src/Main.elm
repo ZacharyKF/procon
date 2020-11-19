@@ -14,12 +14,10 @@ import Platform.Cmd exposing (Cmd)
 import ProConListView exposing (..)
 import Styling exposing (..)
 import Url
+import WithId exposing (..)
 
 
 
--- TODO: FIXME: STATE SAVED AFTER MOST RECENT USER ACTION (PROBABLY ORDER OF CMD)
--- TODO: CREATE UTILITY CLASS FOR SORTING ARRAYS OF ELEMENTS W/ ID
--- TODO: MOVE/DELETE PRO/CON CONTAINERS
 -- TODO: DELETE CONFIRM POPUP
 -- TODO: CLICK AND DRAG TO RE-ORGANIZE, REMOVE BUTTONS FOR SORTING
 -- TODO: DELETE HOVER OVER BOTTOM RIGHT
@@ -82,7 +80,7 @@ dataEncoder data =
 
 type Msg
     = ToProConListView Int ProConListViewMsg
-    | AddList
+    | ActOnListViews WithIdAction
     | SetView Int
     | Load String
     | UrlRequested Browser.UrlRequest
@@ -92,24 +90,32 @@ type Msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update container_msg model =
     case container_msg of
-        AddList ->
-            ( { model | card_lists = Array.push (ProConListView.init (Array.length model.card_lists)) model.card_lists }, and_save { card_lists = model.card_lists } Cmd.none )
+        ActOnListViews action ->
+            let
+                newArr =
+                    updateHasIdArray model.card_lists action ProConListView.init
+            in
+            case action of
+                Move id dir ->
+                    case dir of
+                        Down ->
+                            ( { model | card_lists = newArr, in_view = Basics.min (id + 1) (Array.length newArr - 1) }, and_save model Cmd.none )
+
+                        Up ->
+                            ( { model | card_lists = newArr, in_view = Basics.max (id - 1) 0 }, and_save model Cmd.none )
+
+                Delete id ->
+                    ( { model | card_lists = newArr, in_view = id - 1 }, and_save model Cmd.none )
+
+                Add ->
+                    ( { model | card_lists = newArr }, and_save model Cmd.none )
 
         ToProConListView id child_msg ->
             let
-                old_list =
-                    Array.get id model.card_lists
+                ( newArr, nmsg ) =
+                    updateId model.card_lists id child_msg ProConListView.update ToProConListView Cmd.none
             in
-            case old_list of
-                Nothing ->
-                    ( model, and_save { card_lists = model.card_lists } Cmd.none )
-
-                Just alist ->
-                    let
-                        ( newlist, sub_cmd ) =
-                            ProConListView.update alist child_msg
-                    in
-                    ( { model | card_lists = Array.set id newlist model.card_lists }, and_save { card_lists = model.card_lists } (Cmd.map (ToProConListView id) sub_cmd) )
+            ( { model | card_lists = newArr }, and_save model nmsg )
 
         Load value ->
             case decodeString dataDecoder value of
@@ -120,10 +126,10 @@ update container_msg model =
                     ( { model | card_lists = val.card_lists }, Cmd.none )
 
         SetView id ->
-            ( { model | in_view = id }, and_save { card_lists = model.card_lists } Cmd.none )
+            ( { model | in_view = id }, and_save model Cmd.none )
 
         _ ->
-            ( model, and_save { card_lists = model.card_lists } Cmd.none )
+            ( model, and_save model Cmd.none )
 
 
 view : Model -> Browser.Document Msg
@@ -136,7 +142,7 @@ view model =
                 [ pdivcol
                     []
                     (List.map pro_con_to_button (Array.toList model.card_lists)
-                        ++ [ pbtn [ onClick AddList ] [ text "➕" ] ]
+                        ++ [ getButton pbtn False Add ActOnListViews ]
                     )
                 , get_view_or_help model
                 ]
@@ -161,16 +167,19 @@ get_view_or_help model =
 
 pro_con_to_button : ProConListViewModel -> Html Msg
 pro_con_to_button pclv =
-    pbtn [ onClick (SetView pclv.id) ] [ text pclv.title ]
+    pbtn [ onClick (SetView pclv.id) ] [ text pclv.text ]
 
 
-and_save : Data -> Cmd msg -> Cmd msg
+and_save : Model -> Cmd msg -> Cmd msg
 and_save data cmd =
-    Cmd.batch [ cmd, save (dataEncoder data) ]
+    Cmd.batch [ cmd, save (dataEncoder { card_lists = data.card_lists }) ]
 
 
 lift_card_list_msg : Int -> ProConListViewMsg -> Msg
 lift_card_list_msg id card_msg =
     case card_msg of
+        WithIdAction action ->
+            ActOnListViews action
+
         _ ->
             ToProConListView id card_msg

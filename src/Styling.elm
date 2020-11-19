@@ -1,7 +1,6 @@
 module Styling exposing (..)
 
 import Css exposing (..)
-import Html
 import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (css, href, src)
 import Html.Styled.Events exposing (onClick)
@@ -20,15 +19,15 @@ theme :
     , textColor : Color
     }
 theme =
-    { primaryBack = hex "ff8000"
-    , primary = hex "ff8c1a"
-    , primaryEmp = hex "ff9933"
-    , secondaryBack = hex "ff0055"
-    , secondary = hex "ff1a66"
-    , secondaryEmp = hex "ff3377"
-    , tertiaryBack = hex "8585ad"
-    , tertiary = hex "9494b8"
-    , tertiaryEmp = hex "a3a3c2"
+    { primaryBack = hex "8fa3cc"
+    , primary = hex "96a9cf"
+    , primaryEmp = hex "a8b7d7"
+    , secondaryBack = hex "74a772"
+    , secondary = hex "84b082"
+    , secondaryEmp = hex "93ba91"
+    , tertiaryBack = hex "f9b086"
+    , tertiary = hex "f9b38a"
+    , tertiaryEmp = hex "fac09e"
     , textColor = hex "ffffff"
     }
 
@@ -133,8 +132,12 @@ tbtn =
         ]
 
 
-pclistview : List (Attribute msg) -> List (Html msg) -> Html msg
-pclistview =
+
+-- ProConListView --
+
+
+proConListViewBody : List (Attribute msg) -> List (Html msg) -> Html msg
+proConListViewBody =
     styled div
         [ flexDirection column
         , displayFlex
@@ -146,47 +149,40 @@ pclistview =
         ]
 
 
-pctitle : List (Attribute msg) -> List (Html msg) -> Html msg
-pctitle =
+proConListViewTitleContainer : List (Attribute msg) -> List (Html msg) -> Html msg
+proConListViewTitleContainer =
     styled div
         [ height (Css.em 2)
         , backgroundColor theme.secondaryBack
         , displayFlex
+        , basicFont
         , alignItems center
-        , justifyContent spaceBetween
         , boxShadow4 (Css.em 0) (Css.em 0.2) (Css.em 0.3) (hex "000000")
         , zIndex (int 9)
         ]
 
 
-pctitletext : List (Attribute msg) -> List (Html msg) -> Html msg
-pctitletext =
+proConListViewStatic : List (Attribute msg) -> List (Html msg) -> Html msg
+proConListViewStatic =
     styled div
-        [ basicFont
-        , marginLeft (Css.em 2)
-        , height (Css.em 2)
-        , resize none
-        , displayFlex
-        , alignItems center
+        [ marginLeft (Css.em 2)
+        , flex (int 10)
+        , minHeight (Css.em 1)
         ]
 
 
-pcltitletext : List (Attribute msg) -> List (Html msg) -> Html msg
-pcltitletext =
-    styled div
-        [ basicFont
-        , height (Css.em 3)
-        , minHeight (Css.em 3)
+proConListViewEdit : List (Attribute msg) -> List (Html msg) -> Html msg
+proConListViewEdit =
+    styled textarea
+        [ marginLeft (Css.em 2)
+        , flex (int 10)
+        , minHeight (Css.em 1)
         , resize none
-        , backgroundColor theme.tertiaryBack
-        , displayFlex
-        , alignItems center
-        , justifyContent center
         ]
 
 
-pccontent : List (Attribute msg) -> List (Html msg) -> Html msg
-pccontent =
+proConListViewContent : List (Attribute msg) -> List (Html msg) -> Html msg
+proConListViewContent =
     styled div
         [ flex (int 1)
         , displayFlex
@@ -198,8 +194,12 @@ pccontent =
         ]
 
 
-pcl : List (Attribute msg) -> List (Html msg) -> Html msg
-pcl =
+
+-- ProConList --
+
+
+proConListBody : List (Attribute msg) -> List (Html msg) -> Html msg
+proConListBody =
     styled div
         [ displayFlex
         , flexDirection column
@@ -213,8 +213,59 @@ pcl =
         ]
 
 
-cl : List (Attribute msg) -> List (Html msg) -> Html msg
-cl =
+proConListTitleText : List (Attribute msg) -> List (Html msg) -> Html msg
+proConListTitleText =
+    styled div
+        [ basicFont
+        , minHeight (Css.em 3)
+        , resize none
+        , backgroundColor theme.tertiaryBack
+        , displayFlex
+        , alignItems center
+        ]
+
+
+proConListButton : List (Attribute msg) -> List (Html msg) -> Html msg
+proConListButton =
+    styled div
+        [ backgroundColor theme.tertiary
+        , basicFont
+        , btnStyle
+        , margin (Css.em 0.05)
+        , flex (int 1)
+        , hover
+            [ backgroundColor theme.tertiaryEmp
+            ]
+        ]
+
+
+proConListStatic : List (Attribute msg) -> List (Html msg) -> Html msg
+proConListStatic =
+    styled div
+        [ width (Css.pc 100)
+        , minHeight (Css.em 1)
+        , justifyContent center
+        , textAlign center
+        ]
+
+
+proConListEdit : List (Attribute msg) -> List (Html msg) -> Html msg
+proConListEdit =
+    styled textarea
+        [ width (Css.pc 100)
+        , minHeight (Css.em 1)
+        , justifyContent center
+        , textAlign center
+        , resize none
+        ]
+
+
+
+-- CardList --
+
+
+cardListBody : List (Attribute msg) -> List (Html msg) -> Html msg
+cardListBody =
     styled div
         [ displayFlex
         , flex (int 1)
@@ -226,8 +277,8 @@ cl =
         ]
 
 
-ctitle : List (Attribute msg) -> List (Html msg) -> Html msg
-ctitle =
+cardListTitle : List (Attribute msg) -> List (Html msg) -> Html msg
+cardListTitle =
     styled div
         [ basicFont
         , height (Css.em 1.5)
@@ -240,6 +291,15 @@ ctitle =
         ]
 
 
+cardListCardContainer : List (Attribute msg) -> List (Html msg) -> Html msg
+cardListCardContainer =
+    styled div [ displayFlex, flexDirection column ]
+
+
+
+-- Card --
+
+
 card : List (Attribute msg) -> List (Html msg) -> Html msg
 card =
     styled div
@@ -249,3 +309,27 @@ card =
         , padding (Css.em 0.25)
         , height (Css.em 6)
         ]
+
+
+cardButtonContainer : List (Attribute msg) -> List (Html msg) -> Html msg
+cardButtonContainer =
+    styled div
+        [ backgroundColor theme.tertiary
+        , basicFont
+        , displayFlex
+        , margin (Css.em 0.05)
+        , justifyContent spaceBetween
+        , flexDirection column
+        ]
+
+
+cardStatic : List (Attribute msg) -> List (Html msg) -> Html msg
+cardStatic =
+    styled div
+        [ flex (int 10) ]
+
+
+cardEdit : List (Attribute msg) -> List (Html msg) -> Html msg
+cardEdit =
+    styled textarea
+        [ flex (int 10), resize none ]

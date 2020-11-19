@@ -784,11 +784,11 @@ function _Debug_crash_UNUSED(identifier, fact1, fact2, fact3, fact4)
 
 function _Debug_regionToString(region)
 {
-	if (region.bf.aF === region.bw.aF)
+	if (region.be.aE === region.bx.aE)
 	{
-		return 'on line ' + region.bf.aF;
+		return 'on line ' + region.be.aE;
 	}
-	return 'on lines ' + region.bf.aF + ' through ' + region.bw.aF;
+	return 'on lines ' + region.be.aE + ' through ' + region.bx.aE;
 }
 
 
@@ -1857,9 +1857,9 @@ var _Platform_worker = F4(function(impl, flagDecoder, debugMetadata, args)
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.cq,
+		impl.cp,
 		impl.cD,
-		impl.cC,
+		impl.cB,
 		function() { return function() {} }
 	);
 });
@@ -2704,9 +2704,9 @@ var _VirtualDom_mapEventTuple = F2(function(func, tuple)
 var _VirtualDom_mapEventRecord = F2(function(func, record)
 {
 	return {
-		K: func(record.K),
-		bg: record.bg,
-		bc: record.bc
+		I: func(record.I),
+		bf: record.bf,
+		bb: record.bb
 	}
 });
 
@@ -2974,11 +2974,11 @@ function _VirtualDom_makeCallback(eventNode, initialHandler)
 		// 3 = Custom
 
 		var value = result.a;
-		var message = !tag ? value : tag < 3 ? value.a : value.K;
-		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.bg;
+		var message = !tag ? value : tag < 3 ? value.a : value.I;
+		var stopPropagation = tag == 1 ? value.b : tag == 3 && value.bf;
 		var currentEventNode = (
 			stopPropagation && event.stopPropagation(),
-			(tag == 2 ? value.b : tag == 3 && value.bc) && event.preventDefault(),
+			(tag == 2 ? value.b : tag == 3 && value.bb) && event.preventDefault(),
 			eventNode
 		);
 		var tagger;
@@ -3928,9 +3928,9 @@ var _Browser_element = _Debugger_element || F4(function(impl, flagDecoder, debug
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.cq,
+		impl.cp,
 		impl.cD,
-		impl.cC,
+		impl.cB,
 		function(sendToApp, initialModel) {
 			var view = impl.cG;
 			/**/
@@ -3964,11 +3964,11 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 	return _Platform_initialize(
 		flagDecoder,
 		args,
-		impl.cq,
+		impl.cp,
 		impl.cD,
-		impl.cC,
+		impl.cB,
 		function(sendToApp, initialModel) {
-			var divertHrefToApp = impl.be && impl.be(sendToApp)
+			var divertHrefToApp = impl.bd && impl.bd(sendToApp)
 			var view = impl.cG;
 			var title = _VirtualDom_doc.title;
 			var bodyNode = _VirtualDom_doc.body;
@@ -3977,12 +3977,12 @@ var _Browser_document = _Debugger_document || F4(function(impl, flagDecoder, deb
 			{
 				_VirtualDom_divertHrefToApp = divertHrefToApp;
 				var doc = view(model);
-				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.cg);
+				var nextNode = _VirtualDom_node('body')(_List_Nil)(doc.cf);
 				var patches = _VirtualDom_diff(currNode, nextNode);
 				bodyNode = _VirtualDom_applyPatches(bodyNode, currNode, patches, sendToApp);
 				currNode = nextNode;
 				_VirtualDom_divertHrefToApp = 0;
-				(title !== doc.b5) && (_VirtualDom_doc.title = title = doc.b5);
+				(title !== doc.cC) && (_VirtualDom_doc.title = title = doc.cC);
 			});
 		}
 	);
@@ -4038,12 +4038,12 @@ function _Browser_makeAnimator(model, draw)
 
 function _Browser_application(impl)
 {
-	var onUrlChange = impl.cv;
-	var onUrlRequest = impl.cw;
+	var onUrlChange = impl.cu;
+	var onUrlRequest = impl.cv;
 	var key = function() { key.a(onUrlChange(_Browser_getUrl())); };
 
 	return _Browser_document({
-		be: function(sendToApp)
+		bd: function(sendToApp)
 		{
 			key.a = sendToApp;
 			_Browser_window.addEventListener('popstate', key);
@@ -4059,9 +4059,9 @@ function _Browser_application(impl)
 					var next = $elm$url$Url$fromString(href).a;
 					sendToApp(onUrlRequest(
 						(next
-							&& curr.bQ === next.bQ
-							&& curr.bB === next.bB
-							&& curr.bL.a === next.bL.a
+							&& curr.bR === next.bR
+							&& curr.bC === next.bC
+							&& curr.bM.a === next.bM.a
 						)
 							? $elm$browser$Browser$Internal(next)
 							: $elm$browser$Browser$External(href)
@@ -4069,13 +4069,13 @@ function _Browser_application(impl)
 				}
 			});
 		},
-		cq: function(flags)
+		cp: function(flags)
 		{
-			return A3(impl.cq, flags, _Browser_getUrl(), key);
+			return A3(impl.cp, flags, _Browser_getUrl(), key);
 		},
 		cG: impl.cG,
 		cD: impl.cD,
-		cC: impl.cC
+		cB: impl.cB
 	});
 }
 
@@ -4141,17 +4141,17 @@ var _Browser_decodeEvent = F2(function(decoder, event)
 function _Browser_visibilityInfo()
 {
 	return (typeof _VirtualDom_doc.hidden !== 'undefined')
-		? { cn: 'hidden', ch: 'visibilitychange' }
+		? { cm: 'hidden', cg: 'visibilitychange' }
 		:
 	(typeof _VirtualDom_doc.mozHidden !== 'undefined')
-		? { cn: 'mozHidden', ch: 'mozvisibilitychange' }
+		? { cm: 'mozHidden', cg: 'mozvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.msHidden !== 'undefined')
-		? { cn: 'msHidden', ch: 'msvisibilitychange' }
+		? { cm: 'msHidden', cg: 'msvisibilitychange' }
 		:
 	(typeof _VirtualDom_doc.webkitHidden !== 'undefined')
-		? { cn: 'webkitHidden', ch: 'webkitvisibilitychange' }
-		: { cn: 'hidden', ch: 'visibilitychange' };
+		? { cm: 'webkitHidden', cg: 'webkitvisibilitychange' }
+		: { cm: 'hidden', cg: 'visibilitychange' };
 }
 
 
@@ -4232,12 +4232,12 @@ var _Browser_call = F2(function(functionName, id)
 function _Browser_getViewport()
 {
 	return {
-		bV: _Browser_getScene(),
-		b8: {
-			ca: _Browser_window.pageXOffset,
-			cb: _Browser_window.pageYOffset,
-			b9: _Browser_doc.documentElement.clientWidth,
-			bA: _Browser_doc.documentElement.clientHeight
+		bW: _Browser_getScene(),
+		b7: {
+			b9: _Browser_window.pageXOffset,
+			ca: _Browser_window.pageYOffset,
+			b8: _Browser_doc.documentElement.clientWidth,
+			bB: _Browser_doc.documentElement.clientHeight
 		}
 	};
 }
@@ -4247,8 +4247,8 @@ function _Browser_getScene()
 	var body = _Browser_doc.body;
 	var elem = _Browser_doc.documentElement;
 	return {
-		b9: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
-		bA: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
+		b8: Math.max(body.scrollWidth, body.offsetWidth, elem.scrollWidth, elem.offsetWidth, elem.clientWidth),
+		bB: Math.max(body.scrollHeight, body.offsetHeight, elem.scrollHeight, elem.offsetHeight, elem.clientHeight)
 	};
 }
 
@@ -4271,15 +4271,15 @@ function _Browser_getViewportOf(id)
 	return _Browser_withNode(id, function(node)
 	{
 		return {
-			bV: {
-				b9: node.scrollWidth,
-				bA: node.scrollHeight
+			bW: {
+				b8: node.scrollWidth,
+				bB: node.scrollHeight
 			},
-			b8: {
-				ca: node.scrollLeft,
-				cb: node.scrollTop,
-				b9: node.clientWidth,
-				bA: node.clientHeight
+			b7: {
+				b9: node.scrollLeft,
+				ca: node.scrollTop,
+				b8: node.clientWidth,
+				bB: node.clientHeight
 			}
 		};
 	});
@@ -4309,18 +4309,18 @@ function _Browser_getElement(id)
 		var x = _Browser_window.pageXOffset;
 		var y = _Browser_window.pageYOffset;
 		return {
-			bV: _Browser_getScene(),
-			b8: {
-				ca: x,
-				cb: y,
-				b9: _Browser_doc.documentElement.clientWidth,
-				bA: _Browser_doc.documentElement.clientHeight
+			bW: _Browser_getScene(),
+			b7: {
+				b9: x,
+				ca: y,
+				b8: _Browser_doc.documentElement.clientWidth,
+				bB: _Browser_doc.documentElement.clientHeight
 			},
-			cl: {
-				ca: x + rect.left,
-				cb: y + rect.top,
-				b9: rect.width,
-				bA: rect.height
+			ck: {
+				b9: x + rect.left,
+				ca: y + rect.top,
+				b8: rect.width,
+				bB: rect.height
 			}
 		};
 	});
@@ -4804,25 +4804,25 @@ var $elm$core$Array$treeFromBuilder = F2(
 	});
 var $elm$core$Array$builderToArray = F2(
 	function (reverseNodeList, builder) {
-		if (!builder.i) {
+		if (!builder.g) {
 			return A4(
 				$elm$core$Array$Array_elm_builtin,
-				$elm$core$Elm$JsArray$length(builder.k),
+				$elm$core$Elm$JsArray$length(builder.i),
 				$elm$core$Array$shiftStep,
 				$elm$core$Elm$JsArray$empty,
-				builder.k);
+				builder.i);
 		} else {
-			var treeLen = builder.i * $elm$core$Array$branchFactor;
+			var treeLen = builder.g * $elm$core$Array$branchFactor;
 			var depth = $elm$core$Basics$floor(
 				A2($elm$core$Basics$logBase, $elm$core$Array$branchFactor, treeLen - 1));
-			var correctNodeList = reverseNodeList ? $elm$core$List$reverse(builder.l) : builder.l;
-			var tree = A2($elm$core$Array$treeFromBuilder, correctNodeList, builder.i);
+			var correctNodeList = reverseNodeList ? $elm$core$List$reverse(builder.j) : builder.j;
+			var tree = A2($elm$core$Array$treeFromBuilder, correctNodeList, builder.g);
 			return A4(
 				$elm$core$Array$Array_elm_builtin,
-				$elm$core$Elm$JsArray$length(builder.k) + treeLen,
+				$elm$core$Elm$JsArray$length(builder.i) + treeLen,
 				A2($elm$core$Basics$max, 5, depth * $elm$core$Array$shiftStep),
 				tree,
-				builder.k);
+				builder.i);
 		}
 	});
 var $elm$core$Basics$idiv = _Basics_idiv;
@@ -4835,7 +4835,7 @@ var $elm$core$Array$initializeHelp = F5(
 				return A2(
 					$elm$core$Array$builderToArray,
 					false,
-					{l: nodeList, i: (len / $elm$core$Array$branchFactor) | 0, k: tail});
+					{j: nodeList, g: (len / $elm$core$Array$branchFactor) | 0, i: tail});
 			} else {
 				var leaf = $elm$core$Array$Leaf(
 					A3($elm$core$Elm$JsArray$initialize, $elm$core$Array$branchFactor, fromIndex, fn));
@@ -4902,7 +4902,7 @@ var $elm$url$Url$Http = 0;
 var $elm$url$Url$Https = 1;
 var $elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
-		return {bz: fragment, bB: host, bJ: path, bL: port_, bQ: protocol, bR: query};
+		return {bA: fragment, bC: host, bK: path, bM: port_, bR: protocol, bS: query};
 	});
 var $elm$core$String$contains = _String_contains;
 var $elm$core$String$length = _String_length;
@@ -5186,7 +5186,7 @@ var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $author$project$Main$init = F3(
 	function (flags, url, key) {
 		return _Utils_Tuple2(
-			{f: $elm$core$Array$empty, a6: 0, cs: key, cF: url},
+			{k: $elm$core$Array$empty, ak: 0, cr: key, cF: url},
 			$elm$core$Platform$Cmd$none);
 	});
 var $author$project$Main$Load = function (a) {
@@ -5253,13 +5253,13 @@ var $author$project$Card$Card$cardEncoder = function (model) {
 			[
 				_Utils_Tuple2(
 				'id',
-				$elm$json$Json$Encode$int(model.I)),
+				$elm$json$Json$Encode$int(model.aj)),
 				_Utils_Tuple2(
 				'text',
-				$elm$json$Json$Encode$string(model.as)),
+				$elm$json$Json$Encode$string(model.b2)),
 				_Utils_Tuple2(
 				'edit',
-				$elm$json$Json$Encode$bool(model.af))
+				$elm$json$Json$Encode$bool(model.bw))
 			]));
 };
 var $author$project$Card$CardList$cardListEncoder = function (model) {
@@ -5268,13 +5268,13 @@ var $author$project$Card$CardList$cardListEncoder = function (model) {
 			[
 				_Utils_Tuple2(
 				'cards',
-				A2($elm$json$Json$Encode$array, $author$project$Card$Card$cardEncoder, model.g)),
+				A2($elm$json$Json$Encode$array, $author$project$Card$Card$cardEncoder, model.D)),
 				_Utils_Tuple2(
 				'id',
-				$elm$json$Json$Encode$int(model.I)),
+				$elm$json$Json$Encode$int(model.aj)),
 				_Utils_Tuple2(
 				'text',
-				$elm$json$Json$Encode$string(model.as))
+				$elm$json$Json$Encode$string(model.b2))
 			]));
 };
 var $author$project$ProConList$proConListEncoder = function (model) {
@@ -5286,16 +5286,16 @@ var $author$project$ProConList$proConListEncoder = function (model) {
 				$author$project$Card$CardList$cardListEncoder(model.ap)),
 				_Utils_Tuple2(
 				'con_list',
-				$author$project$Card$CardList$cardListEncoder(model.ae)),
+				$author$project$Card$CardList$cardListEncoder(model.ad)),
 				_Utils_Tuple2(
 				'id',
-				$elm$json$Json$Encode$int(model.I)),
+				$elm$json$Json$Encode$int(model.aj)),
 				_Utils_Tuple2(
 				'edit',
-				$elm$json$Json$Encode$bool(model.af)),
+				$elm$json$Json$Encode$bool(model.bw)),
 				_Utils_Tuple2(
 				'text',
-				$elm$json$Json$Encode$string(model.as))
+				$elm$json$Json$Encode$string(model.b2))
 			]));
 };
 var $author$project$ProConListView$proConListViewEncoder = function (model) {
@@ -5304,16 +5304,16 @@ var $author$project$ProConListView$proConListViewEncoder = function (model) {
 			[
 				_Utils_Tuple2(
 				'edit',
-				$elm$json$Json$Encode$bool(model.af)),
+				$elm$json$Json$Encode$bool(model.bw)),
 				_Utils_Tuple2(
 				'id',
-				$elm$json$Json$Encode$int(model.I)),
+				$elm$json$Json$Encode$int(model.aj)),
 				_Utils_Tuple2(
 				'pro_con_lists',
-				A2($elm$json$Json$Encode$array, $author$project$ProConList$proConListEncoder, model.x)),
+				A2($elm$json$Json$Encode$array, $author$project$ProConList$proConListEncoder, model.L)),
 				_Utils_Tuple2(
 				'title',
-				$elm$json$Json$Encode$string(model.b5))
+				$elm$json$Json$Encode$string(model.b2))
 			]));
 };
 var $author$project$Main$dataEncoder = function (data) {
@@ -5322,7 +5322,7 @@ var $author$project$Main$dataEncoder = function (data) {
 			[
 				_Utils_Tuple2(
 				'card_lists',
-				A2($elm$json$Json$Encode$array, $author$project$ProConListView$proConListViewEncoder, data.f))
+				A2($elm$json$Json$Encode$array, $author$project$ProConListView$proConListViewEncoder, data.k))
 			]));
 };
 var $author$project$Main$save = _Platform_outgoingPort('save', $elm$core$Basics$identity);
@@ -5333,53 +5333,85 @@ var $author$project$Main$and_save = F2(
 				[
 					cmd,
 					$author$project$Main$save(
-					$author$project$Main$dataEncoder(data))
+					$author$project$Main$dataEncoder(
+						{k: data.k}))
 				]));
 	});
 var $author$project$Main$Data = function (card_lists) {
-	return {f: card_lists};
+	return {k: card_lists};
 };
 var $elm$json$Json$Decode$array = _Json_decodeArray;
 var $elm$json$Json$Decode$field = _Json_decodeField;
-var $author$project$ProConListView$ProConListViewModel = F4(
-	function (id, title, edit, pro_con_lists) {
-		return {af: edit, I: id, x: pro_con_lists, b5: title};
-	});
 var $elm$json$Json$Decode$bool = _Json_decodeBool;
+var $author$project$ProConListView$cons = F4(
+	function (id, text, edit, lists) {
+		return {bw: edit, aj: id, L: lists, b2: text};
+	});
 var $elm$json$Json$Decode$int = _Json_decodeInt;
 var $elm$json$Json$Decode$map4 = _Json_map4;
-var $author$project$ProConList$ProConListModel = F5(
-	function (pro_list, con_list, id, text, edit) {
-		return {ae: con_list, af: edit, I: id, ap: pro_list, as: text};
+var $elm$core$Basics$composeL = F3(
+	function (g, f, x) {
+		return g(
+			f(x));
 	});
-var $author$project$Card$CardList$CardListModel = F3(
-	function (cards, id, text) {
-		return {g: cards, I: id, as: text};
+var $author$project$WithId$withIdCons = F2(
+	function (id, other) {
+		return _Utils_update(
+			other,
+			{aj: id});
 	});
-var $author$project$Card$Card$CardModel = F3(
-	function (id, text, edit) {
-		return {af: edit, I: id, as: text};
+var $author$project$WithText$withTextCons = F3(
+	function (text, edit, other) {
+		return _Utils_update(
+			other,
+			{bw: edit, b2: text});
+	});
+var $author$project$Card$Card$cons = F3(
+	function (id, str, edit) {
+		return A2(
+			$elm$core$Basics$composeL,
+			$author$project$WithId$withIdCons(id),
+			A2($author$project$WithText$withTextCons, str, edit))(
+			{bw: false, aj: 0, b2: ''});
 	});
 var $elm$json$Json$Decode$map3 = _Json_map3;
 var $author$project$Card$Card$cardDecoder = A4(
 	$elm$json$Json$Decode$map3,
-	$author$project$Card$Card$CardModel,
+	$author$project$Card$Card$cons,
 	A2($elm$json$Json$Decode$field, 'id', $elm$json$Json$Decode$int),
 	A2($elm$json$Json$Decode$field, 'text', $elm$json$Json$Decode$string),
 	A2($elm$json$Json$Decode$field, 'edit', $elm$json$Json$Decode$bool));
+var $author$project$Card$CardList$cardListDataCons = F3(
+	function (label, cards, other) {
+		return _Utils_update(
+			other,
+			{D: cards, b2: label});
+	});
+var $author$project$Card$CardList$cons = F3(
+	function (id, label, cards) {
+		return A2(
+			$elm$core$Basics$composeL,
+			$author$project$WithId$withIdCons(id),
+			A2($author$project$Card$CardList$cardListDataCons, label, cards))(
+			{D: $elm$core$Array$empty, aj: 0, b2: ''});
+	});
 var $author$project$Card$CardList$cardListDecoder = A4(
 	$elm$json$Json$Decode$map3,
-	$author$project$Card$CardList$CardListModel,
+	$author$project$Card$CardList$cons,
+	A2($elm$json$Json$Decode$field, 'id', $elm$json$Json$Decode$int),
+	A2($elm$json$Json$Decode$field, 'text', $elm$json$Json$Decode$string),
 	A2(
 		$elm$json$Json$Decode$field,
 		'cards',
-		$elm$json$Json$Decode$array($author$project$Card$Card$cardDecoder)),
-	A2($elm$json$Json$Decode$field, 'id', $elm$json$Json$Decode$int),
-	A2($elm$json$Json$Decode$field, 'text', $elm$json$Json$Decode$string));
+		$elm$json$Json$Decode$array($author$project$Card$Card$cardDecoder)));
+var $author$project$ProConList$cons = F5(
+	function (proList, conList, id, text, edit) {
+		return {ad: conList, bw: edit, aj: id, ap: proList, b2: text};
+	});
 var $elm$json$Json$Decode$map5 = _Json_map5;
 var $author$project$ProConList$proConListDecoder = A6(
 	$elm$json$Json$Decode$map5,
-	$author$project$ProConList$ProConListModel,
+	$author$project$ProConList$cons,
 	A2($elm$json$Json$Decode$field, 'pro_list', $author$project$Card$CardList$cardListDecoder),
 	A2($elm$json$Json$Decode$field, 'con_list', $author$project$Card$CardList$cardListDecoder),
 	A2($elm$json$Json$Decode$field, 'id', $elm$json$Json$Decode$int),
@@ -5387,7 +5419,7 @@ var $author$project$ProConList$proConListDecoder = A6(
 	A2($elm$json$Json$Decode$field, 'edit', $elm$json$Json$Decode$bool));
 var $author$project$ProConListView$proConListViewDecoder = A5(
 	$elm$json$Json$Decode$map4,
-	$author$project$ProConListView$ProConListViewModel,
+	$author$project$ProConListView$cons,
 	A2($elm$json$Json$Decode$field, 'id', $elm$json$Json$Decode$int),
 	A2($elm$json$Json$Decode$field, 'title', $elm$json$Json$Decode$string),
 	A2($elm$json$Json$Decode$field, 'edit', $elm$json$Json$Decode$bool),
@@ -5403,6 +5435,71 @@ var $author$project$Main$dataDecoder = A2(
 		'card_lists',
 		$elm$json$Json$Decode$array($author$project$ProConListView$proConListViewDecoder)));
 var $elm$json$Json$Decode$decodeString = _Json_runOnString;
+var $author$project$ProConListView$init = function (id) {
+	return A4($author$project$ProConListView$cons, id, 'Title Here...', false, $elm$core$Array$empty);
+};
+var $elm$core$Array$length = function (_v0) {
+	var len = _v0.a;
+	return len;
+};
+var $elm$core$Basics$min = F2(
+	function (x, y) {
+		return (_Utils_cmp(x, y) < 0) ? x : y;
+	});
+var $author$project$ProConListView$ToProConList = F2(
+	function (a, b) {
+		return {$: 0, a: a, b: b};
+	});
+var $author$project$Card$CardList$init = F2(
+	function (id, label) {
+		return A3($author$project$Card$CardList$cons, id, label, $elm$core$Array$empty);
+	});
+var $author$project$ProConList$init = function (id) {
+	return A5(
+		$author$project$ProConList$cons,
+		A2($author$project$Card$CardList$init, 0, '👍'),
+		A2($author$project$Card$CardList$init, 1, '👎'),
+		id,
+		'Label Here...',
+		false);
+};
+var $author$project$ProConList$ToList = F2(
+	function (a, b) {
+		return {$: 0, a: a, b: b};
+	});
+var $elm$core$Platform$Cmd$map = _Platform_map;
+var $author$project$Card$CardList$ToCard = F2(
+	function (a, b) {
+		return {$: 0, a: a, b: b};
+	});
+var $author$project$Card$Card$init = function (id) {
+	return A3($author$project$Card$Card$cons, id, 'Add information here...', false);
+};
+var $author$project$WithText$updateWithText = F2(
+	function (model, action) {
+		if (!action.$) {
+			var str = action.a;
+			return _Utils_update(
+				model,
+				{b2: str});
+		} else {
+			var bool = action.a;
+			return _Utils_update(
+				model,
+				{bw: bool});
+		}
+	});
+var $author$project$Card$Card$update = F2(
+	function (card, msg) {
+		if (!msg.$) {
+			var action = msg.a;
+			return _Utils_Tuple2(
+				A2($author$project$WithText$updateWithText, card, action),
+				$elm$core$Platform$Cmd$none);
+		} else {
+			return _Utils_Tuple2(card, $elm$core$Platform$Cmd$none);
+		}
+	});
 var $elm$core$Bitwise$and = _Bitwise_and;
 var $elm$core$Bitwise$shiftRightZfBy = _Bitwise_shiftRightZfBy;
 var $elm$core$Array$bitMask = 4294967295 >>> (32 - $elm$core$Array$shiftStep);
@@ -5445,17 +5542,103 @@ var $elm$core$Array$get = F2(
 			A2($elm$core$Elm$JsArray$unsafeGet, $elm$core$Array$bitMask & index, tail)) : $elm$core$Maybe$Just(
 			A3($elm$core$Array$getHelp, startShift, index, tree)));
 	});
-var $author$project$ProConListView$init = function (id) {
-	return {af: false, I: id, x: $elm$core$Array$empty, b5: '🤷\u200D♀️❔🤷\u200D♂️'};
-};
-var $elm$core$Array$length = function (_v0) {
-	var len = _v0.a;
-	return len;
-};
-var $elm$core$Platform$Cmd$map = _Platform_map;
+var $elm$core$Elm$JsArray$unsafeSet = _JsArray_unsafeSet;
+var $elm$core$Array$setHelp = F4(
+	function (shift, index, value, tree) {
+		var pos = $elm$core$Array$bitMask & (index >>> shift);
+		var _v0 = A2($elm$core$Elm$JsArray$unsafeGet, pos, tree);
+		if (!_v0.$) {
+			var subTree = _v0.a;
+			var newSub = A4($elm$core$Array$setHelp, shift - $elm$core$Array$shiftStep, index, value, subTree);
+			return A3(
+				$elm$core$Elm$JsArray$unsafeSet,
+				pos,
+				$elm$core$Array$SubTree(newSub),
+				tree);
+		} else {
+			var values = _v0.a;
+			var newLeaf = A3($elm$core$Elm$JsArray$unsafeSet, $elm$core$Array$bitMask & index, value, values);
+			return A3(
+				$elm$core$Elm$JsArray$unsafeSet,
+				pos,
+				$elm$core$Array$Leaf(newLeaf),
+				tree);
+		}
+	});
+var $elm$core$Array$set = F3(
+	function (index, value, array) {
+		var len = array.a;
+		var startShift = array.b;
+		var tree = array.c;
+		var tail = array.d;
+		return ((index < 0) || (_Utils_cmp(index, len) > -1)) ? array : ((_Utils_cmp(
+			index,
+			$elm$core$Array$tailIndex(len)) > -1) ? A4(
+			$elm$core$Array$Array_elm_builtin,
+			len,
+			startShift,
+			tree,
+			A3($elm$core$Elm$JsArray$unsafeSet, $elm$core$Array$bitMask & index, value, tail)) : A4(
+			$elm$core$Array$Array_elm_builtin,
+			len,
+			startShift,
+			A4($elm$core$Array$setHelp, startShift, index, value, tree),
+			tail));
+	});
+var $author$project$WithId$move = F3(
+	function (arr, id, dir) {
+		if (!dir) {
+			var _v1 = _Utils_Tuple2(
+				A2($elm$core$Array$get, id, arr),
+				A2($elm$core$Array$get, id - 1, arr));
+			var item = _v1.a;
+			var upItem = _v1.b;
+			var _v2 = _Utils_Tuple2(item, upItem);
+			if ((!_v2.a.$) && (!_v2.b.$)) {
+				var itema = _v2.a.a;
+				var itemb = _v2.b.a;
+				var newb = _Utils_update(
+					itemb,
+					{aj: id});
+				var newa = _Utils_update(
+					itema,
+					{aj: id - 1});
+				return A3(
+					$elm$core$Array$set,
+					id,
+					newb,
+					A3($elm$core$Array$set, id - 1, newa, arr));
+			} else {
+				return arr;
+			}
+		} else {
+			var _v3 = _Utils_Tuple2(
+				A2($elm$core$Array$get, id, arr),
+				A2($elm$core$Array$get, id + 1, arr));
+			var item = _v3.a;
+			var downItem = _v3.b;
+			var _v4 = _Utils_Tuple2(item, downItem);
+			if ((!_v4.a.$) && (!_v4.b.$)) {
+				var itema = _v4.a.a;
+				var itemb = _v4.b.a;
+				var newb = _Utils_update(
+					itemb,
+					{aj: id});
+				var newa = _Utils_update(
+					itema,
+					{aj: id + 1});
+				return A3(
+					$elm$core$Array$set,
+					id,
+					newb,
+					A3($elm$core$Array$set, id + 1, newa, arr));
+			} else {
+				return arr;
+			}
+		}
+	});
 var $elm$core$Elm$JsArray$push = _JsArray_push;
 var $elm$core$Elm$JsArray$singleton = _JsArray_singleton;
-var $elm$core$Elm$JsArray$unsafeSet = _JsArray_unsafeSet;
 var $elm$core$Array$insertTailInTree = F4(
 	function (shift, index, tail, tree) {
 		var pos = $elm$core$Array$bitMask & (index >>> shift);
@@ -5532,73 +5715,6 @@ var $elm$core$Array$push = F2(
 			A2($elm$core$Elm$JsArray$push, a, tail),
 			array);
 	});
-var $elm$core$Array$setHelp = F4(
-	function (shift, index, value, tree) {
-		var pos = $elm$core$Array$bitMask & (index >>> shift);
-		var _v0 = A2($elm$core$Elm$JsArray$unsafeGet, pos, tree);
-		if (!_v0.$) {
-			var subTree = _v0.a;
-			var newSub = A4($elm$core$Array$setHelp, shift - $elm$core$Array$shiftStep, index, value, subTree);
-			return A3(
-				$elm$core$Elm$JsArray$unsafeSet,
-				pos,
-				$elm$core$Array$SubTree(newSub),
-				tree);
-		} else {
-			var values = _v0.a;
-			var newLeaf = A3($elm$core$Elm$JsArray$unsafeSet, $elm$core$Array$bitMask & index, value, values);
-			return A3(
-				$elm$core$Elm$JsArray$unsafeSet,
-				pos,
-				$elm$core$Array$Leaf(newLeaf),
-				tree);
-		}
-	});
-var $elm$core$Array$set = F3(
-	function (index, value, array) {
-		var len = array.a;
-		var startShift = array.b;
-		var tree = array.c;
-		var tail = array.d;
-		return ((index < 0) || (_Utils_cmp(index, len) > -1)) ? array : ((_Utils_cmp(
-			index,
-			$elm$core$Array$tailIndex(len)) > -1) ? A4(
-			$elm$core$Array$Array_elm_builtin,
-			len,
-			startShift,
-			tree,
-			A3($elm$core$Elm$JsArray$unsafeSet, $elm$core$Array$bitMask & index, value, tail)) : A4(
-			$elm$core$Array$Array_elm_builtin,
-			len,
-			startShift,
-			A4($elm$core$Array$setHelp, startShift, index, value, tree),
-			tail));
-	});
-var $author$project$ProConListView$ToProConList = F2(
-	function (a, b) {
-		return {$: 0, a: a, b: b};
-	});
-var $author$project$Card$CardList$init = F2(
-	function (id, label) {
-		return {g: $elm$core$Array$empty, I: id, as: label};
-	});
-var $author$project$ProConList$init = function (id) {
-	return {
-		ae: A2($author$project$Card$CardList$init, 1, '👎'),
-		af: false,
-		I: id,
-		ap: A2($author$project$Card$CardList$init, 0, '👍'),
-		as: '🤷\u200D♀️❔🤷\u200D♂️'
-	};
-};
-var $author$project$ProConList$ToList = F2(
-	function (a, b) {
-		return {$: 0, a: a, b: b};
-	});
-var $author$project$Card$CardList$ToCard = F2(
-	function (a, b) {
-		return {$: 0, a: a, b: b};
-	});
 var $elm$core$List$maybeCons = F3(
 	function (f, mx, xs) {
 		var _v0 = f(mx);
@@ -5630,7 +5746,7 @@ var $elm$core$Array$fromListHelp = F3(
 				return A2(
 					$elm$core$Array$builderToArray,
 					true,
-					{l: nodeList, i: nodeListSize, k: jsArray});
+					{j: nodeList, g: nodeListSize, i: jsArray});
 			} else {
 				var $temp$list = remainingItems,
 					$temp$nodeList = A2(
@@ -5652,157 +5768,78 @@ var $elm$core$Array$fromList = function (list) {
 		return A3($elm$core$Array$fromListHelp, list, _List_Nil, 0);
 	}
 };
-var $author$project$Card$CardList$ind_transform = F2(
-	function (id, model) {
-		return _Utils_eq(model.I, id) ? $elm$core$Maybe$Nothing : ((_Utils_cmp(model.I, id) < 0) ? $elm$core$Maybe$Just(model) : $elm$core$Maybe$Just(
-			_Utils_update(
-				model,
-				{I: model.I - 1})));
+var $author$project$WithId$remove = F2(
+	function (arr, id) {
+		var idFilter = function (a) {
+			return _Utils_eq(a.aj, id) ? $elm$core$Maybe$Nothing : ((_Utils_cmp(a.aj, id) < 0) ? $elm$core$Maybe$Just(a) : $elm$core$Maybe$Just(
+				_Utils_update(
+					a,
+					{aj: a.aj - 1})));
+		};
+		var newarr = $elm$core$Array$fromList(
+			A2(
+				$elm$core$List$filterMap,
+				idFilter,
+				$elm$core$Array$toList(arr)));
+		return newarr;
 	});
-var $author$project$Card$Card$init = function (id) {
-	return {af: false, I: id, as: '🤷\u200D♀️❔🤷\u200D♂️'};
-};
-var $author$project$Card$CardList$shift_card_down = function (card) {
-	return _Utils_update(
-		card,
-		{I: card.I + 1});
-};
-var $author$project$Card$CardList$shift_card_up = function (card) {
-	return _Utils_update(
-		card,
-		{I: card.I - 1});
-};
-var $author$project$Card$Card$update = F2(
-	function (card, msg) {
-		switch (msg.$) {
+var $author$project$WithId$updateHasIdArray = F3(
+	function (arr, act, _new) {
+		switch (act.$) {
 			case 0:
-				var str = msg.a;
-				return _Utils_Tuple2(
-					_Utils_update(
-						card,
-						{as: str}),
-					$elm$core$Platform$Cmd$none);
-			case 1:
-				var bool = msg.a;
-				return _Utils_Tuple2(
-					_Utils_update(
-						card,
-						{af: bool}),
-					$elm$core$Platform$Cmd$none);
+				var id = act.a;
+				var dir = act.b;
+				return A3($author$project$WithId$move, arr, id, dir);
+			case 2:
+				var id = act.a;
+				return A2($author$project$WithId$remove, arr, id);
 			default:
-				return _Utils_Tuple2(card, $elm$core$Platform$Cmd$none);
+				return A2(
+					$elm$core$Array$push,
+					_new(
+						$elm$core$Array$length(arr)),
+					arr);
+		}
+	});
+var $author$project$WithId$updateId = F6(
+	function (arr, id, cmsg, update, lift, altCmd) {
+		var maybeHasId = A2($elm$core$Array$get, id, arr);
+		if (maybeHasId.$ === 1) {
+			return _Utils_Tuple2(arr, altCmd);
+		} else {
+			var hasId = maybeHasId.a;
+			var _v1 = A2(update, hasId, cmsg);
+			var newHasId = _v1.a;
+			var subCmd = _v1.b;
+			return _Utils_Tuple2(
+				A3($elm$core$Array$set, id, newHasId, arr),
+				A2(
+					$elm$core$Platform$Cmd$map,
+					lift(id),
+					subCmd));
 		}
 	});
 var $author$project$Card$CardList$update = F2(
 	function (model, msg) {
-		switch (msg.$) {
-			case 0:
-				var id = msg.a;
-				var card_msg = msg.b;
-				var oldcard = A2($elm$core$Array$get, id, model.g);
-				if (oldcard.$ === 1) {
-					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
-				} else {
-					var acard = oldcard.a;
-					var _v2 = A2($author$project$Card$Card$update, acard, card_msg);
-					var newcard = _v2.a;
-					var sub_cmd = _v2.b;
-					return _Utils_Tuple2(
-						_Utils_update(
-							model,
-							{
-								g: A3($elm$core$Array$set, id, newcard, model.g)
-							}),
-						A2(
-							$elm$core$Platform$Cmd$map,
-							$author$project$Card$CardList$ToCard(id),
-							sub_cmd));
-				}
-			case 1:
-				var id = msg.a;
-				var _v3 = _Utils_Tuple2(
-					A2($elm$core$Array$get, id, model.g),
-					A2($elm$core$Array$get, id - 1, model.g));
-				var carda = _v3.a;
-				var cardb = _v3.b;
-				var _v4 = _Utils_Tuple2(carda, cardb);
-				if ((!_v4.a.$) && (!_v4.b.$)) {
-					var acard = _v4.a.a;
-					var bcard = _v4.b.a;
-					return _Utils_Tuple2(
-						_Utils_update(
-							model,
-							{
-								g: A3(
-									$elm$core$Array$set,
-									id - 1,
-									$author$project$Card$CardList$shift_card_up(acard),
-									A3(
-										$elm$core$Array$set,
-										id,
-										$author$project$Card$CardList$shift_card_down(bcard),
-										model.g))
-							}),
-						$elm$core$Platform$Cmd$none);
-				} else {
-					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
-				}
-			case 2:
-				var id = msg.a;
-				var _v5 = _Utils_Tuple2(
-					A2($elm$core$Array$get, id, model.g),
-					A2($elm$core$Array$get, id + 1, model.g));
-				var carda = _v5.a;
-				var cardb = _v5.b;
-				var _v6 = _Utils_Tuple2(carda, cardb);
-				if ((!_v6.a.$) && (!_v6.b.$)) {
-					var acard = _v6.a.a;
-					var bcard = _v6.b.a;
-					return _Utils_Tuple2(
-						_Utils_update(
-							model,
-							{
-								g: A3(
-									$elm$core$Array$set,
-									id + 1,
-									$author$project$Card$CardList$shift_card_down(acard),
-									A3(
-										$elm$core$Array$set,
-										id,
-										$author$project$Card$CardList$shift_card_up(bcard),
-										model.g))
-							}),
-						$elm$core$Platform$Cmd$none);
-				} else {
-					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
-				}
-			case 3:
-				var id = msg.a;
-				var remove_ind = F2(
-					function (index, arr) {
-						return $elm$core$Array$fromList(
-							A2(
-								$elm$core$List$filterMap,
-								$author$project$Card$CardList$ind_transform(index),
-								$elm$core$Array$toList(arr)));
-					});
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{
-							g: A2(remove_ind, id, model.g)
-						}),
-					$elm$core$Platform$Cmd$none);
-			default:
-				var newcard = $author$project$Card$Card$init(
-					$elm$core$Array$length(model.g));
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{
-							g: A2($elm$core$Array$push, newcard, model.g)
-						}),
-					$elm$core$Platform$Cmd$none);
+		if (msg.$ === 1) {
+			var action = msg.a;
+			var newArr = A3($author$project$WithId$updateHasIdArray, model.D, action, $author$project$Card$Card$init);
+			return _Utils_Tuple2(
+				_Utils_update(
+					model,
+					{D: newArr}),
+				$elm$core$Platform$Cmd$none);
+		} else {
+			var id = msg.a;
+			var card_msg = msg.b;
+			var _v1 = A6($author$project$WithId$updateId, model.D, id, card_msg, $author$project$Card$Card$update, $author$project$Card$CardList$ToCard, $elm$core$Platform$Cmd$none);
+			var newarr = _v1.a;
+			var nmsg = _v1.b;
+			return _Utils_Tuple2(
+				_Utils_update(
+					model,
+					{D: newarr}),
+				nmsg);
 		}
 	});
 var $author$project$ProConList$update = F2(
@@ -5824,32 +5861,25 @@ var $author$project$ProConList$update = F2(
 							$author$project$ProConList$ToList(0),
 							sub_cmd));
 				} else {
-					var _v3 = A2($author$project$Card$CardList$update, model.ae, list_msg);
+					var _v3 = A2($author$project$Card$CardList$update, model.ad, list_msg);
 					var newlist = _v3.a;
 					var sub_cmd = _v3.b;
 					return _Utils_Tuple2(
 						_Utils_update(
 							model,
-							{ae: newlist}),
+							{ad: newlist}),
 						A2(
 							$elm$core$Platform$Cmd$map,
-							$author$project$ProConList$ToList(0),
+							$author$project$ProConList$ToList(1),
 							sub_cmd));
 				}
 			case 1:
-				var str = msg.a;
+				var action = msg.a;
 				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{as: str}),
+					A2($author$project$WithText$updateWithText, model, action),
 					$elm$core$Platform$Cmd$none);
 			default:
-				var bool = msg.a;
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{af: bool}),
-					$elm$core$Platform$Cmd$none);
+				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 		}
 	});
 var $author$project$ProConListView$update = F2(
@@ -5858,110 +5888,99 @@ var $author$project$ProConListView$update = F2(
 			case 0:
 				var id = msg.a;
 				var pcmsg = msg.b;
-				var old_pcl = A2($elm$core$Array$get, id, model.x);
-				if (old_pcl.$ === 1) {
-					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
-				} else {
-					var apcl = old_pcl.a;
-					var _v2 = A2($author$project$ProConList$update, apcl, pcmsg);
-					var new_pcl = _v2.a;
-					var sub_cmd = _v2.b;
-					return _Utils_Tuple2(
-						_Utils_update(
-							model,
-							{
-								x: A3($elm$core$Array$set, id, new_pcl, model.x)
-							}),
-						A2(
-							$elm$core$Platform$Cmd$map,
-							$author$project$ProConListView$ToProConList(id),
-							sub_cmd));
-				}
-			case 1:
-				var newlist = $author$project$ProConList$init(
-					$elm$core$Array$length(model.x));
+				var _v1 = A6($author$project$WithId$updateId, model.L, id, pcmsg, $author$project$ProConList$update, $author$project$ProConListView$ToProConList, $elm$core$Platform$Cmd$none);
+				var newArr = _v1.a;
+				var nmsg = _v1.b;
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{
-							x: A2($elm$core$Array$push, newlist, model.x)
-						}),
-					$elm$core$Platform$Cmd$none);
+						{L: newArr}),
+					nmsg);
 			case 3:
-				var str = msg.a;
+				var action = msg.a;
+				var newArr = A3($author$project$WithId$updateHasIdArray, model.L, action, $author$project$ProConList$init);
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{b5: str}),
+						{L: newArr}),
+					$elm$core$Platform$Cmd$none);
+			case 1:
+				var action = msg.a;
+				return _Utils_Tuple2(
+					A2($author$project$WithText$updateWithText, model, action),
 					$elm$core$Platform$Cmd$none);
 			default:
-				var bool = msg.a;
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{af: bool}),
-					$elm$core$Platform$Cmd$none);
+				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 		}
 	});
 var $author$project$Main$update = F2(
 	function (container_msg, model) {
 		switch (container_msg.$) {
 			case 1:
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{
-							f: A2(
-								$elm$core$Array$push,
-								$author$project$ProConListView$init(
-									$elm$core$Array$length(model.f)),
-								model.f)
-						}),
-					A2(
-						$author$project$Main$and_save,
-						{f: model.f},
-						$elm$core$Platform$Cmd$none));
+				var action = container_msg.a;
+				var newArr = A3($author$project$WithId$updateHasIdArray, model.k, action, $author$project$ProConListView$init);
+				switch (action.$) {
+					case 0:
+						var id = action.a;
+						var dir = action.b;
+						if (dir === 1) {
+							return _Utils_Tuple2(
+								_Utils_update(
+									model,
+									{
+										k: newArr,
+										ak: A2(
+											$elm$core$Basics$min,
+											id + 1,
+											$elm$core$Array$length(newArr) - 1)
+									}),
+								A2($author$project$Main$and_save, model, $elm$core$Platform$Cmd$none));
+						} else {
+							return _Utils_Tuple2(
+								_Utils_update(
+									model,
+									{
+										k: newArr,
+										ak: A2($elm$core$Basics$max, id - 1, 0)
+									}),
+								A2($author$project$Main$and_save, model, $elm$core$Platform$Cmd$none));
+						}
+					case 2:
+						var id = action.a;
+						return _Utils_Tuple2(
+							_Utils_update(
+								model,
+								{k: newArr, ak: id - 1}),
+							A2($author$project$Main$and_save, model, $elm$core$Platform$Cmd$none));
+					default:
+						return _Utils_Tuple2(
+							_Utils_update(
+								model,
+								{k: newArr}),
+							A2($author$project$Main$and_save, model, $elm$core$Platform$Cmd$none));
+				}
 			case 0:
 				var id = container_msg.a;
 				var child_msg = container_msg.b;
-				var old_list = A2($elm$core$Array$get, id, model.f);
-				if (old_list.$ === 1) {
-					return _Utils_Tuple2(
+				var _v3 = A6($author$project$WithId$updateId, model.k, id, child_msg, $author$project$ProConListView$update, $author$project$Main$ToProConListView, $elm$core$Platform$Cmd$none);
+				var newArr = _v3.a;
+				var nmsg = _v3.b;
+				return _Utils_Tuple2(
+					_Utils_update(
 						model,
-						A2(
-							$author$project$Main$and_save,
-							{f: model.f},
-							$elm$core$Platform$Cmd$none));
-				} else {
-					var alist = old_list.a;
-					var _v2 = A2($author$project$ProConListView$update, alist, child_msg);
-					var newlist = _v2.a;
-					var sub_cmd = _v2.b;
-					return _Utils_Tuple2(
-						_Utils_update(
-							model,
-							{
-								f: A3($elm$core$Array$set, id, newlist, model.f)
-							}),
-						A2(
-							$author$project$Main$and_save,
-							{f: model.f},
-							A2(
-								$elm$core$Platform$Cmd$map,
-								$author$project$Main$ToProConListView(id),
-								sub_cmd)));
-				}
+						{k: newArr}),
+					A2($author$project$Main$and_save, model, nmsg));
 			case 3:
 				var value = container_msg.a;
-				var _v3 = A2($elm$json$Json$Decode$decodeString, $author$project$Main$dataDecoder, value);
-				if (_v3.$ === 1) {
+				var _v4 = A2($elm$json$Json$Decode$decodeString, $author$project$Main$dataDecoder, value);
+				if (_v4.$ === 1) {
 					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 				} else {
-					var val = _v3.a;
+					var val = _v4.a;
 					return _Utils_Tuple2(
 						_Utils_update(
 							model,
-							{f: val.f}),
+							{k: val.k}),
 						$elm$core$Platform$Cmd$none);
 				}
 			case 2:
@@ -5969,24 +5988,116 @@ var $author$project$Main$update = F2(
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{a6: id}),
-					A2(
-						$author$project$Main$and_save,
-						{f: model.f},
-						$elm$core$Platform$Cmd$none));
+						{ak: id}),
+					A2($author$project$Main$and_save, model, $elm$core$Platform$Cmd$none));
 			default:
 				return _Utils_Tuple2(
 					model,
-					A2(
-						$author$project$Main$and_save,
-						{f: model.f},
-						$elm$core$Platform$Cmd$none));
+					A2($author$project$Main$and_save, model, $elm$core$Platform$Cmd$none));
 		}
 	});
-var $author$project$Main$AddList = {$: 1};
+var $author$project$Main$ActOnListViews = function (a) {
+	return {$: 1, a: a};
+};
+var $author$project$WithId$Add = {$: 1};
+var $author$project$WithId$getDirText = F2(
+	function (dir, horz) {
+		if (!dir) {
+			return horz ? '◀' : '🔼';
+		} else {
+			return horz ? '▶' : '🔽';
+		}
+	});
+var $elm$virtual_dom$VirtualDom$Normal = function (a) {
+	return {$: 0, a: a};
+};
+var $rtfeldman$elm_css$VirtualDom$Styled$Attribute = F3(
+	function (a, b, c) {
+		return {$: 0, a: a, b: b, c: c};
+	});
+var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
+var $rtfeldman$elm_css$VirtualDom$Styled$on = F2(
+	function (eventName, handler) {
+		return A3(
+			$rtfeldman$elm_css$VirtualDom$Styled$Attribute,
+			A2($elm$virtual_dom$VirtualDom$on, eventName, handler),
+			_List_Nil,
+			'');
+	});
+var $rtfeldman$elm_css$Html$Styled$Events$on = F2(
+	function (event, decoder) {
+		return A2(
+			$rtfeldman$elm_css$VirtualDom$Styled$on,
+			event,
+			$elm$virtual_dom$VirtualDom$Normal(decoder));
+	});
+var $rtfeldman$elm_css$Html$Styled$Events$onClick = function (msg) {
+	return A2(
+		$rtfeldman$elm_css$Html$Styled$Events$on,
+		'click',
+		$elm$json$Json$Decode$succeed(msg));
+};
+var $rtfeldman$elm_css$VirtualDom$Styled$Unstyled = function (a) {
+	return {$: 4, a: a};
+};
+var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
+var $rtfeldman$elm_css$VirtualDom$Styled$text = function (str) {
+	return $rtfeldman$elm_css$VirtualDom$Styled$Unstyled(
+		$elm$virtual_dom$VirtualDom$text(str));
+};
+var $rtfeldman$elm_css$Html$Styled$text = $rtfeldman$elm_css$VirtualDom$Styled$text;
+var $author$project$WithId$getButton = F4(
+	function (btn, horz, action, lift) {
+		switch (action.$) {
+			case 0:
+				var dir = action.b;
+				var label = $author$project$WithId$getDirText(dir);
+				return A2(
+					btn,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Events$onClick(
+							lift(action))
+						]),
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text(
+							label(horz))
+						]));
+			case 1:
+				return A2(
+					btn,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Events$onClick(
+							lift(action))
+						]),
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('➕')
+						]));
+			default:
+				return A2(
+					btn,
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$Events$onClick(
+							lift(action))
+						]),
+					_List_fromArray(
+						[
+							$rtfeldman$elm_css$Html$Styled$text('❌')
+						]));
+		}
+	});
 var $author$project$Main$lift_card_list_msg = F2(
 	function (id, card_msg) {
-		return A2($author$project$Main$ToProConListView, id, card_msg);
+		if (card_msg.$ === 2) {
+			var action = card_msg.a;
+			return $author$project$Main$ActOnListViews(action);
+		} else {
+			return A2($author$project$Main$ToProConListView, id, card_msg);
+		}
 	});
 var $rtfeldman$elm_css$Css$Preprocess$ApplyStyles = function (a) {
 	return {$: 6, a: a};
@@ -6080,21 +6191,21 @@ var $rtfeldman$elm_css$Css$Internal$lengthConverter = F3(
 		return {
 			bi: 0,
 			br: 0,
-			ah: 0,
-			n: 0,
-			aE: 0,
+			af: 0,
+			m: 0,
+			aD: 0,
 			al: 0,
-			J: 0,
+			H: 0,
 			am: 0,
 			an: 0,
+			R: 0,
 			S: 0,
-			T: 0,
-			A: 0,
-			L: numericValue,
-			au: 0,
-			aw: unitLabel,
-			aN: units,
-			C: _Utils_ap(
+			y: 0,
+			J: numericValue,
+			at: 0,
+			av: unitLabel,
+			aM: units,
+			A: _Utils_ap(
 				$elm$core$String$fromFloat(numericValue),
 				unitLabel)
 		};
@@ -6113,7 +6224,7 @@ var $rtfeldman$elm_css$Css$property = F2(
 		return $rtfeldman$elm_css$Css$Preprocess$AppendProperty(key + (':' + value));
 	});
 var $rtfeldman$elm_css$Css$color = function (c) {
-	return A2($rtfeldman$elm_css$Css$property, 'color', c.C);
+	return A2($rtfeldman$elm_css$Css$property, 'color', c.A);
 };
 var $elm$core$String$cons = _String_cons;
 var $rtfeldman$elm_css$Css$withPrecedingHash = function (str) {
@@ -6121,12 +6232,12 @@ var $rtfeldman$elm_css$Css$withPrecedingHash = function (str) {
 };
 var $rtfeldman$elm_css$Css$erroneousHex = function (str) {
 	return {
-		az: 1,
-		aB: 0,
-		z: 0,
-		aD: 0,
-		aI: 0,
-		C: $rtfeldman$elm_css$Css$withPrecedingHash(str)
+		ay: 1,
+		aA: 0,
+		x: 0,
+		aC: 0,
+		aH: 0,
+		A: $rtfeldman$elm_css$Css$withPrecedingHash(str)
 	};
 };
 var $elm$core$String$foldr = _String_foldr;
@@ -6398,12 +6509,12 @@ var $rtfeldman$elm_css$Css$validHex = F5(
 			var blue = _v6.a.a;
 			var alpha = _v6.b.a;
 			return {
-				az: alpha / 255,
-				aB: blue,
-				z: 0,
-				aD: green,
-				aI: red,
-				C: $rtfeldman$elm_css$Css$withPrecedingHash(str)
+				ay: alpha / 255,
+				aA: blue,
+				x: 0,
+				aC: green,
+				aH: red,
+				A: $rtfeldman$elm_css$Css$withPrecedingHash(str)
 			};
 		} else {
 			return $rtfeldman$elm_css$Css$erroneousHex(str);
@@ -6515,19 +6626,19 @@ var $rtfeldman$elm_css$Css$prop4 = F5(
 				$elm$core$String$join,
 				' ',
 				_List_fromArray(
-					[argA.C, argB.C, argC.C, argD.C])));
+					[argA.A, argB.A, argC.A, argD.A])));
 	});
 var $rtfeldman$elm_css$Css$textShadow4 = $rtfeldman$elm_css$Css$prop4('text-shadow');
 var $author$project$Styling$theme = {
-	bM: $rtfeldman$elm_css$Css$hex('ff8c1a'),
-	bN: $rtfeldman$elm_css$Css$hex('ff8000'),
-	bd: $rtfeldman$elm_css$Css$hex('ff9933'),
-	bW: $rtfeldman$elm_css$Css$hex('ff1a66'),
-	bX: $rtfeldman$elm_css$Css$hex('ff0055'),
-	bY: $rtfeldman$elm_css$Css$hex('ff3377'),
-	b0: $rtfeldman$elm_css$Css$hex('9494b8'),
-	b1: $rtfeldman$elm_css$Css$hex('8585ad'),
-	b2: $rtfeldman$elm_css$Css$hex('a3a3c2'),
+	bN: $rtfeldman$elm_css$Css$hex('96a9cf'),
+	bO: $rtfeldman$elm_css$Css$hex('8fa3cc'),
+	bc: $rtfeldman$elm_css$Css$hex('a8b7d7'),
+	bX: $rtfeldman$elm_css$Css$hex('84b082'),
+	bY: $rtfeldman$elm_css$Css$hex('74a772'),
+	bZ: $rtfeldman$elm_css$Css$hex('93ba91'),
+	a0: $rtfeldman$elm_css$Css$hex('f9b38a'),
+	b1: $rtfeldman$elm_css$Css$hex('f9b086'),
+	bg: $rtfeldman$elm_css$Css$hex('fac09e'),
 	b3: $rtfeldman$elm_css$Css$hex('ffffff')
 };
 var $author$project$Styling$basicFont = $rtfeldman$elm_css$Css$batch(
@@ -6543,7 +6654,7 @@ var $author$project$Styling$basicFont = $rtfeldman$elm_css$Css$batch(
 		]));
 var $rtfeldman$elm_css$Css$prop1 = F2(
 	function (key, arg) {
-		return A2($rtfeldman$elm_css$Css$property, key, arg.C);
+		return A2($rtfeldman$elm_css$Css$property, key, arg.A);
 	});
 var $rtfeldman$elm_css$Css$center = $rtfeldman$elm_css$Css$prop1('center');
 var $rtfeldman$elm_css$Css$displayFlex = A2($rtfeldman$elm_css$Css$property, 'display', 'flex');
@@ -6558,16 +6669,16 @@ var $rtfeldman$elm_css$Css$flex = $rtfeldman$elm_css$Css$prop1('flex');
 var $rtfeldman$elm_css$Css$UnitlessInteger = 0;
 var $rtfeldman$elm_css$Css$int = function (val) {
 	return {
-		H: 0,
-		aU: 0,
-		T: 0,
-		A: 0,
-		aG: 0,
-		aW: 0,
-		L: val,
-		aw: '',
-		aN: 0,
-		C: $elm$core$String$fromInt(val)
+		G: 0,
+		aT: 0,
+		S: 0,
+		y: 0,
+		aF: 0,
+		aV: 0,
+		J: val,
+		av: '',
+		aM: 0,
+		A: $elm$core$String$fromInt(val)
 	};
 };
 var $rtfeldman$elm_css$Css$justifyContent = function (fn) {
@@ -6577,10 +6688,6 @@ var $rtfeldman$elm_css$Css$justifyContent = function (fn) {
 		'justify-content',
 		fn($rtfeldman$elm_css$Css$Internal$lengthForOverloadedProperty));
 };
-var $rtfeldman$elm_css$VirtualDom$Styled$Attribute = F3(
-	function (a, b, c) {
-		return {$: 0, a: a, b: b, c: c};
-	});
 var $rtfeldman$elm_css$Css$Structure$UniversalSelectorSequence = function (a) {
 	return {$: 1, a: a};
 };
@@ -6604,11 +6711,6 @@ var $elm$core$List$any = F2(
 				}
 			}
 		}
-	});
-var $elm$core$Basics$composeL = F3(
-	function (g, f, x) {
-		return g(
-			f(x));
 	});
 var $elm$core$Basics$not = _Basics_not;
 var $elm$core$List$all = F2(
@@ -6778,8 +6880,8 @@ var $rtfeldman$elm_css$Css$Structure$compactHelp = F2(
 					A2($elm$core$List$cons, declaration, declarations));
 			case 6:
 				var record = declaration.a;
-				return $elm$core$String$isEmpty(record.ci) ? _Utils_Tuple2(keyframesByName, declarations) : _Utils_Tuple2(
-					A3($elm$core$Dict$insert, record.cu, record.ci, keyframesByName),
+				return $elm$core$String$isEmpty(record.ch) ? _Utils_Tuple2(keyframesByName, declarations) : _Utils_Tuple2(
+					A3($elm$core$Dict$insert, record.ct, record.ch, keyframesByName),
 					declarations);
 			case 7:
 				var properties = declaration.a;
@@ -6826,16 +6928,16 @@ var $rtfeldman$elm_css$Css$Structure$withKeyframeDeclarations = F2(
 					var name = _v0.a;
 					var decl = _v0.b;
 					return $rtfeldman$elm_css$Css$Structure$Keyframes(
-						{ci: decl, cu: name});
+						{ch: decl, ct: name});
 				},
 				$elm$core$Dict$toList(keyframesByName)),
 			compactedDeclarations);
 	});
 var $rtfeldman$elm_css$Css$Structure$compactStylesheet = function (_v0) {
 	var charset = _v0.bt;
-	var imports = _v0.bC;
-	var namespaces = _v0.bH;
-	var declarations = _v0.cj;
+	var imports = _v0.bD;
+	var namespaces = _v0.bI;
+	var declarations = _v0.ci;
 	var _v1 = A3(
 		$elm$core$List$foldr,
 		$rtfeldman$elm_css$Css$Structure$compactHelp,
@@ -6844,7 +6946,7 @@ var $rtfeldman$elm_css$Css$Structure$compactStylesheet = function (_v0) {
 	var keyframesByName = _v1.a;
 	var compactedDeclarations = _v1.b;
 	var finalDeclarations = A2($rtfeldman$elm_css$Css$Structure$withKeyframeDeclarations, keyframesByName, compactedDeclarations);
-	return {bt: charset, cj: finalDeclarations, bC: imports, bH: namespaces};
+	return {bt: charset, ci: finalDeclarations, bD: imports, bI: namespaces};
 };
 var $elm$core$Maybe$map = F2(
 	function (f, maybe) {
@@ -6879,13 +6981,13 @@ var $elm$core$List$filter = F2(
 			list);
 	});
 var $rtfeldman$elm_css$Css$Structure$Output$mediaExpressionToString = function (expression) {
-	return '(' + (expression.by + (A2(
+	return '(' + (expression.bz + (A2(
 		$elm$core$Maybe$withDefault,
 		'',
 		A2(
 			$elm$core$Maybe$map,
 			$elm$core$Basics$append(': '),
-			expression.C)) + ')'));
+			expression.A)) + ')'));
 };
 var $rtfeldman$elm_css$Css$Structure$Output$mediaTypeToString = function (mediaType) {
 	switch (mediaType) {
@@ -7127,8 +7229,8 @@ var $rtfeldman$elm_css$Css$Structure$Output$prettyPrintDeclaration = function (d
 		case 5:
 			return 'TODO';
 		case 6:
-			var name = decl.a.cu;
-			var declaration = decl.a.ci;
+			var name = decl.a.ct;
+			var declaration = decl.a.ch;
 			return '@keyframes ' + (name + (' {\n' + (declaration + '\n}')));
 		case 7:
 			return 'TODO';
@@ -7140,9 +7242,9 @@ var $rtfeldman$elm_css$Css$Structure$Output$prettyPrintDeclaration = function (d
 };
 var $rtfeldman$elm_css$Css$Structure$Output$prettyPrint = function (_v0) {
 	var charset = _v0.bt;
-	var imports = _v0.bC;
-	var namespaces = _v0.bH;
-	var declarations = _v0.cj;
+	var imports = _v0.bD;
+	var namespaces = _v0.bI;
+	var declarations = _v0.ci;
 	return A2(
 		$elm$core$String$join,
 		'\n\n',
@@ -7557,7 +7659,7 @@ var $rtfeldman$elm_css$Css$Structure$concatMapLastStyleBlock = F2(
 	});
 var $rtfeldman$elm_css$ElmCssVendor$Murmur3$HashData = F4(
 	function (shift, seed, hash, charsProcessed) {
-		return {ac: charsProcessed, ak: hash, W: seed, aq: shift};
+		return {ab: charsProcessed, ai: hash, V: seed, aq: shift};
 	});
 var $rtfeldman$elm_css$ElmCssVendor$Murmur3$c1 = 3432918353;
 var $rtfeldman$elm_css$ElmCssVendor$Murmur3$c2 = 461845907;
@@ -7573,14 +7675,14 @@ var $rtfeldman$elm_css$ElmCssVendor$Murmur3$rotlBy = F2(
 	});
 var $elm$core$Bitwise$xor = _Bitwise_xor;
 var $rtfeldman$elm_css$ElmCssVendor$Murmur3$finalize = function (data) {
-	var acc = (!(!data.ak)) ? (data.W ^ A2(
+	var acc = (!(!data.ai)) ? (data.V ^ A2(
 		$rtfeldman$elm_css$ElmCssVendor$Murmur3$multiplyBy,
 		$rtfeldman$elm_css$ElmCssVendor$Murmur3$c2,
 		A2(
 			$rtfeldman$elm_css$ElmCssVendor$Murmur3$rotlBy,
 			15,
-			A2($rtfeldman$elm_css$ElmCssVendor$Murmur3$multiplyBy, $rtfeldman$elm_css$ElmCssVendor$Murmur3$c1, data.ak)))) : data.W;
-	var h0 = acc ^ data.ac;
+			A2($rtfeldman$elm_css$ElmCssVendor$Murmur3$multiplyBy, $rtfeldman$elm_css$ElmCssVendor$Murmur3$c1, data.ai)))) : data.V;
+	var h0 = acc ^ data.ab;
 	var h1 = A2($rtfeldman$elm_css$ElmCssVendor$Murmur3$multiplyBy, 2246822507, h0 ^ (h0 >>> 16));
 	var h2 = A2($rtfeldman$elm_css$ElmCssVendor$Murmur3$multiplyBy, 3266489909, h1 ^ (h1 >>> 13));
 	return (h2 ^ (h2 >>> 16)) >>> 0;
@@ -7604,17 +7706,17 @@ var $rtfeldman$elm_css$ElmCssVendor$Murmur3$mix = F2(
 	});
 var $rtfeldman$elm_css$ElmCssVendor$Murmur3$hashFold = F2(
 	function (c, data) {
-		var res = data.ak | ((255 & $elm$core$Char$toCode(c)) << data.aq);
+		var res = data.ai | ((255 & $elm$core$Char$toCode(c)) << data.aq);
 		var _v0 = data.aq;
 		if (_v0 === 24) {
 			return {
-				ac: data.ac + 1,
-				ak: 0,
-				W: A2($rtfeldman$elm_css$ElmCssVendor$Murmur3$mix, data.W, res),
+				ab: data.ab + 1,
+				ai: 0,
+				V: A2($rtfeldman$elm_css$ElmCssVendor$Murmur3$mix, data.V, res),
 				aq: 0
 			};
 		} else {
-			return {ac: data.ac + 1, ak: res, W: data.W, aq: data.aq + 8};
+			return {ab: data.ab + 1, ai: res, V: data.V, aq: data.aq + 8};
 		}
 	});
 var $rtfeldman$elm_css$ElmCssVendor$Murmur3$hashString = F2(
@@ -8211,7 +8313,7 @@ var $rtfeldman$elm_css$Css$Preprocess$Resolve$applyStyles = F2(
 						_List_fromArray(
 							[
 								$rtfeldman$elm_css$Css$Structure$Keyframes(
-								{ci: str, cu: name})
+								{ch: str, ct: name})
 							]));
 				case 4:
 					var _v12 = styles.a;
@@ -8347,12 +8449,12 @@ var $rtfeldman$elm_css$Css$Preprocess$Resolve$toDeclarations = function (snippet
 };
 var $rtfeldman$elm_css$Css$Preprocess$Resolve$toStructure = function (_v0) {
 	var charset = _v0.bt;
-	var imports = _v0.bC;
-	var namespaces = _v0.bH;
-	var snippets = _v0.bZ;
+	var imports = _v0.bD;
+	var namespaces = _v0.bI;
+	var snippets = _v0.b_;
 	var declarations = $rtfeldman$elm_css$Css$Preprocess$Resolve$extract(
 		A2($elm$core$List$concatMap, $rtfeldman$elm_css$Css$Preprocess$unwrapSnippet, snippets));
-	return {bt: charset, cj: declarations, bC: imports, bH: namespaces};
+	return {bt: charset, ci: declarations, bD: imports, bI: namespaces};
 };
 var $rtfeldman$elm_css$Css$Preprocess$Resolve$compileHelp = function (sheet) {
 	return $rtfeldman$elm_css$Css$Structure$Output$prettyPrint(
@@ -8384,7 +8486,7 @@ var $rtfeldman$elm_css$VirtualDom$Styled$makeSnippet = F2(
 	});
 var $rtfeldman$elm_css$VirtualDom$Styled$murmurSeed = 15739;
 var $rtfeldman$elm_css$Css$Preprocess$stylesheet = function (snippets) {
-	return {bt: $elm$core$Maybe$Nothing, bC: _List_Nil, bH: _List_Nil, bZ: snippets};
+	return {bt: $elm$core$Maybe$Nothing, bD: _List_Nil, bI: _List_Nil, b_: snippets};
 };
 var $rtfeldman$elm_css$VirtualDom$Styled$getClassname = function (styles) {
 	return $elm$core$List$isEmpty(styles) ? 'unstyled' : A2(
@@ -8440,46 +8542,41 @@ var $author$project$Styling$nocntntdiv = A2(
 			$rtfeldman$elm_css$Css$justifyContent($rtfeldman$elm_css$Css$center),
 			$author$project$Styling$basicFont
 		]));
-var $rtfeldman$elm_css$VirtualDom$Styled$Unstyled = function (a) {
-	return {$: 4, a: a};
-};
-var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
-var $rtfeldman$elm_css$VirtualDom$Styled$text = function (str) {
-	return $rtfeldman$elm_css$VirtualDom$Styled$Unstyled(
-		$elm$virtual_dom$VirtualDom$text(str));
-};
-var $rtfeldman$elm_css$Html$Styled$text = $rtfeldman$elm_css$VirtualDom$Styled$text;
-var $author$project$ProConListView$AddList = {$: 1};
-var $author$project$ProConListView$Change = function (a) {
+var $author$project$ProConListView$ActOnLists = function (a) {
 	return {$: 3, a: a};
 };
-var $author$project$ProConListView$Edit = function (a) {
+var $author$project$WithId$Delete = function (a) {
 	return {$: 2, a: a};
 };
-var $elm$virtual_dom$VirtualDom$Normal = function (a) {
-	return {$: 0, a: a};
+var $author$project$WithId$Down = 1;
+var $author$project$WithId$Move = F2(
+	function (a, b) {
+		return {$: 0, a: a, b: b};
+	});
+var $author$project$ProConListView$TextAction = function (a) {
+	return {$: 1, a: a};
 };
-var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
-var $rtfeldman$elm_css$VirtualDom$Styled$on = F2(
-	function (eventName, handler) {
-		return A3(
-			$rtfeldman$elm_css$VirtualDom$Styled$Attribute,
-			A2($elm$virtual_dom$VirtualDom$on, eventName, handler),
-			_List_Nil,
-			'');
-	});
-var $rtfeldman$elm_css$Html$Styled$Events$on = F2(
-	function (event, decoder) {
-		return A2(
-			$rtfeldman$elm_css$VirtualDom$Styled$on,
-			event,
-			$elm$virtual_dom$VirtualDom$Normal(decoder));
-	});
+var $author$project$WithId$Up = 0;
+var $author$project$ProConListView$WithIdAction = function (a) {
+	return {$: 2, a: a};
+};
+var $author$project$WithText$Edit = function (a) {
+	return {$: 1, a: a};
+};
 var $rtfeldman$elm_css$Html$Styled$Events$onDoubleClick = function (msg) {
 	return A2(
 		$rtfeldman$elm_css$Html$Styled$Events$on,
 		'dblclick',
 		$elm$json$Json$Decode$succeed(msg));
+};
+var $author$project$WithText$getDoubleClick = F2(
+	function (model, lift) {
+		return $rtfeldman$elm_css$Html$Styled$Events$onDoubleClick(
+			lift(
+				$author$project$WithText$Edit(!model.bw)));
+	});
+var $author$project$WithText$Change = function (a) {
+	return {$: 0, a: a};
 };
 var $rtfeldman$elm_css$Html$Styled$Events$alwaysStop = function (x) {
 	return _Utils_Tuple2(x, true);
@@ -8512,26 +8609,13 @@ var $rtfeldman$elm_css$Html$Styled$Events$onInput = function (tagger) {
 			$rtfeldman$elm_css$Html$Styled$Events$alwaysStop,
 			A2($elm$json$Json$Decode$map, tagger, $rtfeldman$elm_css$Html$Styled$Events$targetValue)));
 };
-var $rtfeldman$elm_css$Css$EmUnits = 0;
-var $rtfeldman$elm_css$Css$em = A2($rtfeldman$elm_css$Css$Internal$lengthConverter, 0, 'em');
-var $rtfeldman$elm_css$Css$height = $rtfeldman$elm_css$Css$prop1('height');
-var $rtfeldman$elm_css$Css$marginLeft = $rtfeldman$elm_css$Css$prop1('margin-left');
-var $rtfeldman$elm_css$Css$none = {aa: 0, bp: 0, p: 0, a: 0, h: 0, co: 0, bE: 0, a7: 0, an: 0, S: 0, A: 0, c: 0, b: 0, a9: 0, aY: 0, cy: 0, w: 0, aZ: 0, cA: 0, at: 0, Z: 0, s: 0, e: 0, cE: 0, C: 'none'};
-var $rtfeldman$elm_css$Css$resize = $rtfeldman$elm_css$Css$prop1('resize');
-var $author$project$Styling$pctitletext = A2(
-	$rtfeldman$elm_css$Html$Styled$styled,
-	$rtfeldman$elm_css$Html$Styled$div,
-	_List_fromArray(
-		[
-			$author$project$Styling$basicFont,
-			$rtfeldman$elm_css$Css$marginLeft(
-			$rtfeldman$elm_css$Css$em(2)),
-			$rtfeldman$elm_css$Css$height(
-			$rtfeldman$elm_css$Css$em(2)),
-			$rtfeldman$elm_css$Css$resize($rtfeldman$elm_css$Css$none),
-			$rtfeldman$elm_css$Css$displayFlex,
-			$rtfeldman$elm_css$Css$alignItems($rtfeldman$elm_css$Css$center)
-		]));
+var $author$project$WithText$getOnEdit = function (lift) {
+	var onStr = function (str) {
+		return lift(
+			$author$project$WithText$Change(str));
+	};
+	return $rtfeldman$elm_css$Html$Styled$Events$onInput(onStr);
+};
 var $rtfeldman$elm_css$VirtualDom$Styled$property = F2(
 	function (key, value) {
 		return A3(
@@ -8547,54 +8631,36 @@ var $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty = F2(
 			key,
 			$elm$json$Json$Encode$string(string));
 	});
-var $rtfeldman$elm_css$Html$Styled$Attributes$placeholder = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('placeholder');
-var $rtfeldman$elm_css$Html$Styled$textarea = $rtfeldman$elm_css$Html$Styled$node('textarea');
 var $rtfeldman$elm_css$Html$Styled$Attributes$value = $rtfeldman$elm_css$Html$Styled$Attributes$stringProperty('value');
-var $author$project$ProConListView$get_title = F2(
-	function (model, lift) {
-		var strToOut = function (str) {
-			return A2(
-				lift,
-				model.I,
-				$author$project$ProConListView$Change(str));
-		};
-		return model.af ? A2(
-			$author$project$Styling$pctitletext,
-			_List_Nil,
+var $author$project$WithText$getClickableTextArea = F4(
+	function (_static, edit, model, lift) {
+		return model.bw ? A2(
+			edit,
 			_List_fromArray(
 				[
-					A2(
-					$rtfeldman$elm_css$Html$Styled$textarea,
-					_List_fromArray(
-						[
-							$rtfeldman$elm_css$Html$Styled$Events$onDoubleClick(
-							A2(
-								lift,
-								model.I,
-								$author$project$ProConListView$Edit(!model.af))),
-							$rtfeldman$elm_css$Html$Styled$Attributes$placeholder('🤷\u200D♀️❔🤷\u200D♂️'),
-							$rtfeldman$elm_css$Html$Styled$Events$onInput(strToOut),
-							$rtfeldman$elm_css$Html$Styled$Attributes$value(model.b5)
-						]),
-					_List_Nil)
-				])) : A2(
-			$author$project$Styling$pctitletext,
+					A2($author$project$WithText$getDoubleClick, model, lift),
+					$author$project$WithText$getOnEdit(lift),
+					$rtfeldman$elm_css$Html$Styled$Attributes$value(model.b2)
+				]),
+			_List_Nil) : A2(
+			_static,
 			_List_fromArray(
 				[
-					$rtfeldman$elm_css$Html$Styled$Events$onDoubleClick(
-					A2(
-						lift,
-						model.I,
-						$author$project$ProConListView$Edit(!model.af)))
+					A2($author$project$WithText$getDoubleClick, model, lift)
 				]),
 			_List_fromArray(
 				[
-					$rtfeldman$elm_css$Html$Styled$text(model.b5)
+					$rtfeldman$elm_css$Html$Styled$text(model.b2)
 				]));
 	});
 var $author$project$ProConListView$lift_pro_con_msg = F2(
 	function (id, listmsg) {
-		return A2($author$project$ProConListView$ToProConList, id, listmsg);
+		if (listmsg.$ === 2) {
+			var action = listmsg.a;
+			return $author$project$ProConListView$ActOnLists(action);
+		} else {
+			return A2($author$project$ProConListView$ToProConList, id, listmsg);
+		}
 	});
 var $rtfeldman$elm_css$VirtualDom$Styled$KeyedNode = F3(
 	function (a, b, c) {
@@ -8707,40 +8773,13 @@ var $rtfeldman$elm_css$VirtualDom$Styled$map = F2(
 		}
 	});
 var $rtfeldman$elm_css$Html$Styled$map = $rtfeldman$elm_css$VirtualDom$Styled$map;
-var $rtfeldman$elm_css$Html$Styled$Events$onClick = function (msg) {
-	return A2(
-		$rtfeldman$elm_css$Html$Styled$Events$on,
-		'click',
-		$elm$json$Json$Decode$succeed(msg));
-};
-var $rtfeldman$elm_css$Css$flexDirection = $rtfeldman$elm_css$Css$prop1('flex-direction');
-var $rtfeldman$elm_css$Css$hidden = {p: 0, ao: 0, C: 'hidden', aO: 0};
-var $rtfeldman$elm_css$Css$overflowX = $rtfeldman$elm_css$Css$prop1('overflow-x');
-var $rtfeldman$elm_css$Css$overflowY = $rtfeldman$elm_css$Css$prop1('overflow-y');
-var $rtfeldman$elm_css$Css$padding = $rtfeldman$elm_css$Css$prop1('padding');
-var $rtfeldman$elm_css$Css$row = {a4: 0, aC: 0, C: 'row'};
-var $rtfeldman$elm_css$Css$scroll = {aA: 0, bp: 0, bE: 0, ao: 0, cB: 0, C: 'scroll'};
-var $rtfeldman$elm_css$Css$zIndex = $rtfeldman$elm_css$Css$prop1('z-index');
-var $author$project$Styling$pccontent = A2(
-	$rtfeldman$elm_css$Html$Styled$styled,
-	$rtfeldman$elm_css$Html$Styled$div,
-	_List_fromArray(
-		[
-			$rtfeldman$elm_css$Css$flex(
-			$rtfeldman$elm_css$Css$int(1)),
-			$rtfeldman$elm_css$Css$displayFlex,
-			$rtfeldman$elm_css$Css$overflowX($rtfeldman$elm_css$Css$scroll),
-			$rtfeldman$elm_css$Css$overflowY($rtfeldman$elm_css$Css$hidden),
-			$rtfeldman$elm_css$Css$flexDirection($rtfeldman$elm_css$Css$row),
-			$rtfeldman$elm_css$Css$padding(
-			$rtfeldman$elm_css$Css$em(0.25)),
-			$rtfeldman$elm_css$Css$zIndex(
-			$rtfeldman$elm_css$Css$int(7))
-		]));
+var $rtfeldman$elm_css$Css$row = {a4: 0, aB: 0, A: 'row'};
 var $rtfeldman$elm_css$Css$column = _Utils_update(
 	$rtfeldman$elm_css$Css$row,
-	{C: 'column'});
+	{A: 'column'});
+var $rtfeldman$elm_css$Css$flexDirection = $rtfeldman$elm_css$Css$prop1('flex-direction');
 var $rtfeldman$elm_css$Css$flexStart = $rtfeldman$elm_css$Css$prop1('flex-start');
+var $rtfeldman$elm_css$Css$hidden = {o: 0, ao: 0, A: 'hidden', aN: 0};
 var $rtfeldman$elm_css$Css$maxWidth = $rtfeldman$elm_css$Css$prop1('max-width');
 var $rtfeldman$elm_css$Css$overflow = $rtfeldman$elm_css$Css$prop1('overflow');
 var $rtfeldman$elm_css$Css$PcUnits = 0;
@@ -8748,7 +8787,7 @@ var $rtfeldman$elm_css$Css$pc = A2($rtfeldman$elm_css$Css$Internal$lengthConvert
 var $rtfeldman$elm_css$Css$VwUnits = 0;
 var $rtfeldman$elm_css$Css$vw = A2($rtfeldman$elm_css$Css$Internal$lengthConverter, 0, 'vw');
 var $rtfeldman$elm_css$Css$width = $rtfeldman$elm_css$Css$prop1('width');
-var $author$project$Styling$pclistview = A2(
+var $author$project$Styling$proConListViewBody = A2(
 	$rtfeldman$elm_css$Html$Styled$styled,
 	$rtfeldman$elm_css$Html$Styled$div,
 	_List_fromArray(
@@ -8764,22 +8803,75 @@ var $author$project$Styling$pclistview = A2(
 			$rtfeldman$elm_css$Css$flex(
 			$rtfeldman$elm_css$Css$int(1))
 		]));
+var $rtfeldman$elm_css$Css$EmUnits = 0;
+var $rtfeldman$elm_css$Css$em = A2($rtfeldman$elm_css$Css$Internal$lengthConverter, 0, 'em');
+var $rtfeldman$elm_css$Css$overflowX = $rtfeldman$elm_css$Css$prop1('overflow-x');
+var $rtfeldman$elm_css$Css$overflowY = $rtfeldman$elm_css$Css$prop1('overflow-y');
+var $rtfeldman$elm_css$Css$padding = $rtfeldman$elm_css$Css$prop1('padding');
+var $rtfeldman$elm_css$Css$scroll = {az: 0, bp: 0, bF: 0, ao: 0, cA: 0, A: 'scroll'};
+var $rtfeldman$elm_css$Css$zIndex = $rtfeldman$elm_css$Css$prop1('z-index');
+var $author$project$Styling$proConListViewContent = A2(
+	$rtfeldman$elm_css$Html$Styled$styled,
+	$rtfeldman$elm_css$Html$Styled$div,
+	_List_fromArray(
+		[
+			$rtfeldman$elm_css$Css$flex(
+			$rtfeldman$elm_css$Css$int(1)),
+			$rtfeldman$elm_css$Css$displayFlex,
+			$rtfeldman$elm_css$Css$overflowX($rtfeldman$elm_css$Css$scroll),
+			$rtfeldman$elm_css$Css$overflowY($rtfeldman$elm_css$Css$hidden),
+			$rtfeldman$elm_css$Css$flexDirection($rtfeldman$elm_css$Css$row),
+			$rtfeldman$elm_css$Css$padding(
+			$rtfeldman$elm_css$Css$em(0.25)),
+			$rtfeldman$elm_css$Css$zIndex(
+			$rtfeldman$elm_css$Css$int(7))
+		]));
+var $rtfeldman$elm_css$Css$marginLeft = $rtfeldman$elm_css$Css$prop1('margin-left');
+var $rtfeldman$elm_css$Css$minHeight = $rtfeldman$elm_css$Css$prop1('min-height');
+var $rtfeldman$elm_css$Css$none = {_: 0, bp: 0, o: 0, a: 0, f: 0, cn: 0, bF: 0, a6: 0, an: 0, R: 0, y: 0, c: 0, b: 0, a8: 0, aX: 0, cx: 0, v: 0, aY: 0, cz: 0, as: 0, Y: 0, r: 0, e: 0, cE: 0, A: 'none'};
+var $rtfeldman$elm_css$Css$resize = $rtfeldman$elm_css$Css$prop1('resize');
+var $rtfeldman$elm_css$Html$Styled$textarea = $rtfeldman$elm_css$Html$Styled$node('textarea');
+var $author$project$Styling$proConListViewEdit = A2(
+	$rtfeldman$elm_css$Html$Styled$styled,
+	$rtfeldman$elm_css$Html$Styled$textarea,
+	_List_fromArray(
+		[
+			$rtfeldman$elm_css$Css$marginLeft(
+			$rtfeldman$elm_css$Css$em(2)),
+			$rtfeldman$elm_css$Css$flex(
+			$rtfeldman$elm_css$Css$int(10)),
+			$rtfeldman$elm_css$Css$minHeight(
+			$rtfeldman$elm_css$Css$em(1)),
+			$rtfeldman$elm_css$Css$resize($rtfeldman$elm_css$Css$none)
+		]));
+var $author$project$Styling$proConListViewStatic = A2(
+	$rtfeldman$elm_css$Html$Styled$styled,
+	$rtfeldman$elm_css$Html$Styled$div,
+	_List_fromArray(
+		[
+			$rtfeldman$elm_css$Css$marginLeft(
+			$rtfeldman$elm_css$Css$em(2)),
+			$rtfeldman$elm_css$Css$flex(
+			$rtfeldman$elm_css$Css$int(10)),
+			$rtfeldman$elm_css$Css$minHeight(
+			$rtfeldman$elm_css$Css$em(1))
+		]));
 var $rtfeldman$elm_css$Css$backgroundColor = function (c) {
-	return A2($rtfeldman$elm_css$Css$property, 'background-color', c.C);
+	return A2($rtfeldman$elm_css$Css$property, 'background-color', c.A);
 };
 var $rtfeldman$elm_css$Css$boxShadow4 = $rtfeldman$elm_css$Css$prop4('box-shadow');
-var $rtfeldman$elm_css$Css$spaceBetween = $rtfeldman$elm_css$Css$prop1('space-between');
-var $author$project$Styling$pctitle = A2(
+var $rtfeldman$elm_css$Css$height = $rtfeldman$elm_css$Css$prop1('height');
+var $author$project$Styling$proConListViewTitleContainer = A2(
 	$rtfeldman$elm_css$Html$Styled$styled,
 	$rtfeldman$elm_css$Html$Styled$div,
 	_List_fromArray(
 		[
 			$rtfeldman$elm_css$Css$height(
 			$rtfeldman$elm_css$Css$em(2)),
-			$rtfeldman$elm_css$Css$backgroundColor($author$project$Styling$theme.bX),
+			$rtfeldman$elm_css$Css$backgroundColor($author$project$Styling$theme.bY),
 			$rtfeldman$elm_css$Css$displayFlex,
+			$author$project$Styling$basicFont,
 			$rtfeldman$elm_css$Css$alignItems($rtfeldman$elm_css$Css$center),
-			$rtfeldman$elm_css$Css$justifyContent($rtfeldman$elm_css$Css$spaceBetween),
 			A4(
 			$rtfeldman$elm_css$Css$boxShadow4,
 			$rtfeldman$elm_css$Css$em(0),
@@ -8789,9 +8881,9 @@ var $author$project$Styling$pctitle = A2(
 			$rtfeldman$elm_css$Css$zIndex(
 			$rtfeldman$elm_css$Css$int(9))
 		]));
-var $rtfeldman$elm_css$Css$bold = {H: 0, C: 'bold'};
+var $rtfeldman$elm_css$Css$bold = {G: 0, A: 'bold'};
 var $rtfeldman$elm_css$Css$fontWeight = function (_v0) {
-	var value = _v0.C;
+	var value = _v0.A;
 	return A2($rtfeldman$elm_css$Css$property, 'font-weight', value);
 };
 var $rtfeldman$elm_css$Css$Preprocess$ExtendSelector = F2(
@@ -8845,100 +8937,28 @@ var $author$project$Styling$sbtn = A2(
 	$rtfeldman$elm_css$Html$Styled$div,
 	_List_fromArray(
 		[
-			$rtfeldman$elm_css$Css$backgroundColor($author$project$Styling$theme.bW),
+			$rtfeldman$elm_css$Css$backgroundColor($author$project$Styling$theme.bX),
 			$author$project$Styling$basicFont,
 			$author$project$Styling$btnStyle,
 			$rtfeldman$elm_css$Css$hover(
 			_List_fromArray(
 				[
-					$rtfeldman$elm_css$Css$backgroundColor($author$project$Styling$theme.bY)
+					$rtfeldman$elm_css$Css$backgroundColor($author$project$Styling$theme.bZ)
 				]))
 		]));
-var $author$project$ProConList$Change = function (a) {
-	return {$: 1, a: a};
-};
-var $author$project$ProConList$Edit = function (a) {
+var $author$project$ProConList$ProConAction = function (a) {
 	return {$: 2, a: a};
 };
-var $rtfeldman$elm_css$Css$minHeight = $rtfeldman$elm_css$Css$prop1('min-height');
-var $author$project$Styling$pcltitletext = A2(
-	$rtfeldman$elm_css$Html$Styled$styled,
-	$rtfeldman$elm_css$Html$Styled$div,
-	_List_fromArray(
-		[
-			$author$project$Styling$basicFont,
-			$rtfeldman$elm_css$Css$height(
-			$rtfeldman$elm_css$Css$em(3)),
-			$rtfeldman$elm_css$Css$minHeight(
-			$rtfeldman$elm_css$Css$em(3)),
-			$rtfeldman$elm_css$Css$resize($rtfeldman$elm_css$Css$none),
-			$rtfeldman$elm_css$Css$backgroundColor($author$project$Styling$theme.b1),
-			$rtfeldman$elm_css$Css$displayFlex,
-			$rtfeldman$elm_css$Css$alignItems($rtfeldman$elm_css$Css$center),
-			$rtfeldman$elm_css$Css$justifyContent($rtfeldman$elm_css$Css$center)
-		]));
-var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
-var $rtfeldman$elm_css$VirtualDom$Styled$style = F2(
-	function (key, val) {
-		return A3(
-			$rtfeldman$elm_css$VirtualDom$Styled$Attribute,
-			A2($elm$virtual_dom$VirtualDom$style, key, val),
-			_List_Nil,
-			'');
-	});
-var $rtfeldman$elm_css$Html$Styled$Attributes$style = $rtfeldman$elm_css$VirtualDom$Styled$style;
-var $author$project$ProConList$get_body = F2(
-	function (model, lift) {
-		var strToOut = function (str) {
-			return A2(
-				lift,
-				model.I,
-				$author$project$ProConList$Change(str));
-		};
-		return model.af ? A2(
-			$author$project$Styling$pcltitletext,
-			_List_Nil,
-			_List_fromArray(
-				[
-					A2(
-					$rtfeldman$elm_css$Html$Styled$textarea,
-					_List_fromArray(
-						[
-							$rtfeldman$elm_css$Html$Styled$Events$onDoubleClick(
-							A2(
-								lift,
-								model.I,
-								$author$project$ProConList$Edit(!model.af))),
-							$rtfeldman$elm_css$Html$Styled$Attributes$placeholder('🤷\u200D♀️❔🤷\u200D♂️'),
-							$rtfeldman$elm_css$Html$Styled$Events$onInput(strToOut),
-							$rtfeldman$elm_css$Html$Styled$Attributes$value(model.as),
-							A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'height', '3em'),
-							A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'resize', 'none')
-						]),
-					_List_Nil)
-				])) : A2(
-			$author$project$Styling$pcltitletext,
-			_List_fromArray(
-				[
-					$rtfeldman$elm_css$Html$Styled$Events$onDoubleClick(
-					A2(
-						lift,
-						model.I,
-						$author$project$ProConList$Edit(!model.af))),
-					A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'height', '3em')
-				]),
-			_List_fromArray(
-				[
-					$rtfeldman$elm_css$Html$Styled$text(model.as)
-				]));
-	});
+var $author$project$ProConList$TextAction = function (a) {
+	return {$: 1, a: a};
+};
 var $author$project$ProConList$lift_list_msg = F2(
 	function (id, list_msg) {
 		return A2($author$project$ProConList$ToList, id, list_msg);
 	});
 var $rtfeldman$elm_css$Css$margin = $rtfeldman$elm_css$Css$prop1('margin');
 var $rtfeldman$elm_css$Css$minWidth = $rtfeldman$elm_css$Css$prop1('min-width');
-var $author$project$Styling$pcl = A2(
+var $author$project$Styling$proConListBody = A2(
 	$rtfeldman$elm_css$Html$Styled$styled,
 	$rtfeldman$elm_css$Html$Styled$div,
 	_List_fromArray(
@@ -8961,8 +8981,79 @@ var $author$project$Styling$pcl = A2(
 			$rtfeldman$elm_css$Css$zIndex(
 			$rtfeldman$elm_css$Css$int(8))
 		]));
-var $author$project$Card$CardList$AddCard = {$: 4};
-var $author$project$Styling$cl = A2(
+var $rtfeldman$elm_css$Css$textAlign = function (fn) {
+	return A3(
+		$rtfeldman$elm_css$Css$Internal$getOverloadedProperty,
+		'textAlign',
+		'text-align',
+		fn($rtfeldman$elm_css$Css$Internal$lengthForOverloadedProperty));
+};
+var $author$project$Styling$proConListEdit = A2(
+	$rtfeldman$elm_css$Html$Styled$styled,
+	$rtfeldman$elm_css$Html$Styled$textarea,
+	_List_fromArray(
+		[
+			$rtfeldman$elm_css$Css$width(
+			$rtfeldman$elm_css$Css$pc(100)),
+			$rtfeldman$elm_css$Css$minHeight(
+			$rtfeldman$elm_css$Css$em(1)),
+			$rtfeldman$elm_css$Css$justifyContent($rtfeldman$elm_css$Css$center),
+			$rtfeldman$elm_css$Css$textAlign($rtfeldman$elm_css$Css$center),
+			$rtfeldman$elm_css$Css$resize($rtfeldman$elm_css$Css$none)
+		]));
+var $author$project$Styling$proConListStatic = A2(
+	$rtfeldman$elm_css$Html$Styled$styled,
+	$rtfeldman$elm_css$Html$Styled$div,
+	_List_fromArray(
+		[
+			$rtfeldman$elm_css$Css$width(
+			$rtfeldman$elm_css$Css$pc(100)),
+			$rtfeldman$elm_css$Css$minHeight(
+			$rtfeldman$elm_css$Css$em(1)),
+			$rtfeldman$elm_css$Css$justifyContent($rtfeldman$elm_css$Css$center),
+			$rtfeldman$elm_css$Css$textAlign($rtfeldman$elm_css$Css$center)
+		]));
+var $author$project$Styling$proConListTitleText = A2(
+	$rtfeldman$elm_css$Html$Styled$styled,
+	$rtfeldman$elm_css$Html$Styled$div,
+	_List_fromArray(
+		[
+			$author$project$Styling$basicFont,
+			$rtfeldman$elm_css$Css$minHeight(
+			$rtfeldman$elm_css$Css$em(3)),
+			$rtfeldman$elm_css$Css$resize($rtfeldman$elm_css$Css$none),
+			$rtfeldman$elm_css$Css$backgroundColor($author$project$Styling$theme.b1),
+			$rtfeldman$elm_css$Css$displayFlex,
+			$rtfeldman$elm_css$Css$alignItems($rtfeldman$elm_css$Css$center)
+		]));
+var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
+var $rtfeldman$elm_css$VirtualDom$Styled$style = F2(
+	function (key, val) {
+		return A3(
+			$rtfeldman$elm_css$VirtualDom$Styled$Attribute,
+			A2($elm$virtual_dom$VirtualDom$style, key, val),
+			_List_Nil,
+			'');
+	});
+var $rtfeldman$elm_css$Html$Styled$Attributes$style = $rtfeldman$elm_css$VirtualDom$Styled$style;
+var $author$project$Styling$tbtn = A2(
+	$rtfeldman$elm_css$Html$Styled$styled,
+	$rtfeldman$elm_css$Html$Styled$div,
+	_List_fromArray(
+		[
+			$rtfeldman$elm_css$Css$backgroundColor($author$project$Styling$theme.a0),
+			$author$project$Styling$basicFont,
+			$author$project$Styling$btnStyle,
+			$rtfeldman$elm_css$Css$hover(
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Css$backgroundColor($author$project$Styling$theme.bg)
+				]))
+		]));
+var $author$project$Card$CardList$ActOnCards = function (a) {
+	return {$: 1, a: a};
+};
+var $author$project$Styling$cardListBody = A2(
 	$rtfeldman$elm_css$Html$Styled$styled,
 	$rtfeldman$elm_css$Html$Styled$div,
 	_List_fromArray(
@@ -8983,7 +9074,15 @@ var $author$project$Styling$cl = A2(
 			$rtfeldman$elm_css$Css$zIndex(
 			$rtfeldman$elm_css$Css$int(4))
 		]));
-var $author$project$Styling$ctitle = A2(
+var $author$project$Styling$cardListCardContainer = A2(
+	$rtfeldman$elm_css$Html$Styled$styled,
+	$rtfeldman$elm_css$Html$Styled$div,
+	_List_fromArray(
+		[
+			$rtfeldman$elm_css$Css$displayFlex,
+			$rtfeldman$elm_css$Css$flexDirection($rtfeldman$elm_css$Css$column)
+		]));
+var $author$project$Styling$cardListTitle = A2(
 	$rtfeldman$elm_css$Html$Styled$styled,
 	$rtfeldman$elm_css$Html$Styled$div,
 	_List_fromArray(
@@ -8994,35 +9093,39 @@ var $author$project$Styling$ctitle = A2(
 			$rtfeldman$elm_css$Css$minHeight(
 			$rtfeldman$elm_css$Css$em(1.5)),
 			$rtfeldman$elm_css$Css$resize($rtfeldman$elm_css$Css$none),
-			$rtfeldman$elm_css$Css$backgroundColor($author$project$Styling$theme.bd),
+			$rtfeldman$elm_css$Css$backgroundColor($author$project$Styling$theme.bc),
 			$rtfeldman$elm_css$Css$displayFlex,
 			$rtfeldman$elm_css$Css$alignItems($rtfeldman$elm_css$Css$center),
 			$rtfeldman$elm_css$Css$justifyContent($rtfeldman$elm_css$Css$center)
 		]));
-var $author$project$Card$CardList$DeleteCard = function (a) {
-	return {$: 3, a: a};
-};
-var $author$project$Card$CardList$MoveCardDown = function (a) {
-	return {$: 2, a: a};
-};
-var $author$project$Card$CardList$MoveCardUp = function (a) {
-	return {$: 1, a: a};
-};
 var $author$project$Card$CardList$lift_card_msg = F2(
 	function (id, card_msg) {
-		switch (card_msg.$) {
-			case 2:
-				return $author$project$Card$CardList$MoveCardUp(id);
-			case 3:
-				return $author$project$Card$CardList$MoveCardDown(id);
-			case 4:
-				return $author$project$Card$CardList$DeleteCard(id);
-			default:
-				return A2($author$project$Card$CardList$ToCard, id, card_msg);
+		if (card_msg.$ === 1) {
+			var action = card_msg.a;
+			return $author$project$Card$CardList$ActOnCards(action);
+		} else {
+			return A2($author$project$Card$CardList$ToCard, id, card_msg);
 		}
 	});
-var $author$project$Card$Card$Edit = function (a) {
+var $author$project$Styling$pbtn = A2(
+	$rtfeldman$elm_css$Html$Styled$styled,
+	$rtfeldman$elm_css$Html$Styled$div,
+	_List_fromArray(
+		[
+			$rtfeldman$elm_css$Css$backgroundColor($author$project$Styling$theme.bN),
+			$author$project$Styling$basicFont,
+			$author$project$Styling$btnStyle,
+			$rtfeldman$elm_css$Css$hover(
+			_List_fromArray(
+				[
+					$rtfeldman$elm_css$Css$backgroundColor($author$project$Styling$theme.bc)
+				]))
+		]));
+var $author$project$Card$Card$CardAction = function (a) {
 	return {$: 1, a: a};
+};
+var $author$project$Card$Card$TextAction = function (a) {
+	return {$: 0, a: a};
 };
 var $author$project$Styling$card = A2(
 	$rtfeldman$elm_css$Html$Styled$styled,
@@ -9043,195 +9146,170 @@ var $author$project$Styling$card = A2(
 			$rtfeldman$elm_css$Css$height(
 			$rtfeldman$elm_css$Css$em(6))
 		]));
-var $author$project$Card$Card$Change = function (a) {
-	return {$: 0, a: a};
-};
-var $author$project$Card$Card$get_body = F2(
-	function (model, lift) {
-		var strToOut = function (str) {
-			return A2(
-				lift,
-				model.I,
-				$author$project$Card$Card$Change(str));
-		};
-		return model.af ? A2(
-			$rtfeldman$elm_css$Html$Styled$textarea,
-			_List_fromArray(
-				[
-					$rtfeldman$elm_css$Html$Styled$Attributes$placeholder('🤷\u200D♀️❔🤷\u200D♂️'),
-					$rtfeldman$elm_css$Html$Styled$Events$onInput(strToOut),
-					$rtfeldman$elm_css$Html$Styled$Attributes$value(model.as),
-					A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'flex', '10'),
-					A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'flex-grow', 'true'),
-					A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'resize', 'none')
-				]),
-			_List_Nil) : A2(
-			$rtfeldman$elm_css$Html$Styled$div,
-			_List_fromArray(
-				[
-					A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'flex-grow', 'true'),
-					A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'flex', '10')
-				]),
-			_List_fromArray(
-				[
-					$rtfeldman$elm_css$Html$Styled$text(model.as)
-				]));
-	});
-var $author$project$Card$Card$Delete = {$: 4};
-var $author$project$Card$Card$MoveDown = {$: 3};
-var $author$project$Card$Card$MoveUp = {$: 2};
-var $author$project$Styling$tbtn = A2(
+var $rtfeldman$elm_css$Css$spaceBetween = $rtfeldman$elm_css$Css$prop1('space-between');
+var $author$project$Styling$cardButtonContainer = A2(
 	$rtfeldman$elm_css$Html$Styled$styled,
 	$rtfeldman$elm_css$Html$Styled$div,
 	_List_fromArray(
 		[
-			$rtfeldman$elm_css$Css$backgroundColor($author$project$Styling$theme.b0),
+			$rtfeldman$elm_css$Css$backgroundColor($author$project$Styling$theme.a0),
 			$author$project$Styling$basicFont,
-			$author$project$Styling$btnStyle,
-			$rtfeldman$elm_css$Css$hover(
-			_List_fromArray(
-				[
-					$rtfeldman$elm_css$Css$backgroundColor($author$project$Styling$theme.b2)
-				]))
+			$rtfeldman$elm_css$Css$displayFlex,
+			$rtfeldman$elm_css$Css$margin(
+			$rtfeldman$elm_css$Css$em(0.05)),
+			$rtfeldman$elm_css$Css$justifyContent($rtfeldman$elm_css$Css$spaceBetween),
+			$rtfeldman$elm_css$Css$flexDirection($rtfeldman$elm_css$Css$column)
 		]));
-var $author$project$Card$Card$get_updownbuttons = F2(
-	function (model, lift) {
-		return _Utils_Tuple3(
-			A2(
-				$author$project$Styling$tbtn,
-				_List_fromArray(
-					[
-						$rtfeldman$elm_css$Html$Styled$Events$onClick(
-						A2(lift, model.I, $author$project$Card$Card$Delete)),
-						A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'margin', '0.05em'),
-						A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'flex', '1'),
-						A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'flex-grow', 'true')
-					]),
-				_List_fromArray(
-					[
-						$rtfeldman$elm_css$Html$Styled$text('☠')
-					])),
-			A2(
-				$author$project$Styling$tbtn,
-				_List_fromArray(
-					[
-						$rtfeldman$elm_css$Html$Styled$Events$onClick(
-						A2(lift, model.I, $author$project$Card$Card$MoveUp)),
-						A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'margin', '0.05em'),
-						A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'flex', '1'),
-						A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'flex-grow', 'true')
-					]),
-				_List_fromArray(
-					[
-						$rtfeldman$elm_css$Html$Styled$text('☝')
-					])),
-			A2(
-				$author$project$Styling$tbtn,
-				_List_fromArray(
-					[
-						$rtfeldman$elm_css$Html$Styled$Events$onClick(
-						A2(lift, model.I, $author$project$Card$Card$MoveDown)),
-						A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'margin', '0.05em'),
-						A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'flex', '1'),
-						A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'flex-grow', 'true')
-					]),
-				_List_fromArray(
-					[
-						$rtfeldman$elm_css$Html$Styled$text('👇')
-					])));
-	});
+var $author$project$Styling$cardEdit = A2(
+	$rtfeldman$elm_css$Html$Styled$styled,
+	$rtfeldman$elm_css$Html$Styled$textarea,
+	_List_fromArray(
+		[
+			$rtfeldman$elm_css$Css$flex(
+			$rtfeldman$elm_css$Css$int(10)),
+			$rtfeldman$elm_css$Css$resize($rtfeldman$elm_css$Css$none)
+		]));
+var $author$project$Styling$cardStatic = A2(
+	$rtfeldman$elm_css$Html$Styled$styled,
+	$rtfeldman$elm_css$Html$Styled$div,
+	_List_fromArray(
+		[
+			$rtfeldman$elm_css$Css$flex(
+			$rtfeldman$elm_css$Css$int(10))
+		]));
 var $author$project$Card$Card$view = F2(
 	function (model, lift) {
-		var _v0 = A2($author$project$Card$Card$get_updownbuttons, model, lift);
-		var del = _v0.a;
-		var up = _v0.b;
-		var down = _v0.c;
+		var clift = lift(model.aj);
+		var idLift = function (act) {
+			return clift(
+				$author$project$Card$Card$CardAction(act));
+		};
+		var tLift = function (act) {
+			return clift(
+				$author$project$Card$Card$TextAction(act));
+		};
 		return A2(
 			$author$project$Styling$card,
+			_List_Nil,
 			_List_fromArray(
 				[
-					$rtfeldman$elm_css$Html$Styled$Events$onDoubleClick(
+					A4($author$project$WithText$getClickableTextArea, $author$project$Styling$cardStatic, $author$project$Styling$cardEdit, model, tLift),
 					A2(
-						lift,
-						model.I,
-						$author$project$Card$Card$Edit(!model.af)))
-				]),
-			_List_fromArray(
-				[
-					A2($author$project$Card$Card$get_body, model, lift),
-					A2(
-					$rtfeldman$elm_css$Html$Styled$div,
+					$author$project$Styling$cardButtonContainer,
+					_List_Nil,
 					_List_fromArray(
 						[
-							A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'display', 'flex'),
-							A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'flex-direction', 'column')
-						]),
-					_List_fromArray(
-						[del, up, down]))
+							A4(
+							$author$project$WithId$getButton,
+							$author$project$Styling$tbtn,
+							false,
+							A2($author$project$WithId$Move, model.aj, 0),
+							idLift),
+							A4(
+							$author$project$WithId$getButton,
+							$author$project$Styling$tbtn,
+							false,
+							A2($author$project$WithId$Move, model.aj, 1),
+							idLift),
+							A4(
+							$author$project$WithId$getButton,
+							$author$project$Styling$tbtn,
+							false,
+							$author$project$WithId$Delete(model.aj),
+							idLift)
+						]))
 				]));
 	});
 var $author$project$Card$CardList$view = F2(
 	function (model, lift) {
+		var liftCardAction = function (act) {
+			return A2(
+				lift,
+				model.aj,
+				$author$project$Card$CardList$ActOnCards(act));
+		};
 		var get_card_view = function (card) {
 			return A2(
 				$rtfeldman$elm_css$Html$Styled$map,
-				lift(model.I),
+				lift(model.aj),
 				A2($author$project$Card$Card$view, card, $author$project$Card$CardList$lift_card_msg));
 		};
 		return A2(
-			$author$project$Styling$cl,
+			$author$project$Styling$cardListBody,
 			_List_Nil,
 			_List_fromArray(
 				[
 					A2(
-					$author$project$Styling$ctitle,
+					$author$project$Styling$cardListTitle,
 					_List_Nil,
 					_List_fromArray(
 						[
-							$rtfeldman$elm_css$Html$Styled$text(model.as)
+							$rtfeldman$elm_css$Html$Styled$text(model.b2)
 						])),
 					A2(
-					$rtfeldman$elm_css$Html$Styled$div,
-					_List_fromArray(
-						[
-							A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'display', 'flex'),
-							A2($rtfeldman$elm_css$Html$Styled$Attributes$style, 'flex-direction', 'column')
-						]),
+					$author$project$Styling$cardListCardContainer,
+					_List_Nil,
 					_Utils_ap(
 						A2(
 							$elm$core$List$map,
 							get_card_view,
-							$elm$core$Array$toList(model.g)),
+							$elm$core$Array$toList(model.D)),
 						_List_fromArray(
 							[
-								A2(
-								$author$project$Styling$sbtn,
-								_List_fromArray(
-									[
-										$rtfeldman$elm_css$Html$Styled$Events$onClick(
-										A2(lift, model.I, $author$project$Card$CardList$AddCard))
-									]),
-								_List_fromArray(
-									[
-										$rtfeldman$elm_css$Html$Styled$text('➕')
-									]))
+								A4($author$project$WithId$getButton, $author$project$Styling$pbtn, false, $author$project$WithId$Add, liftCardAction)
 							])))
 				]));
 	});
 var $author$project$ProConList$view = F2(
 	function (model, lift) {
+		var pclTextLift = function (act) {
+			return A2(
+				lift,
+				model.aj,
+				$author$project$ProConList$TextAction(act));
+		};
+		var pclIdLift = function (act) {
+			return A2(
+				lift,
+				model.aj,
+				$author$project$ProConList$ProConAction(act));
+		};
 		var lift_list_view = function (list) {
 			return A2(
 				$rtfeldman$elm_css$Html$Styled$map,
-				lift(model.I),
+				lift(model.aj),
 				A2($author$project$Card$CardList$view, list, $author$project$ProConList$lift_list_msg));
 		};
 		return A2(
-			$author$project$Styling$pcl,
+			$author$project$Styling$proConListBody,
 			_List_Nil,
 			_List_fromArray(
 				[
-					A2($author$project$ProConList$get_body, model, lift),
+					A2(
+					$author$project$Styling$proConListTitleText,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A4($author$project$WithText$getClickableTextArea, $author$project$Styling$proConListStatic, $author$project$Styling$proConListEdit, model, pclTextLift),
+							A4(
+							$author$project$WithId$getButton,
+							$author$project$Styling$tbtn,
+							true,
+							A2($author$project$WithId$Move, model.aj, 0),
+							pclIdLift),
+							A4(
+							$author$project$WithId$getButton,
+							$author$project$Styling$tbtn,
+							true,
+							A2($author$project$WithId$Move, model.aj, 1),
+							pclIdLift),
+							A4(
+							$author$project$WithId$getButton,
+							$author$project$Styling$tbtn,
+							true,
+							$author$project$WithId$Delete(model.aj),
+							pclIdLift)
+						])),
 					A2(
 					$rtfeldman$elm_css$Html$Styled$div,
 					_List_fromArray(
@@ -9241,52 +9319,82 @@ var $author$project$ProConList$view = F2(
 					_List_fromArray(
 						[
 							lift_list_view(model.ap),
-							lift_list_view(model.ae)
+							lift_list_view(model.ad)
 						]))
 				]));
 	});
 var $author$project$ProConListView$view = F2(
 	function (model, lift) {
+		var pclvTextLift = function (act) {
+			return A2(
+				lift,
+				model.aj,
+				$author$project$ProConListView$TextAction(act));
+		};
+		var pclvListLift = function (act) {
+			return A2(
+				lift,
+				model.aj,
+				$author$project$ProConListView$ActOnLists(act));
+		};
+		var pclvIdLift = function (act) {
+			return A2(
+				lift,
+				model.aj,
+				$author$project$ProConListView$WithIdAction(act));
+		};
 		var build_list_view = function (list) {
 			return A2(
 				$rtfeldman$elm_css$Html$Styled$map,
-				lift(model.I),
+				lift(model.aj),
 				A2($author$project$ProConList$view, list, $author$project$ProConListView$lift_pro_con_msg));
 		};
 		return A2(
-			$author$project$Styling$pclistview,
+			$author$project$Styling$proConListViewBody,
 			_List_Nil,
 			_List_fromArray(
 				[
 					A2(
-					$author$project$Styling$pctitle,
+					$author$project$Styling$proConListViewTitleContainer,
 					_List_Nil,
 					_List_fromArray(
 						[
-							A2($author$project$ProConListView$get_title, model, lift),
-							A2(
+							A4($author$project$WithText$getClickableTextArea, $author$project$Styling$proConListViewStatic, $author$project$Styling$proConListViewEdit, model, pclvTextLift),
+							A4(
+							$author$project$WithId$getButton,
 							$author$project$Styling$sbtn,
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$Events$onClick(
-									A2(lift, model.I, $author$project$ProConListView$AddList))
-								]),
-							_List_fromArray(
-								[
-									$rtfeldman$elm_css$Html$Styled$text('➕')
-								]))
+							false,
+							A2($author$project$WithId$Move, model.aj, 0),
+							pclvIdLift),
+							A4(
+							$author$project$WithId$getButton,
+							$author$project$Styling$sbtn,
+							false,
+							A2($author$project$WithId$Move, model.aj, 1),
+							pclvIdLift),
+							A4(
+							$author$project$WithId$getButton,
+							$author$project$Styling$sbtn,
+							false,
+							$author$project$WithId$Delete(model.aj),
+							pclvIdLift)
 						])),
 					A2(
-					$author$project$Styling$pccontent,
+					$author$project$Styling$proConListViewContent,
 					_List_Nil,
-					A2(
-						$elm$core$List$map,
-						build_list_view,
-						$elm$core$Array$toList(model.x)))
+					_Utils_ap(
+						A2(
+							$elm$core$List$map,
+							build_list_view,
+							$elm$core$Array$toList(model.L)),
+						_List_fromArray(
+							[
+								A4($author$project$WithId$getButton, $author$project$Styling$sbtn, false, $author$project$WithId$Add, pclvListLift)
+							])))
 				]));
 	});
 var $author$project$Main$get_view_or_help = function (model) {
-	var maybe_list = A2($elm$core$Array$get, model.a6, model.f);
+	var maybe_list = A2($elm$core$Array$get, model.ak, model.k);
 	if (maybe_list.$ === 1) {
 		return A2(
 			$author$project$Styling$nocntntdiv,
@@ -9318,20 +9426,6 @@ var $author$project$Styling$maincontent = A2(
 			$rtfeldman$elm_css$Css$width(
 			$rtfeldman$elm_css$Css$vw(100))
 		]));
-var $author$project$Styling$pbtn = A2(
-	$rtfeldman$elm_css$Html$Styled$styled,
-	$rtfeldman$elm_css$Html$Styled$div,
-	_List_fromArray(
-		[
-			$rtfeldman$elm_css$Css$backgroundColor($author$project$Styling$theme.bM),
-			$author$project$Styling$basicFont,
-			$author$project$Styling$btnStyle,
-			$rtfeldman$elm_css$Css$hover(
-			_List_fromArray(
-				[
-					$rtfeldman$elm_css$Css$backgroundColor($author$project$Styling$theme.bd)
-				]))
-		]));
 var $rtfeldman$elm_css$Css$flexGrow = $rtfeldman$elm_css$Css$prop1('flex-grow');
 var $author$project$Styling$pdivcol = A2(
 	$rtfeldman$elm_css$Html$Styled$styled,
@@ -9346,7 +9440,7 @@ var $author$project$Styling$pdivcol = A2(
 			$rtfeldman$elm_css$Css$flexGrow(
 			$rtfeldman$elm_css$Css$int(1)),
 			$rtfeldman$elm_css$Css$flexDirection($rtfeldman$elm_css$Css$column),
-			$rtfeldman$elm_css$Css$backgroundColor($author$project$Styling$theme.bN),
+			$rtfeldman$elm_css$Css$backgroundColor($author$project$Styling$theme.bO),
 			$rtfeldman$elm_css$Css$padding(
 			$rtfeldman$elm_css$Css$em(0.2)),
 			A4(
@@ -9367,11 +9461,11 @@ var $author$project$Main$pro_con_to_button = function (pclv) {
 		_List_fromArray(
 			[
 				$rtfeldman$elm_css$Html$Styled$Events$onClick(
-				$author$project$Main$SetView(pclv.I))
+				$author$project$Main$SetView(pclv.aj))
 			]),
 		_List_fromArray(
 			[
-				$rtfeldman$elm_css$Html$Styled$text(pclv.b5)
+				$rtfeldman$elm_css$Html$Styled$text(pclv.b2)
 			]));
 };
 var $rtfeldman$elm_css$VirtualDom$Styled$accumulateStyles = F2(
@@ -9857,7 +9951,7 @@ var $rtfeldman$elm_css$VirtualDom$Styled$toUnstyled = function (vdom) {
 var $rtfeldman$elm_css$Html$Styled$toUnstyled = $rtfeldman$elm_css$VirtualDom$Styled$toUnstyled;
 var $author$project$Main$view = function (model) {
 	return {
-		cg: _List_fromArray(
+		cf: _List_fromArray(
 			[
 				$rtfeldman$elm_css$Html$Styled$toUnstyled(
 				A2(
@@ -9872,27 +9966,18 @@ var $author$project$Main$view = function (model) {
 								A2(
 									$elm$core$List$map,
 									$author$project$Main$pro_con_to_button,
-									$elm$core$Array$toList(model.f)),
+									$elm$core$Array$toList(model.k)),
 								_List_fromArray(
 									[
-										A2(
-										$author$project$Styling$pbtn,
-										_List_fromArray(
-											[
-												$rtfeldman$elm_css$Html$Styled$Events$onClick($author$project$Main$AddList)
-											]),
-										_List_fromArray(
-											[
-												$rtfeldman$elm_css$Html$Styled$text('➕')
-											]))
+										A4($author$project$WithId$getButton, $author$project$Styling$pbtn, false, $author$project$WithId$Add, $author$project$Main$ActOnListViews)
 									]))),
 							$author$project$Main$get_view_or_help(model)
 						])))
 			]),
-		b5: 'ProCon Tool'
+		cC: 'ProCon Tool'
 	};
 };
 var $author$project$Main$main = $elm$browser$Browser$application(
-	{cq: $author$project$Main$init, cv: $author$project$Main$UrlChanged, cw: $author$project$Main$UrlRequested, cC: $author$project$Main$subscriptions, cD: $author$project$Main$update, cG: $author$project$Main$view});
+	{cp: $author$project$Main$init, cu: $author$project$Main$UrlChanged, cv: $author$project$Main$UrlRequested, cB: $author$project$Main$subscriptions, cD: $author$project$Main$update, cG: $author$project$Main$view});
 _Platform_export({'Main':{'init':$author$project$Main$main(
 	$elm$json$Json$Decode$succeed(0))(0)}});}(this));
