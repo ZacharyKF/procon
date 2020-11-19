@@ -6774,7 +6774,7 @@ var $author$project$Styling$btnStyle = $rtfeldman$elm_css$Css$batch(
 					$rtfeldman$elm_css$Css$em(0.4),
 					$author$project$Styling$theme.u),
 					$rtfeldman$elm_css$Css$zIndex(
-					$rtfeldman$elm_css$Css$int(11))
+					$rtfeldman$elm_css$Css$int(13))
 				]))
 		]));
 var $rtfeldman$elm_css$Css$Structure$UniversalSelectorSequence = function (a) {
@@ -9124,10 +9124,10 @@ var $author$project$Styling$proConListViewBody = A2(
 			$rtfeldman$elm_css$Css$flex(
 			$rtfeldman$elm_css$Css$int(1))
 		]));
+var $rtfeldman$elm_css$Css$auto = {ce: 0, a: 0, ai: 0, aW: 0, cs: 0, ao: 0, J: 0, A: 0, ar: 0, x: 0, a3: 0, ax: 0, r: 0, C: 'auto'};
 var $rtfeldman$elm_css$Css$overflowX = $rtfeldman$elm_css$Css$prop1('overflow-x');
 var $rtfeldman$elm_css$Css$overflowY = $rtfeldman$elm_css$Css$prop1('overflow-y');
 var $rtfeldman$elm_css$Css$padding = $rtfeldman$elm_css$Css$prop1('padding');
-var $rtfeldman$elm_css$Css$scroll = {aC: 0, bw: 0, bM: 0, ar: 0, cC: 0, C: 'scroll'};
 var $author$project$Styling$proConListViewContent = A2(
 	$rtfeldman$elm_css$Html$Styled$styled,
 	$rtfeldman$elm_css$Html$Styled$div,
@@ -9136,7 +9136,7 @@ var $author$project$Styling$proConListViewContent = A2(
 			$rtfeldman$elm_css$Css$flex(
 			$rtfeldman$elm_css$Css$int(1)),
 			$rtfeldman$elm_css$Css$displayFlex,
-			$rtfeldman$elm_css$Css$overflowX($rtfeldman$elm_css$Css$scroll),
+			$rtfeldman$elm_css$Css$overflowX($rtfeldman$elm_css$Css$auto),
 			$rtfeldman$elm_css$Css$overflowY($rtfeldman$elm_css$Css$hidden),
 			$rtfeldman$elm_css$Css$flexDirection($rtfeldman$elm_css$Css$row),
 			$rtfeldman$elm_css$Css$padding(
@@ -9224,10 +9224,10 @@ var $author$project$Styling$proConListBody = A2(
 			$rtfeldman$elm_css$Css$displayFlex,
 			$rtfeldman$elm_css$Css$flexDirection($rtfeldman$elm_css$Css$column),
 			$rtfeldman$elm_css$Css$overflowX($rtfeldman$elm_css$Css$hidden),
-			$rtfeldman$elm_css$Css$overflowY($rtfeldman$elm_css$Css$scroll),
+			$rtfeldman$elm_css$Css$overflowY($rtfeldman$elm_css$Css$auto),
 			$rtfeldman$elm_css$Css$backgroundColor($author$project$Styling$theme.R),
 			$rtfeldman$elm_css$Css$minWidth(
-			$rtfeldman$elm_css$Css$em(40)),
+			$rtfeldman$elm_css$Css$pct(40)),
 			$rtfeldman$elm_css$Css$margin(
 			$rtfeldman$elm_css$Css$em(0.25)),
 			$rtfeldman$elm_css$Css$justifyContent($rtfeldman$elm_css$Css$flexStart),

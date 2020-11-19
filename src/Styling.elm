@@ -64,7 +64,7 @@ btnStyle =
         , hover
             [ fontWeight (int 900)
             , boxShadow4 (Css.em 0) (Css.em 0.3) (Css.em 0.4) theme.textShadow
-            , zIndex (int 11)
+            , zIndex (int 13)
             ]
         ]
 
@@ -242,7 +242,7 @@ proConListViewContent =
     styled div
         [ flex (int 1)
         , displayFlex
-        , overflowX scroll
+        , overflowX auto
         , overflowY hidden
         , flexDirection row
         , padding (Css.em 0.25)
@@ -260,9 +260,9 @@ proConListBody =
         [ displayFlex
         , flexDirection column
         , overflowX hidden
-        , overflowY scroll
+        , overflowY auto
         , backgroundColor theme.background
-        , minWidth (Css.em 40)
+        , minWidth (Css.pct 40)
         , margin (Css.em 0.25)
         , justifyContent flexStart
         , boxShadow4 (Css.em 0) (Css.em 0.2) (Css.em 0.3) theme.textShadow
