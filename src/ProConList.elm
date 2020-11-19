@@ -16,17 +16,17 @@ type alias ProConListModel =
 
 
 type alias ProConListData a =
-    { a | pro_list : CardListModel, con_list : CardListModel }
+    { a | proList : CardListModel, conList : CardListModel }
 
 
 proConDataCons : CardListModel -> CardListModel -> ProConListData a -> ProConListData a
 proConDataCons proList conList other =
-    { other | pro_list = proList, con_list = conList }
+    { other | proList = proList, conList = conList }
 
 
 cons : CardListModel -> CardListModel -> Int -> String -> Bool -> ProConListModel
 cons proList conList id text edit =
-    { pro_list = proList, con_list = conList, id = id, text = text, edit = edit }
+    { proList = proList, conList = conList, id = id, text = text, edit = edit }
 
 
 init : Int -> ProConListModel
@@ -47,8 +47,8 @@ proConListDecoder =
 proConListEncoder : ProConListModel -> E.Value
 proConListEncoder model =
     E.object
-        [ ( "pro_list", cardListEncoder model.pro_list )
-        , ( "con_list", cardListEncoder model.con_list )
+        [ ( "pro_list", cardListEncoder model.proList )
+        , ( "con_list", cardListEncoder model.conList )
         , ( "id", E.int model.id )
         , ( "edit", E.bool model.edit )
         , ( "text", E.string model.text )
@@ -59,26 +59,27 @@ type ProConListMsg
     = ToList Int CardListMsg
     | TextAction WithTextAction
     | ProConAction WithIdAction
+    | ConfirmFirst String ProConListMsg
 
 
 update : ProConListModel -> ProConListMsg -> ( ProConListModel, Cmd ProConListMsg )
 update model msg =
     case msg of
-        ToList id list_msg ->
+        ToList id listMsg ->
             case id of
                 0 ->
                     let
-                        ( newlist, sub_cmd ) =
-                            CardList.update model.pro_list list_msg
+                        ( newlist, subCmd ) =
+                            CardList.update model.proList listMsg
                     in
-                    ( { model | pro_list = newlist }, Cmd.map (ToList 0) sub_cmd )
+                    ( { model | proList = newlist }, Cmd.map (ToList 0) subCmd )
 
                 _ ->
                     let
-                        ( newlist, sub_cmd ) =
-                            CardList.update model.con_list list_msg
+                        ( newlist, subCmd ) =
+                            CardList.update model.conList listMsg
                     in
-                    ( { model | con_list = newlist }, Cmd.map (ToList 1) sub_cmd )
+                    ( { model | conList = newlist }, Cmd.map (ToList 1) subCmd )
 
         TextAction action ->
             ( updateWithText model action, Cmd.none )
@@ -86,34 +87,46 @@ update model msg =
         ProConAction _ ->
             ( model, Cmd.none )
 
+        ConfirmFirst _ _ ->
+            ( model, Cmd.none )
+
 
 view : ProConListModel -> (Int -> ProConListMsg -> msg) -> Html msg
 view model lift =
     let
-        lift_list_view list =
-            Html.Styled.map (lift model.id) (CardList.view list lift_list_msg)
+        liftListView list =
+            Html.Styled.map (lift model.id) (CardList.view list liftListMsg)
 
-        pclTextLift act =
-            lift model.id (TextAction act)
-
-        pclIdLift act =
-            lift model.id (ProConAction act)
+        pclLift =
+            lift model.id
     in
     proConListBody
         []
         [ proConListTitleText []
-            [ getClickableTextArea proConListStatic proConListEdit model pclTextLift
-            , getButton tbtn True (Move model.id Up) pclIdLift
-            , getButton tbtn True (Move model.id Down) pclIdLift
-            , getButton tbtn True (Delete model.id) pclIdLift
+            [ TextAction
+                >> pclLift
+                |> getClickableTextArea proConListStatic proConListEdit model
+            , ProConAction
+                >> pclLift
+                |> getButton pbtn True (Move model.id Up)
+            , ProConAction
+                >> pclLift
+                |> getButton pbtn True (Move model.id Down)
+            , ProConAction
+                >> ConfirmFirst "Are you sure you want to delete this ProConList?"
+                >> pclLift
+                |> getButton pbtn True (Delete model.id)
             ]
         , div [ style "display" "flex" ]
-            [ lift_list_view model.pro_list, lift_list_view model.con_list ]
+            [ liftListView model.proList, liftListView model.conList ]
         ]
 
 
-lift_list_msg : Int -> CardListMsg -> ProConListMsg
-lift_list_msg id list_msg =
-    case list_msg of
+liftListMsg : Int -> CardListMsg -> ProConListMsg
+liftListMsg id listMsg =
+    case listMsg of
+        CardList.ConfirmFirst str msg ->
+            ConfirmFirst str (liftListMsg id msg)
+
         _ ->
-            ToList id list_msg
+            ToList id listMsg

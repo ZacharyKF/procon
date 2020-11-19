@@ -11,6 +11,7 @@ import Html.Styled.Events exposing (onClick)
 import Json.Decode as D exposing (Decoder, array, decodeString, field, int, map2)
 import Json.Encode as E exposing (..)
 import Platform.Cmd exposing (Cmd)
+import ProConList exposing (ProConListMsg(..))
 import ProConListView exposing (..)
 import Styling exposing (..)
 import Url
@@ -18,11 +19,11 @@ import WithId exposing (..)
 
 
 
--- TODO: DELETE CONFIRM POPUP
--- TODO: CLICK AND DRAG TO RE-ORGANIZE, REMOVE BUTTONS FOR SORTING
--- TODO: DELETE HOVER OVER BOTTOM RIGHT
 -- TODO: ADD PER CONTAINER PRO/CON SORT PAGE (MORE DETAILS TO COME)
 -- TODO: ADD PER CONTAINER RESULT DISPLAY (MORE DETAILS TO COME)
+-- TODO: CLICK AND DRAG TO RE-ORGANIZE, REMOVE BUTTONS FOR SORTING
+-- TODO: DELETE HOVER OVER BOTTOM RIGHT
+-- TODO: CLEAN UP THE DECODER/ENCODER LOGIC
 
 
 port save : E.Value -> Cmd msg
@@ -38,7 +39,7 @@ subscriptions model =
 
 init : flags -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init flags url key =
-    ( { url = url, key = key, in_view = 0, card_lists = Array.empty }, Cmd.none )
+    ( { url = url, key = key, inView = 0, popup = Nothing, cardLists = Array.empty }, Cmd.none )
 
 
 main : Program () Model Msg
@@ -54,15 +55,23 @@ main =
 
 
 type alias Model =
-    Navi Data
+    Navi (Popup Data)
 
 
 type alias Navi a =
-    { a | url : Url.Url, key : Nav.Key, in_view : Int }
+    { a | url : Url.Url, key : Nav.Key, inView : Int }
+
+
+type alias Popup a =
+    { a | popup : Maybe PopupData }
+
+
+type alias PopupData =
+    { str : String, msg : Msg }
 
 
 type alias Data =
-    { card_lists : Array ProConListViewModel }
+    { cardLists : Array ProConListViewModel }
 
 
 dataDecoder : Decoder Data
@@ -74,7 +83,7 @@ dataDecoder =
 dataEncoder : Data -> E.Value
 dataEncoder data =
     E.object
-        [ ( "card_lists", E.array proConListViewEncoder data.card_lists )
+        [ ( "card_lists", E.array proConListViewEncoder data.cardLists )
         ]
 
 
@@ -83,39 +92,69 @@ type Msg
     | ActOnListViews WithIdAction
     | SetView Int
     | Load String
+    | ConfirmFirst String Msg
+    | Cancel
     | UrlRequested Browser.UrlRequest
     | UrlChanged Url.Url
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
-update container_msg model =
-    case container_msg of
+update containerMsg model =
+    case containerMsg of
         ActOnListViews action ->
             let
                 newArr =
-                    updateHasIdArray model.card_lists action ProConListView.init
+                    updateHasIdArray model.cardLists action ProConListView.init
             in
             case action of
                 Move id dir ->
                     case dir of
                         Down ->
-                            ( { model | card_lists = newArr, in_view = Basics.min (id + 1) (Array.length newArr - 1) }, and_save model Cmd.none )
+                            ( { model
+                                | cardLists = newArr
+                                , inView = Basics.min (id + 1) (Array.length newArr - 1)
+                                , popup = Nothing
+                              }
+                            , andSave model Cmd.none
+                            )
 
                         Up ->
-                            ( { model | card_lists = newArr, in_view = Basics.max (id - 1) 0 }, and_save model Cmd.none )
+                            ( { model
+                                | cardLists = newArr
+                                , inView = Basics.max (id - 1) 0
+                                , popup = Nothing
+                              }
+                            , andSave model Cmd.none
+                            )
 
                 Delete id ->
-                    ( { model | card_lists = newArr, in_view = id - 1 }, and_save model Cmd.none )
+                    ( { model
+                        | cardLists = newArr
+                        , inView = id - 1
+                        , popup = Nothing
+                      }
+                    , andSave model Cmd.none
+                    )
 
                 Add ->
-                    ( { model | card_lists = newArr }, and_save model Cmd.none )
+                    ( { model
+                        | cardLists = newArr
+                        , popup = Nothing
+                      }
+                    , andSave model Cmd.none
+                    )
 
-        ToProConListView id child_msg ->
+        ToProConListView id childMsg ->
             let
                 ( newArr, nmsg ) =
-                    updateId model.card_lists id child_msg ProConListView.update ToProConListView Cmd.none
+                    updateId model.cardLists id childMsg ProConListView.update ToProConListView Cmd.none
             in
-            ( { model | card_lists = newArr }, and_save model nmsg )
+            ( { model
+                | cardLists = newArr
+                , popup = Nothing
+              }
+            , andSave model nmsg
+            )
 
         Load value ->
             case decodeString dataDecoder value of
@@ -123,63 +162,99 @@ update container_msg model =
                     ( model, Cmd.none )
 
                 Ok val ->
-                    ( { model | card_lists = val.card_lists }, Cmd.none )
+                    ( { model
+                        | cardLists = val.cardLists
+                        , popup = Nothing
+                      }
+                    , Cmd.none
+                    )
 
         SetView id ->
-            ( { model | in_view = id }, and_save model Cmd.none )
+            ( { model
+                | inView = id
+                , popup = Nothing
+              }
+            , andSave model Cmd.none
+            )
+
+        ConfirmFirst str msg ->
+            ( { model | popup = Just { str = str, msg = msg } }, Cmd.none )
+
+        Cancel ->
+            ( { model | popup = Nothing }, Cmd.none )
 
         _ ->
-            ( model, and_save model Cmd.none )
+            ( model, andSave model Cmd.none )
 
 
 view : Model -> Browser.Document Msg
 view model =
     { title = "ProCon Tool"
     , body =
-        [ toUnstyled
-            (maincontent
-                []
-                [ pdivcol
-                    []
-                    (List.map pro_con_to_button (Array.toList model.card_lists)
-                        ++ [ getButton pbtn False Add ActOnListViews ]
-                    )
-                , get_view_or_help model
-                ]
-            )
+        [ [ (Array.toList model.cardLists |> List.map proConToButton)
+                ++ [ getButton pbtn False Add ActOnListViews ]
+                |> proConListViewButtons []
+          , getViewOrHelp model
+          , getConfirmPopup model
+          ]
+            |> mainContent []
+            |> toUnstyled
         ]
     }
 
 
-get_view_or_help : Model -> Html Msg
-get_view_or_help model =
+getViewOrHelp : Model -> Html Msg
+getViewOrHelp model =
     let
-        maybe_list =
-            Array.get model.in_view model.card_lists
+        maybeList =
+            Array.get model.inView model.cardLists
     in
-    case maybe_list of
+    case maybeList of
         Nothing ->
-            nocntntdiv [] [ text "Press *➕* to start!" ]
+            noContentDiv [] [ text "Press *➕* to start!" ]
 
         Just pclv ->
-            ProConListView.view pclv lift_card_list_msg
+            ProConListView.view pclv liftCardMsg
 
 
-pro_con_to_button : ProConListViewModel -> Html Msg
-pro_con_to_button pclv =
+getConfirmPopup : Model -> Html Msg
+getConfirmPopup model =
+    case model.popup of
+        Nothing ->
+            div [] []
+
+        Just popupData ->
+            [ popupBacking [] []
+            , popupBody []
+                [ popupText [] [ text popupData.str ]
+                , popupButtonContainer []
+                    [ sbtn [ onClick Cancel, style "margin" "0.5em" ] [ text "Cancel" ]
+                    , pbtn [ onClick popupData.msg, style "margin" "0.5em" ] [ text "Confirm" ]
+                    ]
+                ]
+            ]
+                |> popupContainer []
+
+
+proConToButton : ProConListViewModel -> Html Msg
+proConToButton pclv =
     pbtn [ onClick (SetView pclv.id) ] [ text pclv.text ]
 
 
-and_save : Model -> Cmd msg -> Cmd msg
-and_save data cmd =
-    Cmd.batch [ cmd, save (dataEncoder { card_lists = data.card_lists }) ]
+andSave : Model -> Cmd msg -> Cmd msg
+andSave data cmd =
+    Cmd.batch [ cmd, save (dataEncoder { cardLists = data.cardLists }) ]
 
 
-lift_card_list_msg : Int -> ProConListViewMsg -> Msg
-lift_card_list_msg id card_msg =
-    case card_msg of
+liftCardMsg : Int -> ProConListViewMsg -> Msg
+liftCardMsg id cardMsg =
+    case cardMsg of
         WithIdAction action ->
             ActOnListViews action
 
+        ProConListView.ConfirmFirst str msg ->
+            liftCardMsg id msg
+                |> ConfirmFirst str
+
         _ ->
-            ToProConListView id card_msg
+            ToProConListView id cardMsg

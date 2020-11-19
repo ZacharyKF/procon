@@ -13,67 +13,38 @@ theme :
     , primaryBack : Color
     , primary : Color
     , primaryEmp : Color
-    , tertiaryBack : Color
-    , tertiary : Color
-    , tertiaryEmp : Color
     , textColor : Color
+    , textShadow : Color
+    , background : Color
     }
 theme =
-    { primaryBack = hex "8fa3cc"
-    , primary = hex "96a9cf"
-    , primaryEmp = hex "a8b7d7"
-    , secondaryBack = hex "74a772"
-    , secondary = hex "84b082"
-    , secondaryEmp = hex "93ba91"
-    , tertiaryBack = hex "f9b086"
-    , tertiary = hex "f9b38a"
-    , tertiaryEmp = hex "fac09e"
-    , textColor = hex "ffffff"
+    { primaryBack = hex "C37E95"
+    , primary = hex "c87e91"
+    , primaryEmp = hex "C87E90"
+    , secondaryBack = hex "90C383"
+    , secondary = hex "91C87E"
+    , secondaryEmp = hex "95C37E"
+    , textColor = hex "f6f4f4"
+    , textShadow = hex "090e07"
+    , background = hex "fdecee"
     }
 
 
 basicFont : Style
 basicFont =
     Css.batch
-        [ textShadow4 (Css.px 0) (Css.px 0) (Css.px 4) (hex "000000")
+        [ textShadow4 (Css.px 0) (Css.px 0) (Css.px 3) theme.textShadow
         , color theme.textColor
+        , fontWeight (int 700)
         ]
 
 
-maincontent : List (Attribute msg) -> List (Html msg) -> Html msg
-maincontent =
-    styled div
-        [ displayFlex
-        , maxHeight (Css.vh 100)
-        , maxWidth (Css.vw 100)
-        , height (Css.vh 100)
-        , width (Css.vw 100)
-        ]
-
-
-nocntntdiv : List (Attribute msg) -> List (Html msg) -> Html msg
-nocntntdiv =
-    styled div
-        [ displayFlex
-        , flex (int 1)
-        , alignItems center
-        , justifyContent center
-        , basicFont
-        ]
-
-
-pdivcol : List (Attribute msg) -> List (Html msg) -> Html msg
-pdivcol =
-    styled div
-        [ displayFlex
-        , flex (int 1)
-        , maxWidth (Css.vw 10)
-        , flexGrow (int 1)
-        , flexDirection column
-        , backgroundColor theme.primaryBack
-        , padding (Css.em 0.2)
-        , boxShadow4 (Css.em 0) (Css.em 0.4) (Css.em 0.5) (hex "000000")
-        , zIndex (int 10)
+inverseFont : Style
+inverseFont =
+    Css.batch
+        [ textShadow4 (Css.px 0) (Css.px 0) (Css.px 2) theme.textColor
+        , color theme.textShadow
+        , fontWeight (int 700)
         ]
 
 
@@ -86,11 +57,13 @@ btnStyle =
         , paddingTop (Css.em 0.2)
         , paddingRight (Css.em 0.5)
         , paddingLeft (Css.em 0.5)
+        , minHeight (Css.em 1.5)
+        , minWidth (Css.em 2)
         , zIndex (int 10)
         , displayFlex
         , hover
-            [ fontWeight bold
-            , boxShadow4 (Css.em 0) (Css.em 0.3) (Css.em 0.4) (hex "000000")
+            [ fontWeight (int 900)
+            , boxShadow4 (Css.em 0) (Css.em 0.3) (Css.em 0.4) theme.textShadow
             , zIndex (int 11)
             ]
         ]
@@ -120,15 +93,97 @@ sbtn =
         ]
 
 
-tbtn : List (Attribute msg) -> List (Html msg) -> Html msg
-tbtn =
+
+-- Main --
+
+
+mainContent : List (Attribute msg) -> List (Html msg) -> Html msg
+mainContent =
     styled div
-        [ backgroundColor theme.tertiary
-        , basicFont
-        , btnStyle
-        , hover
-            [ backgroundColor theme.tertiaryEmp
-            ]
+        [ displayFlex
+        , maxHeight (Css.vh 100)
+        , maxWidth (Css.vw 100)
+        , height (Css.vh 100)
+        , width (Css.vw 100)
+        ]
+
+
+proConListViewButtons : List (Attribute msg) -> List (Html msg) -> Html msg
+proConListViewButtons =
+    styled div
+        [ displayFlex
+        , flex (int 1)
+        , maxWidth (Css.vw 10)
+        , flexGrow (int 1)
+        , flexDirection column
+        , backgroundColor theme.primaryBack
+        , padding (Css.em 0.2)
+        , boxShadow4 (Css.em 0) (Css.em 0.4) (Css.em 0.5) theme.textShadow
+        , zIndex (int 10)
+        ]
+
+
+noContentDiv : List (Attribute msg) -> List (Html msg) -> Html msg
+noContentDiv =
+    styled div
+        [ displayFlex
+        , flex (int 1)
+        , alignItems center
+        , justifyContent center
+        , inverseFont
+        ]
+
+
+popupContainer : List (Attribute msg) -> List (Html msg) -> Html msg
+popupContainer =
+    styled div
+        [ position absolute
+        , height (Css.pct 100)
+        , width (Css.pct 100)
+        , displayFlex
+        , justifyContent center
+        , alignItems center
+        ]
+
+
+popupBacking : List (Attribute msg) -> List (Html msg) -> Html msg
+popupBacking =
+    styled div
+        [ height (Css.pct 100)
+        , width (Css.pct 100)
+        , backgroundColor theme.textShadow
+        , opacity (num 0.5)
+        , zIndex (int 11)
+        ]
+
+
+popupBody : List (Attribute msg) -> List (Html msg) -> Html msg
+popupBody =
+    styled div
+        [ position absolute
+        , flex (int 1)
+        , flexDirection column
+        , zIndex (int 12)
+        , backgroundColor theme.background
+        , outline3 (Css.px 1) solid theme.textShadow
+        ]
+
+
+popupText : List (Attribute msg) -> List (Html msg) -> Html msg
+popupText =
+    styled div
+        [ inverseFont
+        , backgroundColor theme.background
+        , margin (Css.em 0.5)
+        , paddingBottom (Css.em 1)
+        ]
+
+
+popupButtonContainer : List (Attribute msg) -> List (Html msg) -> Html msg
+popupButtonContainer =
+    styled div
+        [ displayFlex
+        , justifyContent spaceBetween
         ]
 
 
@@ -142,7 +197,8 @@ proConListViewBody =
         [ flexDirection column
         , displayFlex
         , overflow hidden
-        , width (Css.pc 100)
+        , backgroundColor theme.background
+        , width (Css.pct 100)
         , maxWidth (Css.vw 90)
         , justifyContent flexStart
         , flex (int 1)
@@ -157,7 +213,7 @@ proConListViewTitleContainer =
         , displayFlex
         , basicFont
         , alignItems center
-        , boxShadow4 (Css.em 0) (Css.em 0.2) (Css.em 0.3) (hex "000000")
+        , boxShadow4 (Css.em 0) (Css.em 0.2) (Css.em 0.3) theme.textShadow
         , zIndex (int 9)
         ]
 
@@ -205,10 +261,11 @@ proConListBody =
         , flexDirection column
         , overflowX hidden
         , overflowY scroll
+        , backgroundColor theme.background
         , minWidth (Css.em 40)
         , margin (Css.em 0.25)
         , justifyContent flexStart
-        , boxShadow4 (Css.em 0) (Css.em 0.2) (Css.em 0.3) (hex "000000")
+        , boxShadow4 (Css.em 0) (Css.em 0.2) (Css.em 0.3) theme.textShadow
         , zIndex (int 8)
         ]
 
@@ -219,7 +276,7 @@ proConListTitleText =
         [ basicFont
         , minHeight (Css.em 3)
         , resize none
-        , backgroundColor theme.tertiaryBack
+        , backgroundColor theme.primaryBack
         , displayFlex
         , alignItems center
         ]
@@ -228,13 +285,13 @@ proConListTitleText =
 proConListButton : List (Attribute msg) -> List (Html msg) -> Html msg
 proConListButton =
     styled div
-        [ backgroundColor theme.tertiary
+        [ backgroundColor theme.primaryBack
         , basicFont
         , btnStyle
         , margin (Css.em 0.05)
         , flex (int 1)
         , hover
-            [ backgroundColor theme.tertiaryEmp
+            [ backgroundColor theme.primaryEmp
             ]
         ]
 
@@ -270,9 +327,10 @@ cardListBody =
         [ displayFlex
         , flex (int 1)
         , flexDirection column
+        , backgroundColor theme.background
         , margin (Css.em 0.2)
         , justifyContent flexStart
-        , boxShadow4 (Css.em 0) (Css.em 0.3) (Css.em 0.4) (hex "000000")
+        , boxShadow4 (Css.em 0) (Css.em 0.3) (Css.em 0.4) theme.textShadow
         , zIndex (int 4)
         ]
 
@@ -284,7 +342,7 @@ cardListTitle =
         , height (Css.em 1.5)
         , minHeight (Css.em 1.5)
         , resize none
-        , backgroundColor theme.primaryEmp
+        , backgroundColor theme.secondaryEmp
         , displayFlex
         , alignItems center
         , justifyContent center
@@ -303,7 +361,8 @@ cardListCardContainer =
 card : List (Attribute msg) -> List (Html msg) -> Html msg
 card =
     styled div
-        [ boxShadow4 (Css.em 0) (Css.em 0) (Css.em 0.5) (hex "000000")
+        [ boxShadow4 (Css.em 0) (Css.em 0) (Css.em 0.5) theme.textShadow
+        , backgroundColor theme.background
         , displayFlex
         , margin (Css.em 0.25)
         , padding (Css.em 0.25)
@@ -314,7 +373,7 @@ card =
 cardButtonContainer : List (Attribute msg) -> List (Html msg) -> Html msg
 cardButtonContainer =
     styled div
-        [ backgroundColor theme.tertiary
+        [ backgroundColor theme.secondaryBack
         , basicFont
         , displayFlex
         , margin (Css.em 0.05)
@@ -326,10 +385,10 @@ cardButtonContainer =
 cardStatic : List (Attribute msg) -> List (Html msg) -> Html msg
 cardStatic =
     styled div
-        [ flex (int 10) ]
+        [ inverseFont, flex (int 10) ]
 
 
 cardEdit : List (Attribute msg) -> List (Html msg) -> Html msg
 cardEdit =
     styled textarea
-        [ flex (int 10), resize none ]
+        [ inverseFont, flex (int 10), resize none ]

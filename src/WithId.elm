@@ -141,7 +141,7 @@ remove arr id =
                 Just { a | id = a.id - 1 }
 
         newarr =
-            Array.fromList <| List.filterMap idFilter (Array.toList arr)
+            List.filterMap idFilter (Array.toList arr) |> Array.fromList
     in
     newarr
 
@@ -150,22 +150,18 @@ getButton : (List (Attribute pmsg) -> List (Html pmsg) -> Html pmsg) -> Bool -> 
 getButton btn horz action lift =
     case action of
         Move _ dir ->
-            let
-                label =
-                    getDirText dir
-            in
             btn
-                [ onClick <| lift action ]
-                [ text (label horz) ]
+                [ lift action |> onClick, style "-webkit-text-stroke" "1px black" ]
+                [ getDirText dir horz |> text ]
 
         Add ->
             btn
-                [ onClick <| lift action ]
+                [ lift action |> onClick, style "-webkit-text-stroke" "1px black" ]
                 [ text "➕" ]
 
         Delete _ ->
             btn
-                [ onClick <| lift action ]
+                [ lift action |> onClick, style "-webkit-text-stroke" "1px black" ]
                 [ text "❌" ]
 
 
@@ -174,14 +170,14 @@ getDirText dir horz =
     case dir of
         Up ->
             if horz then
-                "◀"
+                "⬅"
 
             else
-                "🔼"
+                "⬆"
 
         Down ->
             if horz then
-                "▶"
+                "➡"
 
             else
-                "🔽"
+                "⬇"

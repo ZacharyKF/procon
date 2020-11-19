@@ -26,7 +26,9 @@ cardListDataCons label cards other =
 
 cons : Int -> String -> HasIdArray CardModel -> CardListModel
 cons id label cards =
-    (withIdCons id << cardListDataCons label cards) { id = 0, text = "", cards = Array.empty }
+    { id = 0, text = "", cards = Array.empty }
+        |> cardListDataCons label cards
+        >> withIdCons id
 
 
 init : Int -> String -> CardListModel
@@ -39,7 +41,7 @@ cardListDecoder =
     D.map3 cons
         (field "id" D.int)
         (field "text" D.string)
-        (field "cards" (D.array cardDecoder))
+        (D.array cardDecoder |> field "cards")
 
 
 cardListEncoder : CardListModel -> E.Value
@@ -54,6 +56,7 @@ cardListEncoder model =
 type CardListMsg
     = ToCard Int CardMsg
     | ActOnCards WithIdAction
+    | ConfirmFirst String CardListMsg
 
 
 update : CardListModel -> CardListMsg -> ( CardListModel, Cmd CardListMsg )
@@ -66,37 +69,43 @@ update model msg =
             in
             ( { model | cards = newArr }, Cmd.none )
 
-        ToCard id card_msg ->
+        ToCard id cardMsg ->
             let
                 ( newarr, nmsg ) =
-                    updateId model.cards id card_msg Card.update ToCard Cmd.none
+                    updateId model.cards id cardMsg Card.update ToCard Cmd.none
             in
             ( { model | cards = newarr }, nmsg )
+
+        ConfirmFirst _ _ ->
+            ( model, Cmd.none )
 
 
 view : CardListModel -> (Int -> CardListMsg -> msg) -> Html msg
 view model lift =
     let
-        get_card_view card =
-            Html.Styled.map (lift model.id) (Card.view card lift_card_msg)
-
-        liftCardAction act =
-            lift model.id <| ActOnCards act
+        getCardView card =
+            Html.Styled.map (lift model.id) (Card.view card liftCardMsg)
     in
     cardListBody
         []
         [ cardListTitle [] [ text model.text ]
-        , cardListCardContainer [] <|
-            (List.map get_card_view <| Array.toList model.cards)
-                ++ [ getButton pbtn False Add liftCardAction ]
+        , (Array.toList model.cards |> List.map getCardView)
+            ++ [ ActOnCards
+                    >> lift model.id
+                    |> getButton sbtn False Add
+               ]
+            |> cardListCardContainer []
         ]
 
 
-lift_card_msg : Int -> CardMsg -> CardListMsg
-lift_card_msg id card_msg =
-    case card_msg of
+liftCardMsg : Int -> CardMsg -> CardListMsg
+liftCardMsg id cardMsg =
+    case cardMsg of
         CardAction action ->
             ActOnCards action
 
+        Card.ConfirmFirst str msg ->
+            ConfirmFirst str (liftCardMsg id msg)
+
         _ ->
-            ToCard id card_msg
+            ToCard id cardMsg

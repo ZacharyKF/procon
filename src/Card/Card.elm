@@ -21,7 +21,9 @@ init id =
 
 cons : Int -> String -> Bool -> CardModel
 cons id str edit =
-    (withIdCons id << withTextCons str edit) { id = 0, text = "", edit = False }
+    { id = 0, text = "", edit = False }
+        |> withTextCons str edit
+        >> withIdCons id
 
 
 cardDecoder : Decoder CardModel
@@ -44,6 +46,7 @@ cardEncoder model =
 type CardMsg
     = TextAction WithTextAction
     | CardAction WithIdAction
+    | ConfirmFirst String CardMsg
 
 
 update : CardModel -> CardMsg -> ( CardModel, Cmd CardMsg )
@@ -61,19 +64,22 @@ view model lift =
     let
         clift =
             lift model.id
-
-        idLift act =
-            clift <| CardAction act
-
-        tLift act =
-            clift <| TextAction act
     in
     card
         []
-        [ getClickableTextArea cardStatic cardEdit model tLift
+        [ TextAction
+            >> clift
+            |> getClickableTextArea cardStatic cardEdit model
         , cardButtonContainer []
-            [ getButton tbtn False (Move model.id Up) idLift
-            , getButton tbtn False (Move model.id Down) idLift
-            , getButton tbtn False (Delete model.id) idLift
+            [ CardAction
+                >> clift
+                |> getButton sbtn False (Move model.id Up)
+            , CardAction
+                >> clift
+                |> getButton sbtn False (Move model.id Down)
+            , CardAction
+                >> ConfirmFirst "Are you sure you want to delete this Card?"
+                >> clift
+                |> getButton sbtn False (Delete model.id)
             ]
         ]

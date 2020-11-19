@@ -31,16 +31,17 @@ updateWithText model action =
 
 getDoubleClick : WithText a -> (WithTextAction -> pmsg) -> Attribute pmsg
 getDoubleClick model lift =
-    onDoubleClick <| lift <| Edit <| not model.edit
+    not model.edit
+        |> Edit
+        >> lift
+        |> onDoubleClick
 
 
 getOnEdit : (WithTextAction -> pmsg) -> Attribute pmsg
 getOnEdit lift =
-    let
-        onStr str =
-            lift <| Change str
-    in
-    onInput onStr
+    Change
+        >> lift
+        |> onInput
 
 
 getClickableTextArea : (List (Attribute pmsg) -> List (Html pmsg) -> Html pmsg) -> (List (Attribute pmsg) -> List (Html pmsg) -> Html pmsg) -> WithText a -> (WithTextAction -> pmsg) -> Html pmsg

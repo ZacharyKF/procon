@@ -17,17 +17,17 @@ type alias ProConListViewModel =
 
 
 type alias ProConListViewData a =
-    { a | pro_con_lists : Array ProConListModel }
+    { a | proConLists : Array ProConListModel }
 
 
 proConListViewDataCons : Array ProConListModel -> ProConListViewData a -> ProConListViewData a
 proConListViewDataCons lists other =
-    { other | pro_con_lists = lists }
+    { other | proConLists = lists }
 
 
 cons : Int -> String -> Bool -> Array ProConListModel -> ProConListViewModel
 cons id text edit lists =
-    { id = id, text = text, edit = edit, pro_con_lists = lists }
+    { id = id, text = text, edit = edit, proConLists = lists }
 
 
 init : Int -> ProConListViewModel
@@ -49,7 +49,7 @@ proConListViewEncoder model =
     E.object
         [ ( "edit", E.bool model.edit )
         , ( "id", E.int model.id )
-        , ( "pro_con_lists", E.array proConListEncoder model.pro_con_lists )
+        , ( "pro_con_lists", E.array proConListEncoder model.proConLists )
         , ( "title", E.string model.text )
         ]
 
@@ -59,6 +59,7 @@ type ProConListViewMsg
     | TextAction WithTextAction
     | WithIdAction WithIdAction
     | ActOnLists WithIdAction
+    | ConfirmFirst String ProConListViewMsg
 
 
 update : ProConListViewModel -> ProConListViewMsg -> ( ProConListViewModel, Cmd ProConListViewMsg )
@@ -67,16 +68,16 @@ update model msg =
         ToProConList id pcmsg ->
             let
                 ( newArr, nmsg ) =
-                    updateId model.pro_con_lists id pcmsg ProConList.update ToProConList Cmd.none
+                    updateId model.proConLists id pcmsg ProConList.update ToProConList Cmd.none
             in
-            ( { model | pro_con_lists = newArr }, nmsg )
+            ( { model | proConLists = newArr }, nmsg )
 
         ActOnLists action ->
             let
                 newArr =
-                    updateHasIdArray model.pro_con_lists action ProConList.init
+                    updateHasIdArray model.proConLists action ProConList.init
             in
-            ( { model | pro_con_lists = newArr }, Cmd.none )
+            ( { model | proConLists = newArr }, Cmd.none )
 
         TextAction action ->
             ( updateWithText model action, Cmd.none )
@@ -84,42 +85,54 @@ update model msg =
         WithIdAction _ ->
             ( model, Cmd.none )
 
+        ConfirmFirst _ _ ->
+            ( model, Cmd.none )
+
 
 view : ProConListViewModel -> (Int -> ProConListViewMsg -> msg) -> Html msg
 view model lift =
     let
-        build_list_view list =
-            Html.Styled.map (lift model.id) (ProConList.view list lift_pro_con_msg)
+        buildListView list =
+            Html.Styled.map (lift model.id) (ProConList.view list liftProConMsg)
 
-        pclvTextLift act =
-            lift model.id (TextAction act)
-
-        pclvListLift act =
-            lift model.id (ActOnLists act)
-
-        pclvIdLift act =
-            lift model.id (WithIdAction act)
+        pclvLift =
+            lift model.id
     in
     proConListViewBody
         []
         [ proConListViewTitleContainer
             []
-            [ getClickableTextArea proConListViewStatic proConListViewEdit model pclvTextLift
-            , getButton sbtn False (Move model.id Up) pclvIdLift
-            , getButton sbtn False (Move model.id Down) pclvIdLift
-            , getButton sbtn False (Delete model.id) pclvIdLift
+            [ TextAction
+                >> pclvLift
+                |> getClickableTextArea proConListViewStatic proConListViewEdit model
+            , WithIdAction
+                >> pclvLift
+                |> getButton sbtn False (Move model.id Up)
+            , WithIdAction
+                >> pclvLift
+                |> getButton sbtn False (Move model.id Down)
+            , WithIdAction
+                >> ConfirmFirst "Are you sure you want to delete this ProConListView?"
+                >> pclvLift
+                |> getButton sbtn False (Delete model.id)
             ]
-        , proConListViewContent [] <|
-            List.map build_list_view (Array.toList model.pro_con_lists)
-                ++ [ getButton sbtn False Add pclvListLift ]
+        , (Array.toList model.proConLists |> List.map buildListView)
+            ++ [ ActOnLists
+                    >> pclvLift
+                    |> getButton pbtn False Add
+               ]
+            |> proConListViewContent []
         ]
 
 
-lift_pro_con_msg : Int -> ProConListMsg -> ProConListViewMsg
-lift_pro_con_msg id listmsg =
+liftProConMsg : Int -> ProConListMsg -> ProConListViewMsg
+liftProConMsg id listmsg =
     case listmsg of
         ProConAction action ->
             ActOnLists action
+
+        ProConList.ConfirmFirst str msg ->
+            ConfirmFirst str (liftProConMsg id msg)
 
         _ ->
             ToProConList id listmsg
