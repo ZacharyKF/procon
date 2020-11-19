@@ -264,7 +264,7 @@ proConListBody =
         , overflowX hidden
         , overflowY auto
         , backgroundColor theme.background
-        , minWidth (Css.pct 40)
+        , minWidth (Css.pct 50)
         , margin (Css.em 0.25)
         , justifyContent flexStart
         , boxShadow4 (Css.em 0) (Css.em 0.2) (Css.em 0.3) theme.textShadow

@@ -9229,7 +9229,7 @@ var $author$project$Styling$proConListBody = A2(
 			$rtfeldman$elm_css$Css$overflowY($rtfeldman$elm_css$Css$auto),
 			$rtfeldman$elm_css$Css$backgroundColor($author$project$Styling$theme.R),
 			$rtfeldman$elm_css$Css$minWidth(
-			$rtfeldman$elm_css$Css$pct(40)),
+			$rtfeldman$elm_css$Css$pct(50)),
 			$rtfeldman$elm_css$Css$margin(
 			$rtfeldman$elm_css$Css$em(0.25)),
 			$rtfeldman$elm_css$Css$justifyContent($rtfeldman$elm_css$Css$flexStart),
