@@ -9,11 +9,6 @@ type alias WithText a =
     { a | text : String, edit : Bool }
 
 
-withTextCons : String -> Bool -> WithText a -> WithText a
-withTextCons text edit other =
-    { other | text = text, edit = edit }
-
-
 type WithTextAction
     = Change String
     | Edit Bool

@@ -19,11 +19,6 @@ type alias ProConListData a =
     { a | proList : CardListModel, conList : CardListModel }
 
 
-proConDataCons : CardListModel -> CardListModel -> ProConListData a -> ProConListData a
-proConDataCons proList conList other =
-    { other | proList = proList, conList = conList }
-
-
 cons : CardListModel -> CardListModel -> Int -> String -> Bool -> ProConListModel
 cons proList conList id text edit =
     { proList = proList, conList = conList, id = id, text = text, edit = edit }

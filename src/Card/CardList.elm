@@ -19,16 +19,9 @@ type alias CardListData a =
     { a | cards : HasIdArray CardModel, text : String }
 
 
-cardListDataCons : String -> HasIdArray CardModel -> CardListData a -> CardListData a
-cardListDataCons label cards other =
-    { other | cards = cards, text = label }
-
-
 cons : Int -> String -> HasIdArray CardModel -> CardListModel
 cons id label cards =
-    { id = 0, text = "", cards = Array.empty }
-        |> cardListDataCons label cards
-        >> withIdCons id
+    { id = id, text = label, cards = cards }
 
 
 init : Int -> String -> CardListModel

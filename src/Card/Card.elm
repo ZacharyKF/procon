@@ -21,9 +21,7 @@ init id =
 
 cons : Int -> String -> Bool -> CardModel
 cons id str edit =
-    { id = 0, text = "", edit = False }
-        |> withTextCons str edit
-        >> withIdCons id
+    { id = id, text = str, edit = edit }
 
 
 cardDecoder : Decoder CardModel

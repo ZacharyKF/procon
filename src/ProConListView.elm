@@ -1,6 +1,7 @@
 module ProConListView exposing (..)
 
 import Array exposing (Array)
+import Dict exposing (Dict)
 import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (..)
 import Html.Styled.Events exposing (..)
@@ -17,27 +18,22 @@ type alias ProConListViewModel =
 
 
 type alias ProConListViewData a =
-    { a | proConLists : Array ProConListModel }
+    { a | proConLists : Array ProConListModel, rankings : Dict ( Int, Int, Int ) Float, viewMode : ViewMode }
 
 
-proConListViewDataCons : Array ProConListModel -> ProConListViewData a -> ProConListViewData a
-proConListViewDataCons lists other =
-    { other | proConLists = lists }
-
-
-cons : Int -> String -> Bool -> Array ProConListModel -> ProConListViewModel
-cons id text edit lists =
-    { id = id, text = text, edit = edit, proConLists = lists }
+cons : Dict ( Int, Int, Int ) Float -> Int -> String -> Bool -> Array ProConListModel -> ProConListViewModel
+cons rankings id text edit lists =
+    { id = id, text = text, edit = edit, proConLists = lists, rankings = rankings, viewMode = Lists }
 
 
 init : Int -> ProConListViewModel
 init id =
-    cons id "Title Here..." False Array.empty
+    cons Dict.empty id "Title Here..." False Array.empty
 
 
 proConListViewDecoder : Decoder ProConListViewModel
 proConListViewDecoder =
-    map4 cons
+    map4 (cons Dict.empty)
         (field "id" D.int)
         (field "title" D.string)
         (field "edit" D.bool)
@@ -51,7 +47,19 @@ proConListViewEncoder model =
         , ( "id", E.int model.id )
         , ( "pro_con_lists", E.array proConListEncoder model.proConLists )
         , ( "title", E.string model.text )
+        , ( "rankings", E.dict keyEncoder E.float model.rankings )
         ]
+
+
+keyEncoder : ( Int, Int, Int ) -> String
+keyEncoder ( a, b, c ) =
+    String.fromInt a ++ ":" ++ String.fromInt b ++ ":" ++ String.fromInt c
+
+
+type ViewMode
+    = Lists
+    | GlobalSort
+    | Graph
 
 
 type ProConListViewMsg
@@ -60,6 +68,7 @@ type ProConListViewMsg
     | WithIdAction WithIdAction
     | ActOnLists WithIdAction
     | ConfirmFirst String ProConListViewMsg
+    | SetView ViewMode
 
 
 update : ProConListViewModel -> ProConListViewMsg -> ( ProConListViewModel, Cmd ProConListViewMsg )
@@ -88,13 +97,13 @@ update model msg =
         ConfirmFirst _ _ ->
             ( model, Cmd.none )
 
+        SetView mode ->
+            ( { model | viewMode = mode }, Cmd.none )
+
 
 view : ProConListViewModel -> (Int -> ProConListViewMsg -> msg) -> Html msg
 view model lift =
     let
-        buildListView list =
-            Html.Styled.map (lift model.id) (ProConList.view list liftProConMsg)
-
         pclvLift =
             lift model.id
     in
@@ -102,7 +111,10 @@ view model lift =
         []
         [ proConListViewTitleContainer
             []
-            [ TextAction
+            [ sbtn [ SetView Lists |> pclvLift |> onClick ] [ text "📝" ]
+            , sbtn [ SetView GlobalSort |> pclvLift |> onClick ] [ text "📑" ]
+            , sbtn [ SetView Graph |> pclvLift |> onClick ] [ text "📊" ]
+            , TextAction
                 >> pclvLift
                 |> getClickableTextArea proConListViewStatic proConListViewEdit model
             , WithIdAction
@@ -116,13 +128,30 @@ view model lift =
                 >> pclvLift
                 |> getButton sbtn False (Delete model.id)
             ]
-        , (Array.toList model.proConLists |> List.map buildListView)
-            ++ [ ActOnLists
-                    >> pclvLift
-                    |> getButton pbtn False Add
-               ]
-            |> proConListViewContent []
+        , getBody model pclvLift
         ]
+
+
+getBody : ProConListViewModel -> (ProConListViewMsg -> msg) -> Html msg
+getBody model lift =
+    case model.viewMode of
+        Lists ->
+            let
+                buildListView list =
+                    Html.Styled.map lift (ProConList.view list liftProConMsg)
+            in
+            (Array.toList model.proConLists |> List.map buildListView)
+                ++ [ ActOnLists
+                        >> lift
+                        |> getButton pbtn False Add
+                   ]
+                |> proConListViewContent []
+
+        GlobalSort ->
+            noContentDiv [] [ text "Coming soon! 📑🎉" ]
+
+        Graph ->
+            noContentDiv [] [ text "Coming soon! 📊🎉" ]
 
 
 liftProConMsg : Int -> ProConListMsg -> ProConListViewMsg

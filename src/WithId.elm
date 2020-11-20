@@ -10,11 +10,6 @@ type alias WithId a =
     { a | id : Int }
 
 
-withIdCons : Int -> WithId a -> WithId a
-withIdCons id other =
-    { other | id = id }
-
-
 type alias HasId a =
     WithId a
 
