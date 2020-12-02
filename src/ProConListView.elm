@@ -234,34 +234,17 @@ liftProConMsg id listmsg =
 globalSortView : ProConListViewModel -> (ProConListViewMsg -> msg) -> Html msg
 globalSortView model lift =
     let
-        addIndex id globalCard =
-            case globalCard.card.rank of
-                1000000 ->
-                    let
-                        oldCard =
-                            globalCard.card
-
-                        card =
-                            { oldCard | rank = id }
-                    in
-                    { globalCard | card = card }
-
-                _ ->
-                    globalCard
-
         sortCards card =
             card.card.rank
 
         proList =
             List.map (flatMapLists 0) (Array.toList model.proConLists)
                 |> List.concat
-                |> List.indexedMap addIndex
                 |> List.sortBy sortCards
 
         conList =
             List.map (flatMapLists 1) (Array.toList model.proConLists)
                 |> List.concat
-                |> List.indexedMap addIndex
                 |> List.sortBy sortCards
     in
     simpleScrollableFlexDiv []

@@ -25,7 +25,7 @@ cons id str edit mrank =
         rank =
             case mrank of
                 Nothing ->
-                    1000000
+                    -1
 
                 Just rnk ->
                     rnk
