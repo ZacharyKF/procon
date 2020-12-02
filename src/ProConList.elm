@@ -112,8 +112,7 @@ view model lift =
                 >> pclLift
                 |> getButton pbtn True (Delete model.id)
             ]
-        , div [ style "display" "flex" ]
-            [ liftListView model.proList, liftListView model.conList ]
+        , simpleScrollableFlexDiv [] [ liftListView model.proList, liftListView model.conList ]
         ]
 
 

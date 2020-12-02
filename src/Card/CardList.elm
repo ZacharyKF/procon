@@ -77,7 +77,7 @@ view : CardListModel -> (Int -> CardListMsg -> msg) -> Html msg
 view model lift =
     let
         getCardView card =
-            Html.Styled.map (lift model.id) (Card.view card liftCardMsg)
+            Html.Styled.map (lift model.id) (Card.view card True liftCardMsg)
     in
     cardListBody
         []

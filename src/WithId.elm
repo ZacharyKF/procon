@@ -4,6 +4,7 @@ import Array exposing (Array)
 import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (..)
 import Html.Styled.Events exposing (..)
+import Styling exposing (webkitStrokeBtn)
 
 
 type alias WithId a =
@@ -146,17 +147,17 @@ getButton btn horz action lift =
     case action of
         Move _ dir ->
             btn
-                [ lift action |> onClick, style "-webkit-text-stroke" "1px black" ]
+                [ lift action |> onClick, webkitStrokeBtn ]
                 [ getDirText dir horz |> text ]
 
         Add ->
             btn
-                [ lift action |> onClick, style "-webkit-text-stroke" "1px black" ]
+                [ lift action |> onClick, webkitStrokeBtn ]
                 [ text "➕" ]
 
         Delete _ ->
             btn
-                [ lift action |> onClick, style "-webkit-text-stroke" "1px black" ]
+                [ lift action |> onClick, webkitStrokeBtn ]
                 [ text "❌" ]
 
 

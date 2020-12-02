@@ -1,7 +1,9 @@
 module ProConListView exposing (..)
 
 import Array exposing (Array)
-import Dict exposing (Dict)
+import Card.Card exposing (CardModel, CardMsg(..))
+import Card.CardList exposing (CardListMsg(..))
+import Css exposing (displayFlex)
 import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (..)
 import Html.Styled.Events exposing (..)
@@ -18,22 +20,22 @@ type alias ProConListViewModel =
 
 
 type alias ProConListViewData a =
-    { a | proConLists : Array ProConListModel, rankings : Dict ( Int, Int, Int ) Float, viewMode : ViewMode }
+    { a | proConLists : Array ProConListModel, viewMode : ViewMode }
 
 
-cons : Dict ( Int, Int, Int ) Float -> Int -> String -> Bool -> Array ProConListModel -> ProConListViewModel
-cons rankings id text edit lists =
-    { id = id, text = text, edit = edit, proConLists = lists, rankings = rankings, viewMode = Lists }
+cons : Int -> String -> Bool -> Array ProConListModel -> ProConListViewModel
+cons id text edit lists =
+    { id = id, text = text, edit = edit, proConLists = lists, viewMode = Lists }
 
 
 init : Int -> ProConListViewModel
 init id =
-    cons Dict.empty id "Title Here..." False Array.empty
+    cons id "Title Here..." False Array.empty
 
 
 proConListViewDecoder : Decoder ProConListViewModel
 proConListViewDecoder =
-    map4 (cons Dict.empty)
+    map4 cons
         (field "id" D.int)
         (field "title" D.string)
         (field "edit" D.bool)
@@ -47,7 +49,6 @@ proConListViewEncoder model =
         , ( "id", E.int model.id )
         , ( "pro_con_lists", E.array proConListEncoder model.proConLists )
         , ( "title", E.string model.text )
-        , ( "rankings", E.dict keyEncoder E.float model.rankings )
         ]
 
 
@@ -69,6 +70,7 @@ type ProConListViewMsg
     | ActOnLists WithIdAction
     | ConfirmFirst String ProConListViewMsg
     | SetView ViewMode
+    | GlobalActOnCards Int Int Int Int WithIdAction
 
 
 update : ProConListViewModel -> ProConListViewMsg -> ( ProConListViewModel, Cmd ProConListViewMsg )
@@ -100,6 +102,68 @@ update model msg =
         SetView mode ->
             ( { model | viewMode = mode }, Cmd.none )
 
+        GlobalActOnCards proConId proOrCon cardId rank action ->
+            case action of
+                -- So this is a little hairy, we want to edit the card alllll the way in the bottom.
+                Move id dir ->
+                    let
+                        proConList =
+                            Array.get proConId model.proConLists
+
+                        subList =
+                            case proConList of
+                                Nothing ->
+                                    Nothing
+
+                                Just aList ->
+                                    case proOrCon of
+                                        0 ->
+                                            Just aList.proList
+
+                                        _ ->
+                                            Just aList.conList
+
+                        card =
+                            case subList of
+                                Nothing ->
+                                    Nothing
+
+                                Just cList ->
+                                    Array.get cardId cList.cards
+
+                        allThree =
+                            ( proConList, subList, card )
+                    in
+                    case allThree of
+                        ( Just pcl, Just cl, Just c ) ->
+                            let
+                                newCard =
+                                    case dir of
+                                        Up ->
+                                            { c | rank = Basics.max (c.rank - 1) 1 }
+
+                                        Down ->
+                                            { c | rank = Basics.max (c.rank + 1) 1 }
+
+                                newList =
+                                    { cl | cards = Array.set cardId newCard cl.cards }
+
+                                newProCon =
+                                    case proOrCon of
+                                        0 ->
+                                            { pcl | proList = newList }
+
+                                        _ ->
+                                            { pcl | conList = newList }
+                            in
+                            ( { model | proConLists = Array.set proConId newProCon model.proConLists }, Cmd.none )
+
+                        _ ->
+                            ( model, Cmd.none )
+
+                _ ->
+                    ( model, Cmd.none )
+
 
 view : ProConListViewModel -> (Int -> ProConListViewMsg -> msg) -> Html msg
 view model lift =
@@ -128,30 +192,30 @@ view model lift =
                 >> pclvLift
                 |> getButton sbtn False (Delete model.id)
             ]
-        , getBody model pclvLift
+        , case model.viewMode of
+            Lists ->
+                listsView model pclvLift
+
+            GlobalSort ->
+                globalSortView model pclvLift
+
+            Graph ->
+                graphView model pclvLift
         ]
 
 
-getBody : ProConListViewModel -> (ProConListViewMsg -> msg) -> Html msg
-getBody model lift =
-    case model.viewMode of
-        Lists ->
-            let
-                buildListView list =
-                    Html.Styled.map lift (ProConList.view list liftProConMsg)
-            in
-            (Array.toList model.proConLists |> List.map buildListView)
-                ++ [ ActOnLists
-                        >> lift
-                        |> getButton pbtn False Add
-                   ]
-                |> proConListViewContent []
-
-        GlobalSort ->
-            noContentDiv [] [ text "Coming soon! 📑🎉" ]
-
-        Graph ->
-            noContentDiv [] [ text "Coming soon! 📊🎉" ]
+listsView : ProConListViewModel -> (ProConListViewMsg -> msg) -> Html msg
+listsView model lift =
+    let
+        buildListView list =
+            Html.Styled.map lift (ProConList.view list liftProConMsg)
+    in
+    (Array.toList model.proConLists |> List.map buildListView)
+        ++ [ ActOnLists
+                >> lift
+                |> getButton pbtn False Add
+           ]
+        |> proConListViewContent []
 
 
 liftProConMsg : Int -> ProConListMsg -> ProConListViewMsg
@@ -165,3 +229,94 @@ liftProConMsg id listmsg =
 
         _ ->
             ToProConList id listmsg
+
+
+globalSortView : ProConListViewModel -> (ProConListViewMsg -> msg) -> Html msg
+globalSortView model lift =
+    let
+        addIndex id globalCard =
+            case globalCard.card.rank of
+                1000000 ->
+                    let
+                        oldCard =
+                            globalCard.card
+
+                        card =
+                            { oldCard | rank = id }
+                    in
+                    { globalCard | card = card }
+
+                _ ->
+                    globalCard
+
+        sortCards card =
+            card.card.rank
+
+        proList =
+            List.map (flatMapLists 0) (Array.toList model.proConLists)
+                |> List.concat
+                |> List.indexedMap addIndex
+                |> List.sortBy sortCards
+
+        conList =
+            List.map (flatMapLists 1) (Array.toList model.proConLists)
+                |> List.concat
+                |> List.indexedMap addIndex
+                |> List.sortBy sortCards
+    in
+    simpleScrollableFlexDiv []
+        [ cardListBody []
+            [ cardListTitle [] [ text "👍" ]
+            , proList |> List.map (buildCardView lift) |> cardListCardContainer []
+            ]
+        , cardListBody []
+            [ cardListTitle [] [ text "👎" ]
+            , conList |> List.map (buildCardView lift) |> cardListCardContainer []
+            ]
+        ]
+
+
+type alias GlobalCard =
+    { proConListId : Int, proOrCon : Int, card : CardModel }
+
+
+flatMapLists : Int -> ProConListModel -> List GlobalCard
+flatMapLists proOrCon proConList =
+    let
+        cardlist =
+            case proOrCon of
+                0 ->
+                    proConList.proList |> .cards |> Array.toList
+
+                _ ->
+                    proConList.conList |> .cards |> Array.toList
+
+        mapList card =
+            { proConListId = proConList.id, proOrCon = proOrCon, card = card }
+    in
+    List.map mapList cardlist
+
+
+buildCardView : (ProConListViewMsg -> msg) -> GlobalCard -> Html msg
+buildCardView lift { proConListId, proOrCon, card } =
+    div []
+        [ text (String.fromInt card.rank)
+        , liftCardMsg proConListId proOrCon card.rank
+            |> Card.Card.view card False
+            |> Html.Styled.map lift
+        ]
+
+
+liftCardMsg : Int -> Int -> Int -> Int -> CardMsg -> ProConListViewMsg
+liftCardMsg proConId proOrCon rank cardId cardMsg =
+    case cardMsg of
+        Card.Card.CardAction action ->
+            GlobalActOnCards proConId proOrCon cardId rank action
+
+        _ ->
+            cardMsg |> ToCard cardId |> ToList proOrCon |> ToProConList proConId
+
+
+graphView : ProConListViewModel -> (ProConListViewMsg -> msg) -> Html msg
+graphView model lift =
+    noContentDiv [] [ text "Coming soon! 📊🎉" ]

@@ -2,7 +2,7 @@ module Styling exposing (..)
 
 import Css exposing (..)
 import Html.Styled exposing (..)
-import Html.Styled.Attributes exposing (css, href, src)
+import Html.Styled.Attributes exposing (attribute, css, href, src, style)
 import Html.Styled.Events exposing (onClick)
 
 
@@ -46,6 +46,24 @@ inverseFont =
         , color theme.textShadow
         , fontWeight (int 700)
         ]
+
+
+simpleScrollableFlexDiv : List (Attribute msg) -> List (Html msg) -> Html msg
+simpleScrollableFlexDiv =
+    styled div
+        [ displayFlex
+        , overflowY auto
+        ]
+
+
+buttonMarginWrapper : List (Attribute msg) -> List (Html msg) -> Html msg
+buttonMarginWrapper =
+    styled div [ margin (Css.em 0.5) ]
+
+
+webkitStrokeBtn : Html.Styled.Attribute msg
+webkitStrokeBtn =
+    style "-webkit-text-stroke" "1px black"
 
 
 btnStyle : Style
