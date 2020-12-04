@@ -3,6 +3,8 @@ module ProConListView exposing (..)
 import Array exposing (Array)
 import Card.Card exposing (CardModel, CardMsg(..))
 import Card.CardList exposing (CardListMsg(..))
+import Chart exposing (pie)
+import ChartColumn exposing (ChartMode(..))
 import Css exposing (displayFlex)
 import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (..)
@@ -11,6 +13,7 @@ import Json.Decode as D exposing (Decoder, bool, field, int, map4, string)
 import Json.Encode as E exposing (..)
 import ProConList exposing (..)
 import Styling exposing (..)
+import Svg exposing (..)
 import WithId exposing (..)
 import WithText exposing (..)
 
@@ -20,12 +23,12 @@ type alias ProConListViewModel =
 
 
 type alias ProConListViewData a =
-    { a | proConLists : Array ProConListModel, viewMode : ViewMode }
+    { a | proConLists : Array ProConListModel, viewMode : ViewMode, chartMode : ChartMode }
 
 
 cons : Int -> String -> Bool -> Array ProConListModel -> ProConListViewModel
 cons id text edit lists =
-    { id = id, text = text, edit = edit, proConLists = lists, viewMode = Lists }
+    { id = id, text = text, edit = edit, proConLists = lists, viewMode = Lists, chartMode = Linear }
 
 
 init : Int -> ProConListViewModel
@@ -71,6 +74,7 @@ type ProConListViewMsg
     | ConfirmFirst String ProConListViewMsg
     | SetView ViewMode
     | GlobalActOnCards Int Int Int Int WithIdAction
+    | SetChartMode ChartMode
 
 
 update : ProConListViewModel -> ProConListViewMsg -> ( ProConListViewModel, Cmd ProConListViewMsg )
@@ -140,10 +144,10 @@ update model msg =
                                 newCard =
                                     case dir of
                                         Up ->
-                                            { c | rank = Basics.max (c.rank - 1) 1 }
+                                            { c | rank = Basics.max (c.rank + 1) 1 }
 
                                         Down ->
-                                            { c | rank = Basics.max (c.rank + 1) 1 }
+                                            { c | rank = Basics.max (c.rank - 1) 1 }
 
                                 newList =
                                     { cl | cards = Array.set cardId newCard cl.cards }
@@ -164,6 +168,9 @@ update model msg =
                 _ ->
                     ( model, Cmd.none )
 
+        SetChartMode mode ->
+            ( { model | chartMode = mode }, Cmd.none )
+
 
 view : ProConListViewModel -> (Int -> ProConListViewMsg -> msg) -> Html msg
 view model lift =
@@ -175,9 +182,9 @@ view model lift =
         []
         [ proConListViewTitleContainer
             []
-            [ sbtn [ SetView Lists |> pclvLift |> onClick ] [ text "📝" ]
-            , sbtn [ SetView GlobalSort |> pclvLift |> onClick ] [ text "📑" ]
-            , sbtn [ SetView Graph |> pclvLift |> onClick ] [ text "📊" ]
+            [ sbtn [ SetView Lists |> pclvLift |> onClick ] [ Html.Styled.text "📝" ]
+            , sbtn [ SetView GlobalSort |> pclvLift |> onClick ] [ Html.Styled.text "📑" ]
+            , sbtn [ SetView Graph |> pclvLift |> onClick ] [ Html.Styled.text "📊" ]
             , TextAction
                 >> pclvLift
                 |> getClickableTextArea proConListViewStatic proConListViewEdit model
@@ -241,19 +248,21 @@ globalSortView model lift =
             List.map (flatMapLists 0) (Array.toList model.proConLists)
                 |> List.concat
                 |> List.sortBy sortCards
+                |> List.reverse
 
         conList =
             List.map (flatMapLists 1) (Array.toList model.proConLists)
                 |> List.concat
                 |> List.sortBy sortCards
+                |> List.reverse
     in
     simpleScrollableFlexDiv []
         [ cardListBody []
-            [ cardListTitle [] [ text "👍" ]
+            [ cardListTitle [] [ Html.Styled.text "👍" ]
             , proList |> List.map (buildCardView lift) |> cardListCardContainer []
             ]
         , cardListBody []
-            [ cardListTitle [] [ text "👎" ]
+            [ cardListTitle [] [ Html.Styled.text "👎" ]
             , conList |> List.map (buildCardView lift) |> cardListCardContainer []
             ]
         ]
@@ -283,7 +292,7 @@ flatMapLists proOrCon proConList =
 buildCardView : (ProConListViewMsg -> msg) -> GlobalCard -> Html msg
 buildCardView lift { proConListId, proOrCon, card } =
     div []
-        [ text (String.fromInt card.rank)
+        [ simplePrimaryTitle [] [ Html.Styled.text (String.fromInt card.rank) ]
         , liftCardMsg proConListId proOrCon card.rank
             |> Card.Card.view card False
             |> Html.Styled.map lift
@@ -302,4 +311,33 @@ liftCardMsg proConId proOrCon rank cardId cardMsg =
 
 graphView : ProConListViewModel -> (ProConListViewMsg -> msg) -> Html msg
 graphView model lift =
-    noContentDiv [] [ text "Coming soon! 📊🎉" ]
+    let
+        posData =
+            { data = model.proConLists |> Array.toList |> List.map (extractTitleAndTotal 0), mode = model.chartMode, title = "Share of Total Pro" }
+
+        negData =
+            { data = model.proConLists |> Array.toList |> List.map (extractTitleAndTotal 1), mode = model.chartMode, title = "Share of Total Con" }
+    in
+    graphPageContainer []
+        [ --     modeButtonContainer []
+          --     [--     graphModeBtn [ SetChartMode Linear |> lift |> onClick ] [ Html.Styled.text "Linear 🤨" ]
+          --      -- , graphModeBtn [ SetChartMode Logarithmic |> lift |> onClick ] [ Html.Styled.text "Logarithmic 😐" ]
+          --      -- , graphModeBtn [ SetChartMode Exponential |> lift |> onClick ] [ Html.Styled.text "Exponential 😮" ]
+          --     ]
+          -- ,
+          chartContainer [] [ ChartColumn.view posData, ChartColumn.view negData ]
+        ]
+
+
+extractTitleAndTotal : Int -> ProConListModel -> ( String, Int )
+extractTitleAndTotal proOrCon model =
+    let
+        list =
+            case proOrCon of
+                0 ->
+                    model.proList.cards
+
+                _ ->
+                    model.conList.cards
+    in
+    ( model.text, list |> Array.toList |> List.map .rank |> List.sum )

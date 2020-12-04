@@ -1,9 +1,11 @@
 module Styling exposing (..)
 
+import Chart exposing (Dataset, pie)
 import Css exposing (..)
 import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (attribute, css, href, src, style)
 import Html.Styled.Events exposing (onClick)
+import Svg.Styled exposing (svg)
 
 
 theme :
@@ -53,6 +55,20 @@ simpleScrollableFlexDiv =
     styled div
         [ displayFlex
         , overflowY auto
+        , margin (Css.em 0.25)
+        ]
+
+
+simplePrimaryTitle : List (Attribute msg) -> List (Html msg) -> Html msg
+simplePrimaryTitle =
+    styled div
+        [ basicFont
+        , minHeight (Css.em 1.5)
+        , resize none
+        , backgroundColor theme.primaryBack
+        , displayFlex
+        , alignItems center
+        , justifyContent center
         ]
 
 
@@ -361,8 +377,8 @@ cardListTitle : List (Attribute msg) -> List (Html msg) -> Html msg
 cardListTitle =
     styled div
         [ basicFont
-        , height (Css.em 1.5)
-        , minHeight (Css.em 1.5)
+        , height (Css.em 1.8)
+        , minHeight (Css.em 1.8)
         , resize none
         , backgroundColor theme.secondaryEmp
         , displayFlex
@@ -414,3 +430,97 @@ cardEdit : List (Attribute msg) -> List (Html msg) -> Html msg
 cardEdit =
     styled textarea
         [ inverseFont, flex (int 10), resize none, overflow auto ]
+
+
+
+-- Graph --
+
+
+graphPageContainer : List (Attribute msg) -> List (Html msg) -> Html msg
+graphPageContainer =
+    styled div
+        [ displayFlex, flexDirection column, flex (int 1), minHeight (Css.em 1.5) ]
+
+
+modeButtonContainer : List (Attribute msg) -> List (Html msg) -> Html msg
+modeButtonContainer =
+    styled div
+        [ displayFlex
+
+        -- , minHeight (Css.em 1.5)
+        ]
+
+
+graphModeBtn : List (Attribute msg) -> List (Html msg) -> Html msg
+graphModeBtn =
+    styled div
+        [ backgroundColor theme.primary
+        , basicFont
+        , btnStyle
+        , flex (int 1)
+        , hover
+            [ backgroundColor theme.primaryEmp
+            ]
+        ]
+
+
+
+-- ChartColumn --
+
+
+chartColumnBody : List (Attribute msg) -> List (Html msg) -> Html msg
+chartColumnBody =
+    styled div
+        [ displayFlex
+        , flexDirection column
+        , flex (int 1)
+        , boxShadow4 (Css.em 0) (Css.em 0.3) (Css.em 0.4) theme.textShadow
+        , margin (Css.em 0.25)
+        ]
+
+
+chartContainer : List (Attribute msg) -> List (Html msg) -> Html msg
+chartContainer =
+    styled div
+        [ displayFlex
+        , minHeight fitContent
+        , margin (Css.em 0.25)
+        , justifyContent spaceAround
+        , flex (int 1)
+        ]
+
+
+pieChart : Int -> Dataset -> Html msg
+pieChart i datum =
+    svg
+        []
+        [ pie i datum ]
+
+
+chartContentsList : List (Attribute msg) -> List (Html msg) -> Html msg
+chartContentsList =
+    styled div
+        [ displayFlex, flexDirection column, flex (int 3) ]
+
+
+labelRow : List (Attribute msg) -> List (Html msg) -> Html msg
+labelRow =
+    styled div
+        [ displayFlex
+        , height (Css.em 1.5)
+        , margin (Css.em 0.25)
+        , paddingLeft (Css.em 1)
+        , paddingRight (Css.em 1)
+        , alignItems center
+        ]
+
+
+coloredBox : String -> List (Attribute msg) -> List (Html msg) -> Html msg
+coloredBox color =
+    styled div
+        [ boxShadow4 (Css.em 0) (Css.em 0.3) (Css.em 0.4) theme.textShadow
+        , width (Css.em 1)
+        , height (Css.em 1)
+        , backgroundColor (hex color)
+        , marginRight (Css.em 1)
+        ]
