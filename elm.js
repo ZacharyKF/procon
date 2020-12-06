@@ -5353,14 +5353,11 @@ var $author$project$ProConListView$cons = F4(
 	});
 var $elm$json$Json$Decode$int = _Json_decodeInt;
 var $elm$json$Json$Decode$map4 = _Json_map4;
-var $elm$core$Basics$negate = function (n) {
-	return -n;
-};
 var $author$project$Card$Card$cons = F4(
 	function (id, str, edit, mrank) {
 		var rank = function () {
 			if (mrank.$ === 1) {
-				return -1;
+				return 1;
 			} else {
 				var rnk = mrank.a;
 				return rnk;
@@ -5558,7 +5555,7 @@ var $author$project$Card$Card$init = function (id) {
 		id,
 		'Add information here...',
 		false,
-		$elm$core$Maybe$Just(-1));
+		$elm$core$Maybe$Just(1));
 };
 var $author$project$WithText$updateWithText = F2(
 	function (model, action) {
@@ -7320,6 +7317,9 @@ var $rtfeldman$elm_css$ElmCssVendor$Murmur3$hashString = F2(
 	});
 var $rtfeldman$elm_css$Hash$murmurSeed = 15739;
 var $elm$core$String$fromList = _String_fromList;
+var $elm$core$Basics$negate = function (n) {
+	return -n;
+};
 var $elm$core$Basics$modBy = _Basics_modBy;
 var $rtfeldman$elm_hex$Hex$unsafeToDigit = function (num) {
 	unsafeToDigit:

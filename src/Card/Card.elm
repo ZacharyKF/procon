@@ -16,7 +16,7 @@ type alias CardModel =
 
 init : Int -> CardModel
 init id =
-    Just -1 |> cons id "Add information here..." False
+    Just 1 |> cons id "Add information here..." False
 
 
 cons : Int -> String -> Bool -> Maybe Int -> CardModel
@@ -25,7 +25,7 @@ cons id str edit mrank =
         rank =
             case mrank of
                 Nothing ->
-                    -1
+                    1
 
                 Just rnk ->
                     rnk
