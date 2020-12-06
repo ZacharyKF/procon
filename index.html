@@ -1,28 +1,26 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <script src="elm.js"></script>
-    <link rel="stylesheet" href="./procon.css" type="text/css">
-</head>
+    <link rel="stylesheet" href="./procon.css" type="text/css" />
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+  </head>
 
-<body>
+  <body>
     <script>
-        //https://stackoverflow.com/questions/33697444/data-persistence-in-elm
-        var app = Elm.Main.init();
+      //https://stackoverflow.com/questions/33697444/data-persistence-in-elm
+      var app = Elm.Main.init()
 
-        app.ports.save.subscribe(function (state) {
-            localStorage.setItem('procons', JSON.stringify(state));
-        });
+      app.ports.save.subscribe(function (state) {
+        localStorage.setItem('procons', JSON.stringify(state))
+      })
 
-        {
-            var onStart = localStorage.getItem('procons')
-            if (onStart != null && onStart != "") {
-                app.ports.load.send(onStart);
-            }
+      {
+        var onStart = localStorage.getItem('procons')
+        if (onStart != null && onStart != '') {
+          app.ports.load.send(onStart)
         }
-
+      }
     </script>
-</body>
-
+  </body>
 </html>
