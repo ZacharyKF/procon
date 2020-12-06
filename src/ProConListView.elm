@@ -4,7 +4,7 @@ import Array exposing (Array)
 import Card.Card exposing (CardModel, CardMsg(..))
 import Card.CardList exposing (CardListMsg(..))
 import Chart exposing (pie)
-import ChartColumn exposing (ChartMode(..))
+import ChartColumn exposing (..)
 import Css exposing (displayFlex)
 import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (..)
@@ -23,12 +23,12 @@ type alias ProConListViewModel =
 
 
 type alias ProConListViewData a =
-    { a | proConLists : Array ProConListModel, viewMode : ViewMode, chartMode : ChartMode }
+    { a | proConLists : Array ProConListModel, viewMode : ViewMode }
 
 
 cons : Int -> String -> Bool -> Array ProConListModel -> ProConListViewModel
 cons id text edit lists =
-    { id = id, text = text, edit = edit, proConLists = lists, viewMode = Lists, chartMode = Linear }
+    { id = id, text = text, edit = edit, proConLists = lists, viewMode = Lists }
 
 
 init : Int -> ProConListViewModel
@@ -74,7 +74,6 @@ type ProConListViewMsg
     | ConfirmFirst String ProConListViewMsg
     | SetView ViewMode
     | GlobalActOnCards Int Int Int Int WithIdAction
-    | SetChartMode ChartMode
 
 
 update : ProConListViewModel -> ProConListViewMsg -> ( ProConListViewModel, Cmd ProConListViewMsg )
@@ -167,9 +166,6 @@ update model msg =
 
                 _ ->
                     ( model, Cmd.none )
-
-        SetChartMode mode ->
-            ( { model | chartMode = mode }, Cmd.none )
 
 
 view : ProConListViewModel -> (Int -> ProConListViewMsg -> msg) -> Html msg
@@ -313,20 +309,12 @@ graphView : ProConListViewModel -> (ProConListViewMsg -> msg) -> Html msg
 graphView model lift =
     let
         posData =
-            { data = model.proConLists |> Array.toList |> List.map (extractTitleAndTotal 0), mode = model.chartMode, title = "Share of Total Pro" }
+            { data = model.proConLists |> Array.toList |> List.map (extractTitleAndTotal 0), title = "Share of Total Pro" }
 
         negData =
-            { data = model.proConLists |> Array.toList |> List.map (extractTitleAndTotal 1), mode = model.chartMode, title = "Share of Total Con" }
+            { data = model.proConLists |> Array.toList |> List.map (extractTitleAndTotal 1), title = "Share of Total Con" }
     in
-    graphPageContainer []
-        [ --     modeButtonContainer []
-          --     [--     graphModeBtn [ SetChartMode Linear |> lift |> onClick ] [ Html.Styled.text "Linear 🤨" ]
-          --      -- , graphModeBtn [ SetChartMode Logarithmic |> lift |> onClick ] [ Html.Styled.text "Logarithmic 😐" ]
-          --      -- , graphModeBtn [ SetChartMode Exponential |> lift |> onClick ] [ Html.Styled.text "Exponential 😮" ]
-          --     ]
-          -- ,
-          chartContainer [] [ ChartColumn.view posData, ChartColumn.view negData ]
-        ]
+    graphPageContainer [] [ chartContainer [] [ ChartColumn.view posData, ChartColumn.view negData ] ]
 
 
 extractTitleAndTotal : Int -> ProConListModel -> ( String, Int )

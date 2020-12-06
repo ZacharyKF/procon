@@ -483,7 +483,7 @@ chartContainer : List (Attribute msg) -> List (Html msg) -> Html msg
 chartContainer =
     styled div
         [ displayFlex
-        , minHeight fitContent
+        , minHeight (Css.px 300)
         , margin (Css.em 0.25)
         , justifyContent spaceAround
         , flex (int 1)
